@@ -10,7 +10,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan("com.example.derphsar_api.repository")
+@MapperScan("com.example.derphsar_api")
 public class MyBatisConfig {
 
     private DataSource dataSource;
