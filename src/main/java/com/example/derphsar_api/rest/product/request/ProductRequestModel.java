@@ -1,9 +1,9 @@
-package com.example.derphsar_api.repository.dto;
+package com.example.derphsar_api.rest.product.request;
 
-import java.util.Arrays;
+import com.example.derphsar_api.repository.dto.ShopDto;
 
-public class ProductDto {
-    private int id;
+public class ProductRequestModel {
+
     private String proId;
     private String proName;
     private Double proPrice;
@@ -12,25 +12,20 @@ public class ProductDto {
     private boolean proIsSold;
     private int proViewCount;
 
-    private String proImageName;
-    private String proImageUrl;
-
-    private String procolor;
-    private String proSize;
+//    private String proImageName;
+//    private String proImageUrl;
+//
+//    private String procolor;
+//    private String proSize;
 
     private Object proImages;
-//    private Object proDetails;
-    private ProDetails proDetails;
-
-    //private ProductDetail productDetail;
+    private Object proDetails;
 
     private ShopDto shop;
 
+    public ProductRequestModel(){}
 
-    public ProductDto(){}
-
-    public ProductDto(int id, String proId, String proName, Double proPrice, String proDescription, boolean proStatus, boolean proIsSold, int proViewCount, String proImageName, String proImageUrl, String procolor, String proSize, Object proImages, ProDetails proDetails, ShopDto shop) {
-        this.id = id;
+    public ProductRequestModel(String proId, String proName, Double proPrice, String proDescription, boolean proStatus, boolean proIsSold, int proViewCount, Object proImages, Object proDetails, ShopDto shop) {
         this.proId = proId;
         this.proName = proName;
         this.proPrice = proPrice;
@@ -38,21 +33,9 @@ public class ProductDto {
         this.proStatus = proStatus;
         this.proIsSold = proIsSold;
         this.proViewCount = proViewCount;
-        this.proImageName = proImageName;
-        this.proImageUrl = proImageUrl;
-        this.procolor = procolor;
-        this.proSize = proSize;
         this.proImages = proImages;
         this.proDetails = proDetails;
         this.shop = shop;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getProId() {
@@ -111,38 +94,6 @@ public class ProductDto {
         this.proViewCount = proViewCount;
     }
 
-    public String getProImageName() {
-        return proImageName;
-    }
-
-    public void setProImageName(String proImageName) {
-        this.proImageName = proImageName;
-    }
-
-    public String getProImageUrl() {
-        return proImageUrl;
-    }
-
-    public void setProImageUrl(String proImageUrl) {
-        this.proImageUrl = proImageUrl;
-    }
-
-    public String getProcolor() {
-        return procolor;
-    }
-
-    public void setProcolor(String procolor) {
-        this.procolor = procolor;
-    }
-
-    public String getProSize() {
-        return proSize;
-    }
-
-    public void setProSize(String proSize) {
-        this.proSize = proSize;
-    }
-
     public Object getProImages() {
         return proImages;
     }
@@ -151,11 +102,11 @@ public class ProductDto {
         this.proImages = proImages;
     }
 
-    public ProDetails getProDetails() {
+    public Object getProDetails() {
         return proDetails;
     }
 
-    public void setProDetails(ProDetails proDetails) {
+    public void setProDetails(Object proDetails) {
         this.proDetails = proDetails;
     }
 
@@ -167,21 +118,17 @@ public class ProductDto {
         this.shop = shop;
     }
 
+
     @Override
     public String toString() {
-        return "ProductDto{" +
-                "id=" + id +
-                ", proId='" + proId + '\'' +
+        return "ProductRequestModel{" +
+                "proId='" + proId + '\'' +
                 ", proName='" + proName + '\'' +
                 ", proPrice=" + proPrice +
                 ", proDescription='" + proDescription + '\'' +
                 ", proStatus=" + proStatus +
                 ", proIsSold=" + proIsSold +
                 ", proViewCount=" + proViewCount +
-                ", proImageName='" + proImageName + '\'' +
-                ", proImageUrl='" + proImageUrl + '\'' +
-                ", procolor='" + procolor + '\'' +
-                ", proSize='" + proSize + '\'' +
                 ", proImages=" + proImages +
                 ", proDetails=" + proDetails +
                 ", shop=" + shop +
