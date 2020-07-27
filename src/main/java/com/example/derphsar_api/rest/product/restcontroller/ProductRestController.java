@@ -89,7 +89,6 @@ public class ProductRestController {
     }
 
 
-
     //get all products
     @GetMapping("/products")
     public List<ProductDto> getProducts() {
@@ -111,7 +110,19 @@ public class ProductRestController {
             }
         }
         return data;
+    }
 
+
+    //Delete a product
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<BaseApiResponse<Void>> deleteProduct(@PathVariable("id") String id){
+        BaseApiResponse<Void> response = new BaseApiResponse<>();
+
+        productService.deleteProduct(id);
+        response.setMessage("you have deleted product successfully");
+        response.setStatus(HttpStatus.OK);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
     }
 
 }

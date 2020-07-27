@@ -69,4 +69,9 @@ public interface ProductRepository {
     boolean insert(ProductDto productDto);
 
 
+
+    //delete product
+    @Delete("delete FROM dp_products where pro_id =#{id}")
+    void deleteProduct(String id);
+
 }

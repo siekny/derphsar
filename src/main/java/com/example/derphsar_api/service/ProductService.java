@@ -15,4 +15,7 @@ public interface ProductService {
     //create product
     ProductDto insert(ProductDto productDto);
 
+
+    //delete a product
+    void deleteProduct(String id);
 }
