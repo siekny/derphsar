@@ -41,9 +41,9 @@ public interface ProductRepository {
     @Select("SELECT * FROM dp_shops WHERE id=#{shop_id}")
     @Results({
             @Result(column = "id" ,property = "id"),
-            @Result(column = "shop_id" ,property = "shopId"),
-            @Result(column = "shop_name" ,property = "shopName"),
-            @Result(column = "shop_adress" ,property = "shopAddress")
+            @Result(column = "shop_id" ,property = "shop_id"),
+            @Result(column = "shop_name" ,property = "shop_name"),
+            @Result(column = "shop_adress" ,property = "shop_adress")
     })
     ShopDto getShops(int shop_id);
 
