@@ -1,10 +1,11 @@
-package com.example.derphsar_api.repository.dto;
+package com.example.derphsar_api.rest.promotion.request;
+
+import com.example.derphsar_api.repository.dto.ProductDto;
 
 import java.sql.Date;
 
-public class PromotionDto {
-    private int id;
-    private String promoId;
+public class PromotionRequestModel {
+
     private String title;
     private boolean isApply;
     private Date startDate;
@@ -15,12 +16,9 @@ public class PromotionDto {
     private double endRank;
     private ProductDto product;
 
+    public PromotionRequestModel(){}
 
-    public PromotionDto(){}
-
-    public PromotionDto(int id, String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ProductDto product) {
-        this.id = id;
-        this.promoId = promoId;
+    public PromotionRequestModel(String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ProductDto product) {
         this.title = title;
         this.isApply = isApply;
         this.startDate = startDate;
@@ -32,22 +30,6 @@ public class PromotionDto {
         this.product = product;
     }
 
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getPromoId() {
-        return promoId;
-    }
-
-    public void setPromoId(String promoId) {
-        this.promoId = promoId;
-    }
 
     public String getTitle() {
         return title;
@@ -121,12 +103,11 @@ public class PromotionDto {
         this.product = product;
     }
 
+
     @Override
     public String toString() {
-        return "PromotionDto{" +
-                "id=" + id +
-                ", promoId='" + promoId + '\'' +
-                ", title='" + title + '\'' +
+        return "PromotionRequestModel{" +
+                "title='" + title + '\'' +
                 ", isApply=" + isApply +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
@@ -137,5 +118,4 @@ public class PromotionDto {
                 ", product=" + product +
                 '}';
     }
-
 }

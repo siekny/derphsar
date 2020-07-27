@@ -1,9 +1,11 @@
-package com.example.derphsar_api.repository.dto;
+package com.example.derphsar_api.rest.promotion.response;
+
+import com.example.derphsar_api.repository.dto.ProductDto;
 
 import java.sql.Date;
 
-public class PromotionDto {
-    private int id;
+public class PromotionResponseModel {
+
     private String promoId;
     private String title;
     private boolean isApply;
@@ -15,11 +17,9 @@ public class PromotionDto {
     private double endRank;
     private ProductDto product;
 
+    public PromotionResponseModel(){}
 
-    public PromotionDto(){}
-
-    public PromotionDto(int id, String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ProductDto product) {
-        this.id = id;
+    public PromotionResponseModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ProductDto product) {
         this.promoId = promoId;
         this.title = title;
         this.isApply = isApply;
@@ -30,15 +30,6 @@ public class PromotionDto {
         this.startRank = startRank;
         this.endRank = endRank;
         this.product = product;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getPromoId() {
@@ -121,11 +112,11 @@ public class PromotionDto {
         this.product = product;
     }
 
+
     @Override
     public String toString() {
-        return "PromotionDto{" +
-                "id=" + id +
-                ", promoId='" + promoId + '\'' +
+        return "PromotionResponseModel{" +
+                "promoId='" + promoId + '\'' +
                 ", title='" + title + '\'' +
                 ", isApply=" + isApply +
                 ", startDate=" + startDate +
@@ -137,5 +128,4 @@ public class PromotionDto {
                 ", product=" + product +
                 '}';
     }
-
 }
