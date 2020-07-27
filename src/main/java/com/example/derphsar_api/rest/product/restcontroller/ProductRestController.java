@@ -125,4 +125,22 @@ public class ProductRestController {
         return ResponseEntity.ok(response);
     }
 
+
+
+    //Update a product
+    @PutMapping("/products/{id}")
+    public ResponseEntity<BaseApiResponse<ProductRequestModel>> updateProduct(
+            @PathVariable("id") String id,
+            @RequestBody ProductRequestModel productRequestModel){
+        ModelMapper modelMapper=new ModelMapper();
+        ProductDto dto=modelMapper.map(productRequestModel,ProductDto.class);
+        ProductRequestModel responeModel=modelMapper.map(productService.updateProduct(id,dto),ProductRequestModel.class);
+
+        BaseApiResponse<ProductRequestModel> respone=new BaseApiResponse <>();
+        respone.setMessage("YOU HAVE UPDATED SUCCESSFULLY!");
+        respone.setStatus(HttpStatus.OK);
+        respone.setData(responeModel);
+        respone.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(respone);
+    }
 }

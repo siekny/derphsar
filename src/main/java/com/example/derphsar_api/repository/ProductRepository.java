@@ -57,12 +57,6 @@ public interface ProductRepository {
     ProductDetail getProductDetail(String pro_id);
 
 
-
-
-
-
-
-
     //create product
     @Insert("INSERT INTO dp_products ( pro_name, pro_price, pro_description, pro_status, pro_is_sold, pro_view_count, pro_img ,pro_details, shop_id)" +
             "VALUES (  #{proName, jdbcType=VARCHAR}, #{proPrice}, #{proDescription}, #{proStatus}, #{proIsSold}, #{proViewCount},#{proImages, jdbcType=OTHER, typeHandler=com.example.derphsar_api.mybatis.JSONTypeHandlerPg},#{proDetails, jdbcType=OTHER, typeHandler=com.example.derphsar_api.mybatis.JSONTypeHandlerPg}, #{shop.id})")
@@ -73,5 +67,10 @@ public interface ProductRepository {
     //delete product
     @Delete("delete FROM dp_products where pro_id =#{id}")
     void deleteProduct(String id);
+
+
+    //update a product
+    @Update("UPDATE dp_products set pro_name = #{product.proName}, pro_price = #{product.proPrice},pro_description= #{product.proDescription} ,pro_status = #{product.proStatus},pro_is_sold = #{product.proIsSold},pro_view_count= #{product.proViewCount} WHERE pro_id = #{id}")
+    boolean updateProduct(String id, ProductDto product);
 
 }

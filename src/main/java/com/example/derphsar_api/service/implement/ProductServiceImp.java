@@ -39,4 +39,13 @@ public class ProductServiceImp implements ProductService {
         productRepository.deleteProduct(id);
     }
 
+    @Override
+    public ProductDto updateProduct(String id, ProductDto productDto) {
+        boolean isUpdated = productRepository.updateProduct(id,productDto);
+        if(isUpdated){
+            return productDto;
+        }
+        return null;
+    }
+
 }
