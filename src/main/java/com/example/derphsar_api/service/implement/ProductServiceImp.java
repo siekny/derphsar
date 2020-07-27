@@ -20,7 +20,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public List<ProductRequestModel> getProducts() {
+    public List<ProductDto> getProducts() {
         return productRepository.getProducts();
     }
 

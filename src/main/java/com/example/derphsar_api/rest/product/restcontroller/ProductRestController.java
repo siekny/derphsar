@@ -3,13 +3,19 @@ package com.example.derphsar_api.rest.product.restcontroller;
 import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
 import com.example.derphsar_api.rest.product.request.ProductRequestModel;
+import com.example.derphsar_api.rest.product.response.ProductResponseModel;
 import com.example.derphsar_api.service.implement.ProductServiceImp;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,31 +30,42 @@ public class ProductRestController {
         this.productService = productService;
     }
 
-    @GetMapping("/products")
-    public ResponseEntity<BaseApiResponse<List<ProductRequestModel>>> getProducts() {
 
-        ModelMapper mapper = new ModelMapper();
-        BaseApiResponse<List<ProductRequestModel>> response =
-                new BaseApiResponse<>();
-
-        List<ProductRequestModel> articleDtoList = productService.getProducts();
-//        List<ProductRequestModel> products = new ArrayList<>();
+//    @GetMapping("/products")
+//    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> select() {
+//
+//        ModelMapper mapper = new ModelMapper();
+//        BaseApiResponse<List<ProductResponseModel>> response =
+//                new BaseApiResponse<>();
+//
+//        List<ProductDto> articleDtoList = productService.getProducts();
+//        List<ProductResponseModel> articles = new ArrayList<>();
 //
 //        for (ProductDto articleDto : articleDtoList) {
-//            products.add(mapper.map(articleDto, ProductRequestModel.class));
+////
+////            if (articleDto.getProDetails() != null) {
+////                String test = articleDto.getProDetails().toString();
+////                System.out.println("Test = " + test);
+////                JsonObject jsonObject = new JsonParser().parse(test).getAsJsonObject();
+////                articleDto.setProDetails(jsonObject);
+////            }
+//
+//            articles.add(mapper.map(articleDto, ProductResponseModel.class));
 //        }
-
-        response.setMessage("You have found all products successfully");
-        response.setData(articleDtoList);
-        response.setStatus(HttpStatus.OK);
-        response.setTime(new Timestamp(System.currentTimeMillis()));
-
-        System.out.println(articleDtoList);
-        return ResponseEntity.ok(response);
-    }
-
+//
+//        response.setMessage("You have found all articles successfully");
+//        response.setData(articles);
+//        response.setStatus(HttpStatus.OK);
+//        response.setTime(new Timestamp(System.currentTimeMillis()));
+//
+//        return ResponseEntity.ok(response);
+//    }
 
 
+
+
+
+    //post product
     @PostMapping("/products")
     public ResponseEntity<BaseApiResponse<ProductRequestModel>> insert(
             @RequestBody ProductRequestModel productRequestModel) {
@@ -73,6 +90,28 @@ public class ProductRestController {
 
 
 
+    //get all products
+    @GetMapping("/products")
+    public List<ProductDto> getDataAction() {
 
+        List<ProductDto> data;
+
+        data = productService.getProducts();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        for (ProductDto jd : data) {
+            try {
+                Object test = mapper.readValue(jd.getProDetails().toString(), Object.class);
+                Object test1 = mapper.readValue(jd.getProImages().toString(), Object.class);
+                jd.setProDetails(test);
+                jd.setProImages(test1);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+        return data;
+
+    }
 
 }

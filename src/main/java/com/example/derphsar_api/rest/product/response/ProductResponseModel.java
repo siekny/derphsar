@@ -1,10 +1,9 @@
-package com.example.derphsar_api.rest.product.request;
+package com.example.derphsar_api.rest.product.response;
 
 import com.example.derphsar_api.repository.dto.ShopDto;
 
-public class ProductRequestModel {
-
-   // private String proId;
+public class ProductResponseModel {
+    private String proId;
     private String proName;
     private Double proPrice;
     private String proDescription;
@@ -12,23 +11,43 @@ public class ProductRequestModel {
     private boolean proIsSold;
     private int proViewCount;
 
+    private String proImageName;
+    private String proImageUrl;
+
+    private String procolor;
+    private String proSize;
+
     private Object proImages;
     private Object proDetails;
 
     private ShopDto shop;
 
-    public ProductRequestModel(){}
 
-    public ProductRequestModel(String proName, Double proPrice, String proDescription, boolean proStatus, boolean proIsSold, int proViewCount, Object proImages, Object proDetails, ShopDto shop) {
+    public ProductResponseModel(){}
+
+    public ProductResponseModel(String proId, String proName, Double proPrice, String proDescription, boolean proStatus, boolean proIsSold, int proViewCount, String proImageName, String proImageUrl, String procolor, String proSize, Object proImages, Object proDetails, ShopDto shop) {
+        this.proId = proId;
         this.proName = proName;
         this.proPrice = proPrice;
         this.proDescription = proDescription;
         this.proStatus = proStatus;
         this.proIsSold = proIsSold;
         this.proViewCount = proViewCount;
+        this.proImageName = proImageName;
+        this.proImageUrl = proImageUrl;
+        this.procolor = procolor;
+        this.proSize = proSize;
         this.proImages = proImages;
         this.proDetails = proDetails;
         this.shop = shop;
+    }
+
+    public String getProId() {
+        return proId;
+    }
+
+    public void setProId(String proId) {
+        this.proId = proId;
     }
 
     public String getProName() {
@@ -79,6 +98,38 @@ public class ProductRequestModel {
         this.proViewCount = proViewCount;
     }
 
+    public String getProImageName() {
+        return proImageName;
+    }
+
+    public void setProImageName(String proImageName) {
+        this.proImageName = proImageName;
+    }
+
+    public String getProImageUrl() {
+        return proImageUrl;
+    }
+
+    public void setProImageUrl(String proImageUrl) {
+        this.proImageUrl = proImageUrl;
+    }
+
+    public String getProcolor() {
+        return procolor;
+    }
+
+    public void setProcolor(String procolor) {
+        this.procolor = procolor;
+    }
+
+    public String getProSize() {
+        return proSize;
+    }
+
+    public void setProSize(String proSize) {
+        this.proSize = proSize;
+    }
+
     public Object getProImages() {
         return proImages;
     }
@@ -103,15 +154,21 @@ public class ProductRequestModel {
         this.shop = shop;
     }
 
+
     @Override
     public String toString() {
-        return "ProductRequestModel{" +
-                "proName='" + proName + '\'' +
+        return "ProductResponseModel{" +
+                "proId='" + proId + '\'' +
+                ", proName='" + proName + '\'' +
                 ", proPrice=" + proPrice +
                 ", proDescription='" + proDescription + '\'' +
                 ", proStatus=" + proStatus +
                 ", proIsSold=" + proIsSold +
                 ", proViewCount=" + proViewCount +
+                ", proImageName='" + proImageName + '\'' +
+                ", proImageUrl='" + proImageUrl + '\'' +
+                ", procolor='" + procolor + '\'' +
+                ", proSize='" + proSize + '\'' +
                 ", proImages=" + proImages +
                 ", proDetails=" + proDetails +
                 ", shop=" + shop +

@@ -1,11 +1,13 @@
 package com.example.derphsar_api.repository;
 
+import com.example.derphsar_api.mybatis.JSONTypeHandlerPg;
 import com.example.derphsar_api.repository.dto.ProductDetail;
 import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.repository.provider.ProductProvider;
 import com.example.derphsar_api.rest.product.request.ProductRequestModel;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,13 +24,16 @@ public interface ProductRepository {
             @Result(column = "pro_status" ,property = "proStatus"),
             @Result(column = "pro_is_sold" ,property = "proIsSold"),
             @Result(column = "pro_view_count" ,property = "proViewCount"),
+            @Result(column = "pro_details" ,property = "proDetails", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
+            @Result(column = "pro_img" ,property = "proImages", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
+
 //            @Result(column = "color" ,property = "procolor"),
 //            @Result(column = "size" ,property = "proSize"),
-           @Result(column = "pro_id",property = "proDetails",many = @Many(select = "getProductDetail")),
+        //   @Result(column = "pro_id",property = "proDetails",many = @Many(select = "getProductDetail")),
 
             @Result(column = "shop_id", property = "shop", many = @Many(select = "getShops"))
     })
-    List<ProductRequestModel> getProducts();
+    List<ProductDto> getProducts();
 
 
 
@@ -50,10 +55,6 @@ public interface ProductRepository {
             @Result(column = "size" ,property = "size")
     })
     ProductDetail getProductDetail(String pro_id);
-
-
-
-
 
 
 

@@ -9,7 +9,7 @@ import java.util.List;
 public interface ProductService {
 
     //getProducts
-    List<ProductRequestModel> getProducts();
+    List<ProductDto> getProducts();
 
 
     //create product
