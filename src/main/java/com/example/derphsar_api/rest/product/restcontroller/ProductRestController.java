@@ -67,7 +67,7 @@ public class ProductRestController {
 
     //post product
     @PostMapping("/products")
-    public ResponseEntity<BaseApiResponse<ProductRequestModel>> insert(
+    public ResponseEntity<BaseApiResponse<ProductRequestModel>> createProduct(
             @RequestBody ProductRequestModel productRequestModel) {
 
 
@@ -92,7 +92,7 @@ public class ProductRestController {
 
     //get all products
     @GetMapping("/products")
-    public List<ProductDto> getDataAction() {
+    public List<ProductDto> getProducts() {
 
         List<ProductDto> data;
 

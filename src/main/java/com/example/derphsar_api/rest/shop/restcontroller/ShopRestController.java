@@ -8,16 +8,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class ShopRestController {
 
     private ShopServiceImp shopServiceImp;
@@ -28,7 +26,7 @@ public class ShopRestController {
     }
 
     @PostMapping("/shops")
-    public ResponseEntity<BaseApiResponse<ShopRequestModel>> insert(@RequestBody ShopRequestModel shop){
+    public ResponseEntity<BaseApiResponse<ShopRequestModel>> createShop(@RequestBody ShopRequestModel shop){
 
         BaseApiResponse<ShopRequestModel> response = new BaseApiResponse<>();
 
@@ -47,7 +45,7 @@ public class ShopRestController {
 
 
     @GetMapping("/shops")
-    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> select() {
+    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops() {
 
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<ShopRequestModel>> response =
