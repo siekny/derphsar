@@ -1,7 +1,9 @@
 package com.example.derphsar_api.rest.shop.restcontroller;
 
+import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
+import com.example.derphsar_api.rest.product.request.ProductRequestModel;
 import com.example.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.example.derphsar_api.service.implement.ShopServiceImp;
 import org.modelmapper.ModelMapper;
@@ -25,7 +27,8 @@ public class ShopRestController {
         this.shopServiceImp = shopServiceImp;
     }
 
-    @PostMapping("/shop")
+//    create a shop
+    @PostMapping("/shops")
     public ResponseEntity<BaseApiResponse<ShopRequestModel>> createShop(@RequestBody ShopRequestModel shop){
 
         BaseApiResponse<ShopRequestModel> response = new BaseApiResponse<>();
@@ -47,6 +50,7 @@ public class ShopRestController {
     }
 
 
+//    get all shops
     @GetMapping("/shops")
     public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops() {
 
@@ -66,6 +70,7 @@ public class ShopRestController {
         return ResponseEntity.ok(response);
     }
 
+//    delete a shop
     @DeleteMapping("/shops/{id}")
     public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("id") int id){
         BaseApiResponse<Void> response = new BaseApiResponse<>();
@@ -77,4 +82,20 @@ public class ShopRestController {
         return ResponseEntity.ok(response);
     }
 
+//    update a shop
+    @PutMapping("/shops/{id}")
+    public ResponseEntity<BaseApiResponse<ShopRequestModel>> updateShop(
+            @PathVariable("id") int id,
+            @RequestBody ShopRequestModel shopRequestModel){
+        ModelMapper modelMapper=new ModelMapper();
+        ShopDto dto =modelMapper.map(shopRequestModel,ShopDto.class);
+        ShopRequestModel responseModel=modelMapper.map(shopServiceImp.updateShop(id,dto),ShopRequestModel.class);
+
+        BaseApiResponse<ShopRequestModel> response=new BaseApiResponse <>();
+        response.setMessage("you have updated a shop successfully!");
+        response.setStatus(HttpStatus.OK);
+        response.setData(responseModel);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 }

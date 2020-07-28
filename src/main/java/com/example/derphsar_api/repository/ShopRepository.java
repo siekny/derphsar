@@ -1,9 +1,11 @@
 package com.example.derphsar_api.repository;
 
+import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -23,4 +25,8 @@ public interface ShopRepository {
 //    Delete shop
     @Delete("delete FROM dp_shops where id = #{id}")
     void delete(int id);
+
+//    Update shop
+    @Update("UPDATE dp_shops set name = #{shop.name}, address = #{shop.address}, description= #{shop.description} , profile= #{shop.profile} , cover= #{shop.cover} , status = #{shop.status}, is_open = #{shop.is_open}, working_time= #{shop.working_time} WHERE id = #{id}")
+    boolean update(int id, ShopDto shop);
 }
