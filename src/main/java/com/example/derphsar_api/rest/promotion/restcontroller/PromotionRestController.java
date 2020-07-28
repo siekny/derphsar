@@ -10,14 +10,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class PromotionRestController {
 
     private PromotionServiceImp promotionServiceImp;
@@ -48,6 +48,19 @@ public class PromotionRestController {
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
 
+        return ResponseEntity.ok(response);
+    }
+
+
+    //Delete a promotion
+    @DeleteMapping("/promotions/{id}")
+    public ResponseEntity<BaseApiResponse<Void>> deletePromotion(@PathVariable("id") String id){
+        BaseApiResponse<Void> response = new BaseApiResponse<>();
+
+        promotionServiceImp.deletePromotion(id);
+        response.setMessage("you have deleted promotion successfully");
+        response.setStatus(HttpStatus.OK);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
 

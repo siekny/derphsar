@@ -43,6 +43,12 @@ public interface PromotionRepository {
     ProductDto getProduct(int pro_id);
 
 
+    //delete promotions
+    @Delete("delete FROM dp_promotion where promo_id =#{id}")
+    void deletePromotion(String id);
+
+
+
 
 
 }

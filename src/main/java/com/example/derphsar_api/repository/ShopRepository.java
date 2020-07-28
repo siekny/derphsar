@@ -1,6 +1,7 @@
 package com.example.derphsar_api.repository;
 
 import com.example.derphsar_api.repository.dto.ShopDto;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,12 @@ public interface ShopRepository {
 
     boolean insert(ShopDto shop);
 
+
     @Select("SELECT * FROM dp_shops")
     List<ShopDto> select();
+
+
+    //delete shop
+    @Delete("delete FROM dp_shops WHERE shop_id =#{id}")
+    void deleteShop(String id);
 }

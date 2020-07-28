@@ -22,4 +22,9 @@ public class PromotionServiceImp implements PromotionService {
     public List<PromotionDto> getPromotions() {
         return promotionRepository.getPromotions();
     }
+
+    @Override
+    public void deletePromotion(String id) {
+        promotionRepository.deletePromotion(id);
+    }
 }

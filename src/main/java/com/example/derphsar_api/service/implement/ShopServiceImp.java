@@ -31,4 +31,9 @@ public class ShopServiceImp implements ShopService {
     public List<ShopDto> select(){
         return shopRepository.select();
     }
+
+    @Override
+    public void deleteShop(String id) {
+        shopRepository.deleteShop(id);
+    }
 }

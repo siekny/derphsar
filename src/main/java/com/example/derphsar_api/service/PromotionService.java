@@ -11,4 +11,6 @@ public interface PromotionService {
     List<PromotionDto> getPromotions();
 
 
+    //delete a promotion
+    void deletePromotion(String id);
 }

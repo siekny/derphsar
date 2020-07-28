@@ -7,5 +7,9 @@ import java.util.List;
 public interface ShopService {
 
     ShopDto insert(ShopDto shop);
+
     List<ShopDto> select();
+
+    //delete a shop
+    void deleteShop(String id);
 }

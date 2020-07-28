@@ -61,4 +61,18 @@ public class ShopRestController {
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
-    }}
+    }
+
+    //Delete a shop
+    @DeleteMapping("/shops/{id}")
+    public ResponseEntity<BaseApiResponse<Void>> deleteShops(@PathVariable("id") String id){
+        BaseApiResponse<Void> response = new BaseApiResponse<>();
+
+        shopServiceImp.deleteShop(id);
+        response.setMessage("you have deleted promotion successfully");
+        response.setStatus(HttpStatus.OK);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
+
+}
