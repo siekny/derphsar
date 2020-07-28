@@ -2,12 +2,10 @@ package com.example.derphsar_api.service.implement;
 
 import com.example.derphsar_api.repository.ProductRepository;
 import com.example.derphsar_api.repository.dto.ProductDto;
-import com.example.derphsar_api.rest.product.request.ProductRequestModel;
 import com.example.derphsar_api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.ws.Action;
 import java.util.List;
 
 @Service

@@ -18,8 +18,9 @@ public class ShopServiceImp implements ShopService {
         this.shopRepository = shopRepository;
     }
 
+//    create shop
     @Override
-    public ShopDto insert(ShopDto shop) {
+    public ShopDto createShop(ShopDto shop) {
         boolean isInserted = shopRepository.insert(shop);
         if (isInserted)
             return shop;
@@ -27,8 +28,15 @@ public class ShopServiceImp implements ShopService {
             return null;
     }
 
+//    get shops
     @Override
-    public List<ShopDto> select(){
+    public List<ShopDto> getShops(){
         return shopRepository.select();
+    }
+
+//    delete shop
+    @Override
+    public void deleteShop(int id) {
+        shopRepository.delete(id);
     }
 }

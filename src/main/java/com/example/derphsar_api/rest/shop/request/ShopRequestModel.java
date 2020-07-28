@@ -4,74 +4,98 @@ import java.util.Date;
 
 public class ShopRequestModel {
 
-    private String shop_name;
-    private String shop_adress;
-    private String shop_description;
-    private String shop_profile;
-    private String shop_cover;
-    private boolean shop_status;
+    private int id;
+    private String shop_id;
+    private String name;
+    private String address;
+    private String description;
+    private String profile;
+    private String cover;
+    private boolean is_open;
     private boolean status;
     private Date working_time;
+    private int u_id;
+    private int cat_id;
 
     public ShopRequestModel() {}
 
-    public ShopRequestModel(String shop_name, String shop_adress, String shop_description, String shop_profile, String shop_cover, boolean shop_status, boolean status, Date working_time) {
-        this.shop_name = shop_name;
-        this.shop_adress = shop_adress;
-        this.shop_description = shop_description;
-        this.shop_profile = shop_profile;
-        this.shop_cover = shop_cover;
-        this.shop_status = shop_status;
+    public ShopRequestModel(int id, String shop_id, String name, String address, String description, String profile, String cover, boolean is_open, boolean status, Date working_time, int u_id, int cat_id) {
+        this.id = id;
+        this.shop_id = shop_id;
+        this.name = name;
+        this.address = address;
+        this.description = description;
+        this.profile = profile;
+        this.cover = cover;
+        this.is_open = is_open;
         this.status = status;
         this.working_time = working_time;
+        this.u_id = u_id;
+        this.cat_id = cat_id;
     }
 
-    public String getShop_name() {
-        return shop_name;
+    public int getId() {
+        return id;
     }
 
-    public void setShop_name(String shop_name) {
-        this.shop_name = shop_name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getShop_adress() {
-        return shop_adress;
+    public String getShop_id() {
+        return shop_id;
     }
 
-    public void setShop_adress(String shop_adress) {
-        this.shop_adress = shop_adress;
+    public void setShop_id(String shop_id) {
+        this.shop_id = shop_id;
     }
 
-    public String getShop_description() {
-        return shop_description;
+    public String getName() {
+        return name;
     }
 
-    public void setShop_description(String shop_description) {
-        this.shop_description = shop_description;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getShop_profile() {
-        return shop_profile;
+    public String getAddress() {
+        return address;
     }
 
-    public void setShop_profile(String shop_profile) {
-        this.shop_profile = shop_profile;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getShop_cover() {
-        return shop_cover;
+    public String getDescription() {
+        return description;
     }
 
-    public void setShop_cover(String shop_cover) {
-        this.shop_cover = shop_cover;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public boolean isShop_status() {
-        return shop_status;
+    public String getProfile() {
+        return profile;
     }
 
-    public void setShop_status(boolean shop_status) {
-        this.shop_status = shop_status;
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public boolean isIs_open() {
+        return is_open;
+    }
+
+    public void setIs_open(boolean is_open) {
+        this.is_open = is_open;
     }
 
     public boolean isStatus() {
@@ -90,17 +114,37 @@ public class ShopRequestModel {
         this.working_time = working_time;
     }
 
+    public int getU_id() {
+        return u_id;
+    }
+
+    public void setU_id(int u_id) {
+        this.u_id = u_id;
+    }
+
+    public int getCat_id() {
+        return cat_id;
+    }
+
+    public void setCat_id(int cat_id) {
+        this.cat_id = cat_id;
+    }
+
     @Override
     public String toString() {
-        return "ArticleRequestModel{" +
-                "shop_name='" + shop_name + '\'' +
-                ", shop_adress='" + shop_adress + '\'' +
-                ", shop_description='" + shop_description + '\'' +
-                ", shop_profile='" + shop_profile + '\'' +
-                ", shop_cover='" + shop_cover + '\'' +
-                ", shop_status=" + shop_status +
+        return "ShopRequestModel{" +
+                "id=" + id +
+                ", shop_id='" + shop_id + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", description='" + description + '\'' +
+                ", profile='" + profile + '\'' +
+                ", cover='" + cover + '\'' +
+                ", is_open=" + is_open +
                 ", status=" + status +
                 ", working_time=" + working_time +
+                ", u_id=" + u_id +
+                ", cat_id=" + cat_id +
                 '}';
     }
 }
