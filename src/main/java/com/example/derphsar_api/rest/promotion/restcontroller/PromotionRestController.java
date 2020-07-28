@@ -1,8 +1,10 @@
 package com.example.derphsar_api.rest.promotion.restcontroller;
 
 
+import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.PromotionDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
+import com.example.derphsar_api.rest.product.request.ProductRequestModel;
 import com.example.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.example.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.example.derphsar_api.service.implement.PromotionServiceImp;
@@ -29,7 +31,7 @@ public class PromotionRestController {
 
 
     //get all promotions
-     @GetMapping("/promotions")
+    @GetMapping("/promotions")
     public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> select() {
 
         ModelMapper mapper = new ModelMapper();
@@ -54,7 +56,7 @@ public class PromotionRestController {
 
     //Delete a promotion
     @DeleteMapping("/promotions/{id}")
-    public ResponseEntity<BaseApiResponse<Void>> deletePromotion(@PathVariable("id") String id){
+    public ResponseEntity<BaseApiResponse<Void>> deletePromotion(@PathVariable("id") String id) {
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
         promotionServiceImp.deletePromotion(id);
@@ -64,4 +66,23 @@ public class PromotionRestController {
         return ResponseEntity.ok(response);
     }
 
+
+    //Update a promotions
+    @PutMapping("/promotions/{id}")
+    public ResponseEntity<BaseApiResponse<PromotionRequestModel>> updatePromotions(
+            @PathVariable("id") String id,
+            @RequestBody PromotionRequestModel promotionRequestModel) {
+        ModelMapper modelMapper = new ModelMapper();
+        PromotionDto dto = modelMapper.map(promotionRequestModel, PromotionDto.class);
+        PromotionRequestModel responeModel = modelMapper.map(promotionServiceImp.updatePromotion(id, dto), PromotionRequestModel.class);
+
+        BaseApiResponse<PromotionRequestModel> respone = new BaseApiResponse<>();
+        respone.setMessage("YOU HAVE UPDATED SUCCESSFULLY!");
+        respone.setStatus(HttpStatus.OK);
+        respone.setData(responeModel);
+        respone.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(respone);
+
+
+    }
 }

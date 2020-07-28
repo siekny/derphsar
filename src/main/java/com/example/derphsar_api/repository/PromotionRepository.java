@@ -48,7 +48,9 @@ public interface PromotionRepository {
     void deletePromotion(String id);
 
 
-
+    //update a promotions
+    @Update("UPDATE dp_promotion set title = #{promotion.title}, is_apply = #{promotion.isApply}, start_date= #{promotion.startDate} ,end_date = #{promotion.endDate},start_rank = #{promotion.startRank}, end_rank= #{promotion.endRank},cover = #{promotion.cover}, status = #{promotion.status}  WHERE promo_id = #{id}")
+    boolean updatePromotion(String id, PromotionDto promotion);
 
 
 }

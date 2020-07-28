@@ -13,4 +13,7 @@ public interface PromotionService {
 
     //delete a promotion
     void deletePromotion(String id);
+
+    //update a promotion
+    PromotionDto updatePromotion(String id, PromotionDto promotionDto);
 }
