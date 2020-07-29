@@ -50,4 +50,10 @@ public interface PromotionRepository {
     boolean updatePromotion(String id, PromotionDto promotion);
 
 
+    //create a promotion
+    @Insert("INSERT INTO dp_promotion (promo_id, title, is_apply, start_rank, start_date, end_date, status,pro_id , end_rank)" +
+            "VALUES (  #{promoId, jdbcType=VARCHAR}, #{title}, #{isApply}, #{startRank}, #{startDate}, #{endDate},#{status},#{ product.id}, #{endRank})")
+    boolean createPromotion(PromotionDto promotionDto);
+
+
 }

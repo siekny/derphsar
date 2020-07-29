@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -70,6 +71,9 @@ public class ProductRestController {
         ModelMapper mapper = new ModelMapper();
 
         ProductDto productDto = mapper.map(productRequestModel, ProductDto.class);
+
+        UUID uuid = UUID.randomUUID();
+        productDto.setProId("DP"+uuid.toString().substring(0,10));
 
 
         ProductDto result = productService.insert(productDto);

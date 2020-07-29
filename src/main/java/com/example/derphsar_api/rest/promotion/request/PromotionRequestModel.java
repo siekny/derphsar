@@ -6,6 +6,7 @@ import java.sql.Date;
 
 public class PromotionRequestModel {
 
+    private String promoId;
     private String title;
     private boolean isApply;
     private Date startDate;
@@ -18,7 +19,8 @@ public class PromotionRequestModel {
 
     public PromotionRequestModel(){}
 
-    public PromotionRequestModel(String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ProductDto product) {
+    public PromotionRequestModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ProductDto product) {
+        this.promoId = promoId;
         this.title = title;
         this.isApply = isApply;
         this.startDate = startDate;
@@ -30,6 +32,30 @@ public class PromotionRequestModel {
         this.product = product;
     }
 
+    @Override
+    public String toString() {
+        return "PromotionRequestModel{" +
+                "promoId='" + promoId + '\'' +
+                ", title='" + title + '\'' +
+                ", isApply=" + isApply +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status=" + status +
+                ", cover='" + cover + '\'' +
+                ", startRank=" + startRank +
+                ", endRank=" + endRank +
+                ", product=" + product +
+                '}';
+    }
+
+
+    public String getPromoId() {
+        return promoId;
+    }
+
+    public void setPromoId(String promoId) {
+        this.promoId = promoId;
+    }
 
     public String getTitle() {
         return title;
@@ -101,21 +127,5 @@ public class PromotionRequestModel {
 
     public void setProduct(ProductDto product) {
         this.product = product;
-    }
-
-
-    @Override
-    public String toString() {
-        return "PromotionRequestModel{" +
-                "title='" + title + '\'' +
-                ", isApply=" + isApply +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", status=" + status +
-                ", cover='" + cover + '\'' +
-                ", startRank=" + startRank +
-                ", endRank=" + endRank +
-                ", product=" + product +
-                '}';
     }
 }

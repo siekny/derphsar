@@ -1,7 +1,9 @@
 package com.example.derphsar_api.rest.shop.restcontroller;
 
+import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
+import com.example.derphsar_api.rest.product.request.ProductRequestModel;
 import com.example.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.example.derphsar_api.service.implement.ShopServiceImp;
 import org.modelmapper.ModelMapper;
@@ -9,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -25,6 +27,7 @@ public class ShopRestController {
         this.shopServiceImp = shopServiceImp;
     }
 
+//    create a shop
     @PostMapping("/shops")
     public ResponseEntity<BaseApiResponse<ShopRequestModel>> createShop(@RequestBody ShopRequestModel shop){
 
@@ -33,10 +36,14 @@ public class ShopRestController {
         ModelMapper mapper = new ModelMapper();
         ShopDto shopDto = mapper.map(shop, ShopDto.class);
 
-        ShopDto result = shopServiceImp.insert(shopDto);
+
+        UUID uuid = UUID.randomUUID();
+        shopDto.setShopId("DP"+uuid.toString().substring(0,10));
+
+        ShopDto result = shopServiceImp.createShop(shopDto);
         ShopRequestModel requestModel = mapper.map(result, ShopRequestModel.class);
 
-        response.setMessage("You inserted successfully!");
+        response.setMessage("you have inserted a shop successfully!");
         response.setData(requestModel);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -44,6 +51,7 @@ public class ShopRestController {
     }
 
 
+//    get all shops
     @GetMapping("/shops")
     public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops() {
 
@@ -51,28 +59,44 @@ public class ShopRestController {
         BaseApiResponse<List<ShopRequestModel>> response =
                 new BaseApiResponse<>();
 
-        List<ShopDto> shopDtoList = shopServiceImp.select();
+        List<ShopDto> shopDtoList = shopServiceImp.getShops();
         List<ShopRequestModel> shops = new ArrayList<>();
         for (ShopDto shopDto : shopDtoList) {
             shops.add(mapper.map(shopDto, ShopRequestModel.class));
         }
-        response.setMessage("You selected successfully!");
+        response.setMessage("you have selected all shops successfully!");
         response.setData(shops);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
 
-    //Delete a shop
-    @DeleteMapping("/shops/{id}")
-    public ResponseEntity<BaseApiResponse<Void>> deleteShops(@PathVariable("id") String id){
+//    delete a shop
+    @DeleteMapping("/shops/{shop_id}")
+    public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("shop_id") String shop_id){
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
-        shopServiceImp.deleteShop(id);
-        response.setMessage("you have deleted promotion successfully");
+        shopServiceImp.deleteShop(shop_id);
+        response.setMessage("you have deleted a shop successfully!");
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
 
+//    update a shop
+    @PutMapping("/shops/{shop_id}")
+    public ResponseEntity<BaseApiResponse<ShopRequestModel>> updateShop(
+            @PathVariable("shop_id") String shop_id,
+            @RequestBody ShopRequestModel shopRequestModel){
+        ModelMapper modelMapper = new ModelMapper();
+        ShopDto dto = modelMapper.map(shopRequestModel,ShopDto.class);
+        ShopRequestModel responseModel = modelMapper.map(shopServiceImp.updateShop(shop_id,dto),ShopRequestModel.class);
+
+        BaseApiResponse<ShopRequestModel> response=new BaseApiResponse <>();
+        response.setMessage("you have updated a shop successfully!");
+        response.setStatus(HttpStatus.OK);
+        response.setData(responseModel);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 }

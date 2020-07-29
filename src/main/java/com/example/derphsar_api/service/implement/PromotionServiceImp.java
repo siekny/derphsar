@@ -36,4 +36,14 @@ public class PromotionServiceImp implements PromotionService {
         }
         return null;
     }
+
+    @Override
+    public PromotionDto createPromotion(PromotionDto promotionDto) {
+        System.out.println("promotion"+promotionDto);
+        boolean isInserted = promotionRepository.createPromotion(promotionDto);
+        if(isInserted)
+            return promotionDto;
+        else
+            return null;
+    }
 }

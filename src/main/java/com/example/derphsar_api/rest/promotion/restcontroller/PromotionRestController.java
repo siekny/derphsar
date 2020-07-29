@@ -1,8 +1,10 @@
 package com.example.derphsar_api.rest.promotion.restcontroller;
 
 
+import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.PromotionDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
+import com.example.derphsar_api.rest.product.request.ProductRequestModel;
 import com.example.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.example.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.example.derphsar_api.service.implement.PromotionServiceImp;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -80,6 +83,33 @@ public class PromotionRestController {
         respone.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(respone);
 
+
+    }
+
+
+    //post promotion
+    @PostMapping("/promotion")
+    public ResponseEntity<BaseApiResponse<PromotionRequestModel>> createPromotion(
+            @RequestBody PromotionRequestModel promotionRequestModel) {
+
+
+        BaseApiResponse<PromotionRequestModel> response = new BaseApiResponse<>();
+        ModelMapper mapper = new ModelMapper();
+
+        PromotionDto promotionDto = mapper.map(promotionRequestModel, PromotionDto.class);
+
+        UUID uuid = UUID.randomUUID();
+        promotionDto.setPromoId("DP"+uuid.toString().substring(0,10));
+
+
+        PromotionDto result = promotionServiceImp.createPromotion(promotionDto);
+        PromotionRequestModel result2 = mapper.map(result, PromotionRequestModel.class);
+        response.setMessage("You have added product successfully");
+        response.setData(result2);
+        response.setStatus(HttpStatus.OK);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+
+        return ResponseEntity.ok(response);
 
     }
 }

@@ -1,15 +1,19 @@
 package com.example.derphsar_api.service;
 
 import com.example.derphsar_api.repository.dto.ShopDto;
-
 import java.util.List;
 
 public interface ShopService {
 
-    ShopDto insert(ShopDto shop);
+//    create shop
+    ShopDto createShop(ShopDto shop);
 
-    List<ShopDto> select();
+//    get all shop
+    List<ShopDto> getShops();
 
-    //delete a shop
-    void deleteShop(String id);
+//    delete shop
+    void deleteShop(String shop_id);
+
+//    update shop
+    ShopDto updateShop(String shop_id, ShopDto shop);
 }

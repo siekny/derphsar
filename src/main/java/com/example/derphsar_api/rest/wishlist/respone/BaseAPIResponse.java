@@ -1,4 +1,4 @@
-package com.example.derphsar_api.rest.shop.respone;
+package com.example.derphsar_api.rest.wishlist.respone;
 
 import org.springframework.http.HttpStatus;
 
@@ -57,7 +57,7 @@ public class BaseAPIResponse<T> {
 
     @Override
     public String toString() {
-        return "BaseAPIResponse{" +
+        return "BaseAPIRespone{" +
                 "message='" + message + '\'' +
                 ", data=" + data +
                 ", status=" + status +

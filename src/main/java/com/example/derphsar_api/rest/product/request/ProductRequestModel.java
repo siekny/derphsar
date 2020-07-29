@@ -4,6 +4,7 @@ import com.example.derphsar_api.repository.dto.ShopDto;
 
 public class ProductRequestModel {
 
+    private String proId;
     private String name;
     private Double price;
     private String description;
@@ -18,7 +19,8 @@ public class ProductRequestModel {
 
     public ProductRequestModel(){}
 
-    public ProductRequestModel(String name, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopDto shop) {
+    public ProductRequestModel(String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopDto shop) {
+        this.proId = proId;
         this.name = name;
         this.price = price;
         this.description = description;
@@ -28,6 +30,30 @@ public class ProductRequestModel {
         this.images = images;
         this.details = details;
         this.shop = shop;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductRequestModel{" +
+                "proId='" + proId + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", isSold=" + isSold +
+                ", viewCount=" + viewCount +
+                ", images=" + images +
+                ", details=" + details +
+                ", shop=" + shop +
+                '}';
+    }
+
+    public String getProId() {
+        return proId;
+    }
+
+    public void setProId(String proId) {
+        this.proId = proId;
     }
 
     public String getName() {
@@ -100,20 +126,5 @@ public class ProductRequestModel {
 
     public void setShop(ShopDto shop) {
         this.shop = shop;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductRequestModel{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", isSold=" + isSold +
-                ", viewCount=" + viewCount +
-                ", images=" + images +
-                ", details=" + details +
-                ", shop=" + shop +
-                '}';
     }
 }
