@@ -3,21 +3,16 @@ package com.example.derphsar_api.rest.product.restcontroller;
 import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
 import com.example.derphsar_api.rest.product.request.ProductRequestModel;
-import com.example.derphsar_api.rest.product.response.ProductResponseModel;
 import com.example.derphsar_api.service.implement.ProductServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

@@ -1,10 +1,8 @@
 package com.example.derphsar_api.rest.promotion.restcontroller;
 
 
-import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.PromotionDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
-import com.example.derphsar_api.rest.product.request.ProductRequestModel;
 import com.example.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.example.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.example.derphsar_api.service.implement.PromotionServiceImp;

@@ -1,14 +1,10 @@
 package com.example.derphsar_api.repository;
 
 
-import com.example.derphsar_api.mybatis.JSONTypeHandlerPg;
 import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.PromotionDto;
-import com.example.derphsar_api.repository.dto.ShopDto;
-import com.example.derphsar_api.repository.provider.ProductProvider;
 import com.example.derphsar_api.repository.provider.PromotionProvider;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -5,7 +5,6 @@ import com.example.derphsar_api.repository.dto.ProductDetail;
 import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.repository.provider.ProductProvider;
-import com.example.derphsar_api.rest.product.request.ProductRequestModel;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;

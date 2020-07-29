@@ -1,7 +1,6 @@
 package com.example.derphsar_api.service.implement;
 
 import com.example.derphsar_api.repository.PromotionRepository;
-import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.PromotionDto;
 import com.example.derphsar_api.service.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;

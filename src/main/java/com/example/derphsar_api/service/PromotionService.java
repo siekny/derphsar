@@ -1,6 +1,5 @@
 package com.example.derphsar_api.service;
 
-import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.PromotionDto;
 
 import java.util.List;

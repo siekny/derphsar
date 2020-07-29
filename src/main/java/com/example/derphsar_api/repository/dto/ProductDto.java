@@ -1,7 +1,5 @@
 package com.example.derphsar_api.repository.dto;
 
-import java.util.Arrays;
-
 public class ProductDto {
     private int id;
     private String proId;
