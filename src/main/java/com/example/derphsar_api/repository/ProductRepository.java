@@ -28,9 +28,9 @@ public interface ProductRepository {
     @Select("SELECT * FROM dp_shops WHERE id=#{shop_id}")
     @Results({
             @Result(column = "id" ,property = "id"),
-            @Result(column = "shop_id" ,property = "shop_id"),
-            @Result(column = "shop_name" ,property = "shop_name"),
-            @Result(column = "shop_adress" ,property = "shop_adress")
+            @Result(column = "shop_id" ,property = "shopId"),
+            @Result(column = "name" ,property = "name"),
+            @Result(column = "address" ,property = "address")
     })
     ShopDto getShops(int shop_id);
 
@@ -51,5 +51,37 @@ public interface ProductRepository {
     //update a product
     @Update("UPDATE dp_products set name = #{product.name}, price = #{product.price}, description= #{product.description} ,status = #{product.status}, is_sold = #{product.isSold}, view_count= #{product.viewCount} WHERE pro_id = #{id}")
     boolean updateProduct(String id, ProductDto product);
+
+
+//    //find product by shop id
+//    @Select("SELECT * FROM dp_products WHERE shop_id = 1")
+//    @Results({
+//            @Result(column = "shop_id" ,property = "shop",many = @Many(select = "selectOneShop")),
+//    })
+//    List<ProductDto> findProductByShopId(@Param("shopId") String shopId);
+//
+//    //select on Shop
+//    @Select("SELECT * FROM dp_shops WHERE id=#{shopId}")
+//    @Results({
+//            @Result(column = "id" ,property = "id"),
+//            @Result(column = "shop_id" ,property = "shopId"),
+//            @Result(column = "name" ,property = "name"),
+//            @Result(column = "address" ,property = "address")
+//    })
+//    ShopDto selectOneShop(String shopId);
+
+
+
+    //Search product by shop
+    @Select("SELECT * FROM dp_products WHERE shop_id=#{shopId}")
+    @Results({
+            @Result(column = "shop_id" ,property = "shop",many = @Many(select = "selectOneShop")),
+    })
+    List<ProductDto> findProductByShopId(@Param("shopId") int shopId);
+
+    //select on shop
+    @Select("SELECT * FROM dp_shops WHERE id=#{shop_id}")
+    ShopDto selectOneShop(int shop_id);
+
 
 }

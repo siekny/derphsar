@@ -90,11 +90,11 @@ public class ProductRestController {
 
     //get all products
     @GetMapping("/products")
-    public List<ProductDto> getProducts() {
+    public List<ProductDto> getProducts(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
 
         List<ProductDto> data;
 
-        data = productService.getProducts();
+        data = productService.getProducts(shopId);
 
         ObjectMapper mapper = new ObjectMapper();
 

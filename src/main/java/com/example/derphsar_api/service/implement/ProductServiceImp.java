@@ -18,8 +18,11 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getProducts() {
-        return productRepository.getProducts();
+    public List<ProductDto> getProducts(int shopId) {
+        if(shopId == 0)
+            return productRepository.getProducts();
+        else
+            return productRepository.findProductByShopId(shopId);
     }
 
     @Override
