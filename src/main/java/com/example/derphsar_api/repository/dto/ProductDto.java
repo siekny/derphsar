@@ -3,32 +3,32 @@ package com.example.derphsar_api.repository.dto;
 public class ProductDto {
     private int id;
     private String proId;
-    private String proName;
-    private Double proPrice;
-    private String proDescription;
-    private boolean proStatus;
-    private boolean proIsSold;
-    private int proViewCount;
+    private String name;
+    private Double price;
+    private String description;
+    private boolean status;
+    private boolean isSold;
+    private int viewCount;
 
-    private Object proImages;
-    private Object proDetails;
+    private Object images;
+    private Object details;
 
     private ShopDto shop;
 
 
     public ProductDto(){}
 
-    public ProductDto(int id, String proId, String proName, Double proPrice, String proDescription, boolean proStatus, boolean proIsSold, int proViewCount, Object proImages, Object proDetails, ShopDto shop) {
+    public ProductDto(int id, String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopDto shop) {
         this.id = id;
         this.proId = proId;
-        this.proName = proName;
-        this.proPrice = proPrice;
-        this.proDescription = proDescription;
-        this.proStatus = proStatus;
-        this.proIsSold = proIsSold;
-        this.proViewCount = proViewCount;
-        this.proImages = proImages;
-        this.proDetails = proDetails;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.status = status;
+        this.isSold = isSold;
+        this.viewCount = viewCount;
+        this.images = images;
+        this.details = details;
         this.shop = shop;
     }
 
@@ -48,68 +48,68 @@ public class ProductDto {
         this.proId = proId;
     }
 
-    public String getProName() {
-        return proName;
+    public String getName() {
+        return name;
     }
 
-    public void setProName(String proName) {
-        this.proName = proName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Double getProPrice() {
-        return proPrice;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setProPrice(Double proPrice) {
-        this.proPrice = proPrice;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public String getProDescription() {
-        return proDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProDescription(String proDescription) {
-        this.proDescription = proDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public boolean isProStatus() {
-        return proStatus;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setProStatus(boolean proStatus) {
-        this.proStatus = proStatus;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
-    public boolean isProIsSold() {
-        return proIsSold;
+    public boolean isSold() {
+        return isSold;
     }
 
-    public void setProIsSold(boolean proIsSold) {
-        this.proIsSold = proIsSold;
+    public void setSold(boolean sold) {
+        isSold = sold;
     }
 
-    public int getProViewCount() {
-        return proViewCount;
+    public int getViewCount() {
+        return viewCount;
     }
 
-    public void setProViewCount(int proViewCount) {
-        this.proViewCount = proViewCount;
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 
-    public Object getProImages() {
-        return proImages;
+    public Object getImages() {
+        return images;
     }
 
-    public void setProImages(Object proImages) {
-        this.proImages = proImages;
+    public void setImages(Object images) {
+        this.images = images;
     }
 
-    public Object getProDetails() {
-        return proDetails;
+    public Object getDetails() {
+        return details;
     }
 
-    public void setProDetails(Object proDetails) {
-        this.proDetails = proDetails;
+    public void setDetails(Object details) {
+        this.details = details;
     }
 
     public ShopDto getShop() {
@@ -120,19 +120,20 @@ public class ProductDto {
         this.shop = shop;
     }
 
+
     @Override
     public String toString() {
         return "ProductDto{" +
                 "id=" + id +
                 ", proId='" + proId + '\'' +
-                ", proName='" + proName + '\'' +
-                ", proPrice=" + proPrice +
-                ", proDescription='" + proDescription + '\'' +
-                ", proStatus=" + proStatus +
-                ", proIsSold=" + proIsSold +
-                ", proViewCount=" + proViewCount +
-                ", proImages=" + proImages +
-                ", proDetails=" + proDetails +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", isSold=" + isSold +
+                ", viewCount=" + viewCount +
+                ", images=" + images +
+                ", details=" + details +
                 ", shop=" + shop +
                 '}';
     }

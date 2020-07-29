@@ -96,10 +96,10 @@ public class ProductRestController {
 
         for (ProductDto jd : data) {
             try {
-                Object test = mapper.readValue(jd.getProDetails().toString(), Object.class);
-                Object test1 = mapper.readValue(jd.getProImages().toString(), Object.class);
-                jd.setProDetails(test);
-                jd.setProImages(test1);
+                Object test = mapper.readValue(jd.getDetails().toString(), Object.class);
+                Object test1 = mapper.readValue(jd.getImages().toString(), Object.class);
+                jd.setDetails(test);
+                jd.setImages(test1);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }

@@ -1,7 +1,6 @@
 package com.example.derphsar_api.repository;
 
 import com.example.derphsar_api.mybatis.JSONTypeHandlerPg;
-import com.example.derphsar_api.repository.dto.ProductDetail;
 import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.repository.provider.ProductProvider;
@@ -17,24 +16,13 @@ public interface ProductRepository {
     @SelectProvider(value = ProductProvider.class, method = "getProducts")
     @Results({
             @Result(column = "pro_id" ,property = "proId"),
-            @Result(column = "pro_name" ,property = "proName"),
-            @Result(column = "pro_price" ,property = "proPrice"),
-            @Result(column = "pro_description" ,property = "proDescription"),
-            @Result(column = "pro_status" ,property = "proStatus"),
-            @Result(column = "pro_is_sold" ,property = "proIsSold"),
-            @Result(column = "pro_view_count" ,property = "proViewCount"),
-            @Result(column = "pro_details" ,property = "proDetails", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
-            @Result(column = "pro_img" ,property = "proImages", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
-
-//            @Result(column = "color" ,property = "procolor"),
-//            @Result(column = "size" ,property = "proSize"),
-        //   @Result(column = "pro_id",property = "proDetails",many = @Many(select = "getProductDetail")),
-
+            @Result(column = "is_sold" ,property = "isSold"),
+            @Result(column = "view_count" ,property = "viewCount"),
+            @Result(column = "details" ,property = "details", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
+            @Result(column = "images" ,property = "images", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
             @Result(column = "shop_id", property = "shop", many = @Many(select = "getShops"))
     })
     List<ProductDto> getProducts();
-
-
 
     //select all shop
     @Select("SELECT * FROM dp_shops WHERE id=#{shop_id}")
@@ -48,28 +36,20 @@ public interface ProductRepository {
 
 
 
-    @Select("SELECT pro_details -> 'color' AS color, pro_details -> 'size' AS size FROM dp_products WHERE pro_id =#{pro_id}")
-    @Results({
-            @Result(column = "color" ,property = "color"),
-            @Result(column = "size" ,property = "size")
-    })
-    ProductDetail getProductDetail(String pro_id);
-
-
     //create product
-    @Insert("INSERT INTO dp_products ( pro_name, pro_price, pro_description, pro_status, pro_is_sold, pro_view_count, pro_img ,pro_details, shop_id)" +
-            "VALUES (  #{proName, jdbcType=VARCHAR}, #{proPrice}, #{proDescription}, #{proStatus}, #{proIsSold}, #{proViewCount},#{proImages, jdbcType=OTHER, typeHandler=com.example.derphsar_api.mybatis.JSONTypeHandlerPg},#{proDetails, jdbcType=OTHER, typeHandler=com.example.derphsar_api.mybatis.JSONTypeHandlerPg}, #{shop.id})")
+    @Insert("INSERT INTO dp_products ( name, price, description, status, is_sold, view_count, images , details, shop_id)" +
+            "VALUES (  #{name, jdbcType=VARCHAR}, #{price}, #{description}, #{status}, #{isSold}, #{viewCount},#{images, jdbcType=OTHER, typeHandler=com.example.derphsar_api.mybatis.JSONTypeHandlerPg},#{details, jdbcType=OTHER, typeHandler=com.example.derphsar_api.mybatis.JSONTypeHandlerPg}, #{shop.id})")
     boolean insert(ProductDto productDto);
 
 
 
     //delete product
-    @Delete("delete FROM dp_products where pro_id =#{id}")
+    @Delete("delete FROM dp_products WHERE pro_id =#{id}")
     void deleteProduct(String id);
 
 
     //update a product
-    @Update("UPDATE dp_products set pro_name = #{product.proName}, pro_price = #{product.proPrice},pro_description= #{product.proDescription} ,pro_status = #{product.proStatus},pro_is_sold = #{product.proIsSold},pro_view_count= #{product.proViewCount} WHERE pro_id = #{id}")
+    @Update("UPDATE dp_products set name = #{product.name}, price = #{product.price}, description= #{product.description} ,status = #{product.status}, is_sold = #{product.isSold}, view_count= #{product.viewCount} WHERE pro_id = #{id}")
     boolean updateProduct(String id, ProductDto product);
 
 }

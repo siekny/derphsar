@@ -27,7 +27,6 @@ public class PromotionRestController {
         this.promotionServiceImp = promotionServiceImp;
     }
 
-
     //get all promotions
     @GetMapping("/promotions")
     public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> select() {

@@ -22,7 +22,8 @@ public interface PromotionRepository {
             @Result(column = "end_date" ,property = "endDate"),
             @Result(column = "start_rank" ,property = "startRank"),
             @Result(column = "end_rank" ,property = "endRank"),
-            @Result(column = "pro_id", property = "product", many = @Many(select = "getProduct"))
+            @Result(column = "pro_id" ,property = "product.id")
+//           @Result(column = "pro_id", property = "product", many = @Many(select = "getProduct"))
     })
     List<PromotionDto> getPromotions();
 
@@ -33,14 +34,14 @@ public interface PromotionRepository {
     @Results({
             @Result(column = "id" ,property = "id"),
             @Result(column = "pro_id" ,property = "proId"),
-            @Result(column = "pro_name" ,property = "proName"),
-            @Result(column = "pro_price" ,property = "proPrice")
+            @Result(column = "pro_name" ,property = "name"),
+            @Result(column = "pro_price" ,property = "price")
     })
     ProductDto getProduct(int pro_id);
 
 
     //delete promotions
-    @Delete("delete FROM dp_promotion where promo_id =#{id}")
+    @Delete("delete FROM dp_promotion WHERE promo_id =#{id}")
     void deletePromotion(String id);
 
 
