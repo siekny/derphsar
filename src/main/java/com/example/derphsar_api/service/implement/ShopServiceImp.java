@@ -1,7 +1,6 @@
 package com.example.derphsar_api.service.implement;
 
 import com.example.derphsar_api.repository.ShopRepository;
-import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +36,14 @@ public class ShopServiceImp implements ShopService {
 
 //    delete shop
     @Override
-    public void deleteShop(int id) {
-        shopRepository.delete(id);
+    public void deleteShop(String shop_id) {
+        shopRepository.delete(shop_id);
     }
 
 //    update shop
     @Override
-    public ShopDto updateShop(int id, ShopDto shop) {
-        boolean isUpdated = shopRepository.update(id,shop);
+    public ShopDto updateShop(String shop_id, ShopDto shop) {
+        boolean isUpdated = shopRepository.update(shop_id,shop);
         if(isUpdated){
             return shop;
         }

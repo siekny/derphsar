@@ -23,10 +23,10 @@ public interface ShopRepository {
     List<ShopDto> select();
 
 //    Delete shop
-    @Delete("delete FROM dp_shops where id = #{id}")
-    void delete(int id);
+    @Delete("delete FROM dp_shops where shop_id = #{shop_id}")
+    void delete(String shop_id);
 
 //    Update shop
-    @Update("UPDATE dp_shops set name = #{shop.name}, address = #{shop.address}, description= #{shop.description} , profile= #{shop.profile} , cover= #{shop.cover} , status = #{shop.status}, is_open = #{shop.is_open}, working_time= #{shop.working_time} WHERE id = #{id}")
-    boolean update(int id, ShopDto shop);
+    @Update("UPDATE dp_shops set name = #{shop.name}, address = #{shop.address}, description= #{shop.description} , profile= #{shop.profile} , cover= #{shop.cover} , status = #{shop.status}, is_open = #{shop.is_open}, working_time= #{shop.working_time} WHERE shop_id = #{shop_id}")
+    boolean update(String shop_id, ShopDto shop);
 }

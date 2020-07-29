@@ -1,8 +1,8 @@
-package com.example.derphsar_api.repository.dto;
+package com.example.derphsar_api.rest.wishlist.request;
 
 import java.util.Date;
 
-public class WishListDto {
+public class WishListRequestModel {
 
     private int id;
     private String wishlist_id;
@@ -10,10 +10,10 @@ public class WishListDto {
     private int u_id;
     private int pro_id;
 
-    public WishListDto() {
+    public WishListRequestModel() {
     }
 
-    public WishListDto(int id, String wishlist_id, Date fav_date, int u_id, int pro_id) {
+    public WishListRequestModel(int id, String wishlist_id, Date fav_date, int u_id, int pro_id) {
         this.id = id;
         this.wishlist_id = wishlist_id;
         this.fav_date = fav_date;

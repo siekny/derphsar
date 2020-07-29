@@ -71,11 +71,11 @@ public class ShopRestController {
     }
 
 //    delete a shop
-    @DeleteMapping("/shops/{id}")
-    public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("id") int id){
+    @DeleteMapping("/shops/{shop_id}")
+    public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("shop_id") String shop_id){
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
-        shopServiceImp.deleteShop(id);
+        shopServiceImp.deleteShop(shop_id);
         response.setMessage("you have deleted a shop successfully!");
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -83,13 +83,13 @@ public class ShopRestController {
     }
 
 //    update a shop
-    @PutMapping("/shops/{id}")
+    @PutMapping("/shops/{shop_id}")
     public ResponseEntity<BaseApiResponse<ShopRequestModel>> updateShop(
-            @PathVariable("id") int id,
+            @PathVariable("shop_id") String shop_id,
             @RequestBody ShopRequestModel shopRequestModel){
-        ModelMapper modelMapper=new ModelMapper();
-        ShopDto dto =modelMapper.map(shopRequestModel,ShopDto.class);
-        ShopRequestModel responseModel=modelMapper.map(shopServiceImp.updateShop(id,dto),ShopRequestModel.class);
+        ModelMapper modelMapper = new ModelMapper();
+        ShopDto dto = modelMapper.map(shopRequestModel,ShopDto.class);
+        ShopRequestModel responseModel = modelMapper.map(shopServiceImp.updateShop(shop_id,dto),ShopRequestModel.class);
 
         BaseApiResponse<ShopRequestModel> response=new BaseApiResponse <>();
         response.setMessage("you have updated a shop successfully!");
