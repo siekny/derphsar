@@ -1,6 +1,5 @@
 package com.example.derphsar_api.service;
 
-import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.PromotionDto;
 
 import java.util.List;
@@ -19,4 +18,7 @@ public interface PromotionService {
 
     //create a promotion
     PromotionDto createPromotion(PromotionDto promotionDto);
+
+    //find by id
+    PromotionDto findById(String promoId);
 }

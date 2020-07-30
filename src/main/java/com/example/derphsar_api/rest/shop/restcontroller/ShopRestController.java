@@ -1,9 +1,7 @@
 package com.example.derphsar_api.rest.shop.restcontroller;
 
-import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
-import com.example.derphsar_api.rest.product.request.ProductRequestModel;
 import com.example.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.example.derphsar_api.service.implement.ShopServiceImp;
 import org.modelmapper.ModelMapper;
@@ -96,6 +94,24 @@ public class ShopRestController {
         response.setMessage("you have updated a shop successfully!");
         response.setStatus(HttpStatus.OK);
         response.setData(responseModel);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
+
+    //find by id
+    @GetMapping("/shops/{id}")
+    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> findById(@PathVariable("id") String id){
+        ModelMapper mapper = new ModelMapper();
+        BaseApiResponse<List<ShopRequestModel>> response =
+                new BaseApiResponse<>();
+
+        ShopDto shopDto = shopServiceImp.findById(id);
+        List<ShopRequestModel> shopRequestModels = new ArrayList<>();
+
+        shopRequestModels.add(mapper.map(shopDto, ShopRequestModel.class));
+        response.setMessage("You have found shop by id successfully");
+        response.setData(shopRequestModels);
+        response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
