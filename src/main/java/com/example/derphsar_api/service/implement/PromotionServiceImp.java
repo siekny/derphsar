@@ -49,4 +49,10 @@ public class PromotionServiceImp implements PromotionService {
         else
             return null;
     }
+
+    //find by id
+    @Override
+    public PromotionDto findById(String promoId) {
+        return  promotionRepository.findById(promoId);
+    }
 }

@@ -16,4 +16,7 @@ public interface ShopService {
 
 //    update shop
     ShopDto updateShop(String shop_id, ShopDto shop);
+
+//    find by id
+    ShopDto findById(String shopId);
 }

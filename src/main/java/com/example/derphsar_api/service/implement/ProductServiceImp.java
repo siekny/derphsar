@@ -49,4 +49,10 @@ public class ProductServiceImp implements ProductService {
         return null;
     }
 
+    //find by id
+    @Override
+    public ProductDto findById(String proId) {
+        return  productRepository.findById(proId);
+    }
+
 }

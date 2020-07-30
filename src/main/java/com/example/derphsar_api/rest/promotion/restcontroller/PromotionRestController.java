@@ -1,10 +1,8 @@
 package com.example.derphsar_api.rest.promotion.restcontroller;
 
 
-import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.PromotionDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
-import com.example.derphsar_api.rest.product.request.ProductRequestModel;
 import com.example.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.example.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.example.derphsar_api.service.implement.PromotionServiceImp;
@@ -114,5 +112,23 @@ public class PromotionRestController {
 
         return ResponseEntity.ok(response);
 
+    }
+
+    //find by id
+    @GetMapping("/promotions/{id}")
+    public ResponseEntity<BaseApiResponse<List<PromotionRequestModel>>> findById(@PathVariable("id") String id){
+        ModelMapper mapper = new ModelMapper();
+        BaseApiResponse<List<PromotionRequestModel>> response =
+                new BaseApiResponse<>();
+
+        PromotionDto promotionDto = promotionServiceImp.findById(id);
+        List<PromotionRequestModel> promotionRequestModels = new ArrayList<>();
+
+        promotionRequestModels.add(mapper.map(promotionDto, PromotionRequestModel.class));
+        response.setMessage("You have found promotion by id successfully");
+        response.setData(promotionRequestModels);
+        response.setStatus(HttpStatus.OK);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
     }
 }

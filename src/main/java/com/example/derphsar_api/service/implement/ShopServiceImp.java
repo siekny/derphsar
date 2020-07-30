@@ -49,4 +49,10 @@ public class ShopServiceImp implements ShopService {
         }
         return null;
     }
+
+//    find by id
+    @Override
+    public ShopDto findById(String shopId) {
+        return  shopRepository.findById(shopId);
+    }
 }
