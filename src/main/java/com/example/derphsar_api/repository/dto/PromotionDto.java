@@ -13,12 +13,14 @@ public class PromotionDto {
     private String cover;
     private double startRank;
     private double endRank;
-    private ProductDto product;
+    private ShopDto shop;
+
+    private int shop_id;
 
 
     public PromotionDto(){}
 
-    public PromotionDto(int id, String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ProductDto product) {
+    public PromotionDto(int id, String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ShopDto shop, int shop_id) {
         this.id = id;
         this.promoId = promoId;
         this.title = title;
@@ -29,7 +31,26 @@ public class PromotionDto {
         this.cover = cover;
         this.startRank = startRank;
         this.endRank = endRank;
-        this.product = product;
+        this.shop = shop;
+        this.shop_id = shop_id;
+    }
+
+    @Override
+    public String toString() {
+        return "PromotionDto{" +
+                "id=" + id +
+                ", promoId='" + promoId + '\'' +
+                ", title='" + title + '\'' +
+                ", isApply=" + isApply +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status=" + status +
+                ", cover='" + cover + '\'' +
+                ", startRank=" + startRank +
+                ", endRank=" + endRank +
+                ", shop=" + shop +
+                ", shop_id=" + shop_id +
+                '}';
     }
 
 
@@ -113,29 +134,19 @@ public class PromotionDto {
         this.endRank = endRank;
     }
 
-    public ProductDto getProduct() {
-        return product;
+    public ShopDto getShop() {
+        return shop;
     }
 
-    public void setProduct(ProductDto product) {
-        this.product = product;
+    public void setShop(ShopDto shop) {
+        this.shop = shop;
     }
 
-    @Override
-    public String toString() {
-        return "PromotionDto{" +
-                "id=" + id +
-                ", promoId='" + promoId + '\'' +
-                ", title='" + title + '\'' +
-                ", isApply=" + isApply +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", status=" + status +
-                ", cover='" + cover + '\'' +
-                ", startRank=" + startRank +
-                ", endRank=" + endRank +
-                ", product=" + product +
-                '}';
+    public int getShop_id() {
+        return shop_id;
     }
 
+    public void setShop_id(int shop_id) {
+        this.shop_id = shop_id;
+    }
 }

@@ -15,11 +15,11 @@ public class PromotionRequestModel {
     private String cover;
     private double startRank;
     private double endRank;
-    private ProductDto product;
+    private int shop_id;
 
     public PromotionRequestModel(){}
 
-    public PromotionRequestModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ProductDto product) {
+    public PromotionRequestModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, int shop_id) {
         this.promoId = promoId;
         this.title = title;
         this.isApply = isApply;
@@ -29,7 +29,7 @@ public class PromotionRequestModel {
         this.cover = cover;
         this.startRank = startRank;
         this.endRank = endRank;
-        this.product = product;
+        this.shop_id = shop_id;
     }
 
     @Override
@@ -44,10 +44,9 @@ public class PromotionRequestModel {
                 ", cover='" + cover + '\'' +
                 ", startRank=" + startRank +
                 ", endRank=" + endRank +
-                ", product=" + product +
+                ", shop_id=" + shop_id +
                 '}';
     }
-
 
     public String getPromoId() {
         return promoId;
@@ -121,11 +120,11 @@ public class PromotionRequestModel {
         this.endRank = endRank;
     }
 
-    public ProductDto getProduct() {
-        return product;
+    public int getShop_id() {
+        return shop_id;
     }
 
-    public void setProduct(ProductDto product) {
-        this.product = product;
+    public void setShop_id(int shop_id) {
+        this.shop_id = shop_id;
     }
 }

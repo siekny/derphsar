@@ -3,6 +3,7 @@ package com.example.derphsar_api.repository;
 
 import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.PromotionDto;
+import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.repository.provider.PromotionProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -22,7 +23,7 @@ public interface PromotionRepository {
             @Result(column = "end_date" ,property = "endDate"),
             @Result(column = "start_rank" ,property = "startRank"),
             @Result(column = "end_rank" ,property = "endRank"),
-            @Result(column = "pro_id" ,property = "product.id")
+            @Result(column = "shop_id" ,property = "shop_id")
 //           @Result(column = "pro_id", property = "product", many = @Many(select = "getProduct"))
     })
     List<PromotionDto> getPromotions();
@@ -54,6 +55,19 @@ public interface PromotionRepository {
     @Insert("INSERT INTO dp_promotion (promo_id, title, is_apply, start_rank, start_date, end_date, status,pro_id , end_rank)" +
             "VALUES (  #{promoId, jdbcType=VARCHAR}, #{title}, #{isApply}, #{startRank}, #{startDate}, #{endDate},#{status},#{ product.id}, #{endRank})")
     boolean createPromotion(PromotionDto promotionDto);
+
+
+
+    //Search promotion by shop id
+    @Select("SELECT * FROM dp_promotion WHERE shop_id=#{shopId}")
+    @Results({
+            @Result(column = "shop_id" ,property = "shop",many = @Many(select = "selectOneShop")),
+    })
+    List<PromotionDto> findPromotionByShopId(@Param("shopId") int shopId);
+
+    //select on shop
+    @Select("SELECT * FROM dp_shops WHERE id=#{shop_id}")
+    ShopDto selectOneShop(int shop_id);
 
 
 }

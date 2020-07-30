@@ -1,6 +1,8 @@
 package com.example.derphsar_api.rest.promotion.response;
 
 import com.example.derphsar_api.repository.dto.ProductDto;
+import com.example.derphsar_api.repository.dto.PromotionDto;
+import com.example.derphsar_api.repository.dto.ShopDto;
 
 import java.sql.Date;
 
@@ -15,11 +17,13 @@ public class PromotionResponseModel {
     private String cover;
     private double startRank;
     private double endRank;
-    private ProductDto product;
+    private ShopDto shop;
+
+    private int shop_id;
 
     public PromotionResponseModel(){}
 
-    public PromotionResponseModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ProductDto product) {
+    public PromotionResponseModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ShopDto shop, int shop_id) {
         this.promoId = promoId;
         this.title = title;
         this.isApply = isApply;
@@ -29,8 +33,28 @@ public class PromotionResponseModel {
         this.cover = cover;
         this.startRank = startRank;
         this.endRank = endRank;
-        this.product = product;
+        this.shop = shop;
+        this.shop_id = shop_id;
     }
+
+
+    @Override
+    public String toString() {
+        return "PromotionResponseModel{" +
+                "promoId='" + promoId + '\'' +
+                ", title='" + title + '\'' +
+                ", isApply=" + isApply +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status=" + status +
+                ", cover='" + cover + '\'' +
+                ", startRank=" + startRank +
+                ", endRank=" + endRank +
+                ", shop=" + shop +
+                ", shop_id=" + shop_id +
+                '}';
+    }
+
 
     public String getPromoId() {
         return promoId;
@@ -104,28 +128,19 @@ public class PromotionResponseModel {
         this.endRank = endRank;
     }
 
-    public ProductDto getProduct() {
-        return product;
+    public ShopDto getShop() {
+        return shop;
     }
 
-    public void setProduct(ProductDto product) {
-        this.product = product;
+    public void setShop(ShopDto shop) {
+        this.shop = shop;
     }
 
+    public int getShop_id() {
+        return shop_id;
+    }
 
-    @Override
-    public String toString() {
-        return "PromotionResponseModel{" +
-                "promoId='" + promoId + '\'' +
-                ", title='" + title + '\'' +
-                ", isApply=" + isApply +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", status=" + status +
-                ", cover='" + cover + '\'' +
-                ", startRank=" + startRank +
-                ", endRank=" + endRank +
-                ", product=" + product +
-                '}';
+    public void setShop_id(int shop_id) {
+        this.shop_id = shop_id;
     }
 }

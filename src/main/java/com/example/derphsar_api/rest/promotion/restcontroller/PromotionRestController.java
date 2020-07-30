@@ -32,13 +32,13 @@ public class PromotionRestController {
 
     //get all promotions
     @GetMapping("/promotions")
-    public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> select() {
+    public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> select(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
 
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<PromotionResponseModel>> response =
                 new BaseApiResponse<>();
 
-        List<PromotionDto> promotionDtoList = promotionServiceImp.getPromotions();
+        List<PromotionDto> promotionDtoList = promotionServiceImp.getPromotions(shopId);
         List<PromotionResponseModel> promotions = new ArrayList<>();
 
         for (PromotionDto promotionDto : promotionDtoList) {
@@ -52,6 +52,9 @@ public class PromotionRestController {
 
         return ResponseEntity.ok(response);
     }
+
+
+
 
 
     //Delete a promotion
