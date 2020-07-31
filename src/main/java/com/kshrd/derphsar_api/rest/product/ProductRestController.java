@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -141,5 +142,23 @@ public class ProductRestController {
         respone.setData(responeModel);
         respone.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(respone);
+    }
+
+    //find by id
+    @GetMapping("/products/{id}")
+    public ResponseEntity<BaseApiResponse<List<ProductRequestModel>>> findById(@PathVariable("id") String id){
+        ModelMapper mapper = new ModelMapper();
+        BaseApiResponse<List<ProductRequestModel>> response =
+                new BaseApiResponse<>();
+
+        ProductDto productDto = productService.findById(id);
+        List<ProductRequestModel> productRequestModels = new ArrayList<>();
+
+        productRequestModels.add(mapper.map(productDto, ProductRequestModel.class));
+        response.setMessage("You have found product by id successfully");
+        response.setData(productRequestModels);
+        response.setStatus(HttpStatus.OK);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
     }
 }

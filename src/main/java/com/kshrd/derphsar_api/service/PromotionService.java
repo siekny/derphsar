@@ -18,4 +18,7 @@ public interface PromotionService {
 
     //create a promotion
     PromotionDto createPromotion(PromotionDto promotionDto);
+
+    //find by id
+    PromotionDto findById(String promoId);
 }

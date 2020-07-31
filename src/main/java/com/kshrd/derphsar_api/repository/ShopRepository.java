@@ -33,4 +33,8 @@ public interface ShopRepository {
 //    Update shop
     @Update("UPDATE dp_shops set name = #{shop.name}, address = #{shop.address}, description= #{shop.description} , profile= #{shop.profile} , cover= #{shop.cover} , status = #{shop.status}, is_open = #{shop.isOpen}, working_time= #{shop.workingTime} WHERE shop_id = #{shop_id}")
     boolean update(String shop_id, ShopDto shop);
+
+//    find by id
+    @Select("SELECT * FROM dp_shops WHERE shop_id = #{shopId}")
+    ShopDto findById(String shopId);
 }

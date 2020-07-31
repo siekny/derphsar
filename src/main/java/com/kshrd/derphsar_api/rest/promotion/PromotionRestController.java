@@ -113,4 +113,22 @@ public class PromotionRestController {
         return ResponseEntity.ok(response);
 
     }
+
+    //find by id
+    @GetMapping("/promotions/{id}")
+    public ResponseEntity<BaseApiResponse<List<PromotionRequestModel>>> findById(@PathVariable("id") String id){
+        ModelMapper mapper = new ModelMapper();
+        BaseApiResponse<List<PromotionRequestModel>> response =
+                new BaseApiResponse<>();
+
+        PromotionDto promotionDto = promotionServiceImp.findById(id);
+        List<PromotionRequestModel> promotionRequestModels = new ArrayList<>();
+
+        promotionRequestModels.add(mapper.map(promotionDto, PromotionRequestModel.class));
+        response.setMessage("You have found promotion by id successfully");
+        response.setData(promotionRequestModels);
+        response.setStatus(HttpStatus.OK);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 }

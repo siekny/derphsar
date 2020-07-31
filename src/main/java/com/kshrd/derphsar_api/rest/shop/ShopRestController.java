@@ -97,4 +97,22 @@ public class ShopRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
+
+    //find by id
+    @GetMapping("/shops/{id}")
+    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> findById(@PathVariable("id") String id){
+        ModelMapper mapper = new ModelMapper();
+        BaseApiResponse<List<ShopRequestModel>> response =
+                new BaseApiResponse<>();
+
+        ShopDto shopDto = shopServiceImp.findById(id);
+        List<ShopRequestModel> shopRequestModels = new ArrayList<>();
+
+        shopRequestModels.add(mapper.map(shopDto, ShopRequestModel.class));
+        response.setMessage("You have found shop by id successfully");
+        response.setData(shopRequestModels);
+        response.setStatus(HttpStatus.OK);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 }

@@ -20,4 +20,7 @@ public interface ProductService {
 
     //update a product
     ProductDto updateProduct(String id, ProductDto productDto);
+
+    //find by id
+    ProductDto findById(String proId);
 }

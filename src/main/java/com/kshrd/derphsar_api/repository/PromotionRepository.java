@@ -66,8 +66,19 @@ public interface PromotionRepository {
     List<PromotionDto> findPromotionByShopId(@Param("shopId") int shopId);
 
     //select on shop
-    @Select("SELECT * FROM dp_shops WHERE id=#{shop_id}")
+    @Select("SELECT * FROM dp_shops WHERE id = #{shop_id}")
     ShopDto selectOneShop(int shop_id);
 
-
+    //find product by id
+    @Select("SELECT * FROM dp_promotion WHERE promo_id = #{promoId}")
+    @Results({
+            @Result(column = "promo_id" ,property = "promoId"),
+            @Result(column = "is_apply" ,property = "isApply"),
+            @Result(column = "start_date" ,property = "startDate"),
+            @Result(column = "end_date" ,property = "endDate"),
+            @Result(column = "start_rank" ,property = "startRank"),
+            @Result(column = "end_rank" ,property = "endRank"),
+            @Result(column = "shop_id" ,property = "shop_id")
+    })
+    PromotionDto findById(String promoId);
 }
