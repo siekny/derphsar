@@ -1,16 +1,18 @@
-package com.example.derphsar_api.repository.dto;
+package com.example.derphsar_api.rest.order.request;
 
-public class OrderDto {
+import java.util.Date;
+
+public class OrderRequestModel {
 
     private int id;
     private String orderId;
     private int user_id;
     private int shop_id;
 
-    public OrderDto() {
+    public OrderRequestModel() {
     }
 
-    public OrderDto(int id, String orderId, int user_id, int shop_id) {
+    public OrderRequestModel(int id, String orderId, int user_id, int shop_id) {
         this.id = id;
         this.orderId = orderId;
         this.user_id = user_id;
