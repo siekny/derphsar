@@ -30,7 +30,7 @@ public class PromotionRestController {
 
     //get all promotions
     @GetMapping("/promotions")
-    public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> select(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
+    public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> getPromotions(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
 
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<PromotionResponseModel>> response =
@@ -68,7 +68,7 @@ public class PromotionRestController {
 
     //Update a promotions
     @PutMapping("/promotions/{id}")
-    public ResponseEntity<BaseApiResponse<PromotionRequestModel>> updatePromotions(
+    public ResponseEntity<BaseApiResponse<PromotionRequestModel>> updatePromotion(
             @PathVariable("id") String id,
             @RequestBody PromotionRequestModel promotionRequestModel) {
         ModelMapper modelMapper = new ModelMapper();
