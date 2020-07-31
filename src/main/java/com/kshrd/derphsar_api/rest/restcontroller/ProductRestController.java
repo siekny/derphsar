@@ -1,4 +1,4 @@
-package com.kshrd.derphsar_api.rest.product;
+package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
@@ -27,46 +27,10 @@ public class ProductRestController {
         this.productService = productService;
     }
 
-
-//    @GetMapping("/products")
-//    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> select() {
-//
-//        ModelMapper mapper = new ModelMapper();
-//        BaseApiResponse<List<ProductResponseModel>> response =
-//                new BaseApiResponse<>();
-//
-//        List<ProductDto> articleDtoList = productService.getProducts();
-//        List<ProductResponseModel> articles = new ArrayList<>();
-//
-//        for (ProductDto articleDto : articleDtoList) {
-////
-////            if (articleDto.getProDetails() != null) {
-////                String test = articleDto.getProDetails().toString();
-////                System.out.println("Test = " + test);
-////                JsonObject jsonObject = new JsonParser().parse(test).getAsJsonObject();
-////                articleDto.setProDetails(jsonObject);
-////            }
-//
-//            articles.add(mapper.map(articleDto, ProductResponseModel.class));
-//        }
-//
-//        response.setMessage("You have found all articles successfully");
-//        response.setData(articles);
-//        response.setStatus(HttpStatus.OK);
-//        response.setTime(new Timestamp(System.currentTimeMillis()));
-//
-//        return ResponseEntity.ok(response);
-//    }
-
-
-
-
-
-    //post product
+    //post a product
     @PostMapping("/products")
     public ResponseEntity<BaseApiResponse<ProductRequestModel>> createProduct(
             @RequestBody ProductRequestModel productRequestModel) {
-
 
         BaseApiResponse<ProductRequestModel> response = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
@@ -76,7 +40,6 @@ public class ProductRestController {
         UUID uuid = UUID.randomUUID();
         productDto.setProId("DP"+uuid.toString().substring(0,10));
 
-
         ProductDto result = productService.insert(productDto);
         ProductRequestModel result2 = mapper.map(result, ProductRequestModel.class);
         response.setMessage("You have added product successfully");
@@ -85,7 +48,6 @@ public class ProductRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
 
         return ResponseEntity.ok(response);
-
     }
 
 
@@ -94,7 +56,6 @@ public class ProductRestController {
     public List<ProductDto> getProducts(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
 
         List<ProductDto> data;
-
         data = productService.getProducts(shopId);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -143,6 +104,7 @@ public class ProductRestController {
         respone.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(respone);
     }
+
 
     //find by id
     @GetMapping("/products/{id}")

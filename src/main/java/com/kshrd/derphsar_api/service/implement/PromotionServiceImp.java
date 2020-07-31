@@ -18,6 +18,7 @@ public class PromotionServiceImp implements PromotionService {
         this.promotionRepository = promotionRepository;
     }
 
+    //select all promotions
     @Override
     public List<PromotionDto> getPromotions(int shopId) {
         if (shopId == 0)
@@ -26,11 +27,13 @@ public class PromotionServiceImp implements PromotionService {
             return promotionRepository.findPromotionByShopId(shopId);
     }
 
+    //delete a promotion
     @Override
     public void deletePromotion(String id) {
         promotionRepository.deletePromotion(id);
     }
 
+    //update a promotion
     @Override
     public PromotionDto updatePromotion(String id, PromotionDto promotionDto) {
         boolean isUpdated = promotionRepository.updatePromotion(id,promotionDto);
@@ -40,6 +43,7 @@ public class PromotionServiceImp implements PromotionService {
         return null;
     }
 
+    //create a promotion
     @Override
     public PromotionDto createPromotion(PromotionDto promotionDto) {
         System.out.println("promotion"+promotionDto);
@@ -50,7 +54,7 @@ public class PromotionServiceImp implements PromotionService {
             return null;
     }
 
-    //find by id
+    //find a promotion by id
     @Override
     public PromotionDto findById(String promoId) {
         return  promotionRepository.findById(promoId);

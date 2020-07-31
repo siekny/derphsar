@@ -4,6 +4,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class ShopProvider {
 
+    //get all shops
     public String getShops() {
         return new SQL(){{
             SELECT("*");

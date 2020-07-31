@@ -4,6 +4,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class WishListProvider {
 
+    //get all wishlists
     public String getWishList() {
         return new SQL(){{
             SELECT("*");

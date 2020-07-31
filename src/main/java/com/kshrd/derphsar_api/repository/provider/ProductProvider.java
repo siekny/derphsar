@@ -13,6 +13,8 @@ public class ProductProvider {
 //        }}.toString();
 //    }
 
+
+    //get all products
     public String getProducts() {
         return new SQL(){{
             SELECT("*");

@@ -18,7 +18,7 @@ public class WishListServiceImp implements WishLishService{
         this.wishListRepository = wishListRepository;
     }
 
-    //    create wishlist
+    //create wishlist
     @Override
     public WishListDto createWishList(WishListDto wishListDto) {
         boolean isInserted = wishListRepository.insert(wishListDto);
@@ -28,13 +28,13 @@ public class WishListServiceImp implements WishLishService{
             return null;
     }
 
-    //    get wishlist
+    //get all wishlists
     @Override
     public List<WishListDto> getWishLists(){
         return wishListRepository.select();
     }
 
-    //    delete wishlist
+    //delete  a wishlist
     @Override
     public void deleteWishList(String wishlist_id) {
         wishListRepository.delete(wishlist_id);

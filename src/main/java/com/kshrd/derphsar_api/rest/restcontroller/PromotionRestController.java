@@ -1,4 +1,4 @@
-package com.kshrd.derphsar_api.rest.promotion;
+package com.kshrd.derphsar_api.rest.restcontroller;
 
 
 import com.kshrd.derphsar_api.repository.dto.PromotionDto;
@@ -53,8 +53,6 @@ public class PromotionRestController {
 
 
 
-
-
     //Delete a promotion
     @DeleteMapping("/promotions/{id}")
     public ResponseEntity<BaseApiResponse<Void>> deletePromotion(@PathVariable("id") String id) {
@@ -83,8 +81,6 @@ public class PromotionRestController {
         respone.setData(responeModel);
         respone.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(respone);
-
-
     }
 
 
@@ -93,7 +89,6 @@ public class PromotionRestController {
     public ResponseEntity<BaseApiResponse<PromotionRequestModel>> createPromotion(
             @RequestBody PromotionRequestModel promotionRequestModel) {
 
-
         BaseApiResponse<PromotionRequestModel> response = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
 
@@ -101,7 +96,6 @@ public class PromotionRestController {
 
         UUID uuid = UUID.randomUUID();
         promotionDto.setPromoId("DP"+uuid.toString().substring(0,10));
-
 
         PromotionDto result = promotionServiceImp.createPromotion(promotionDto);
         PromotionRequestModel result2 = mapper.map(result, PromotionRequestModel.class);
@@ -113,6 +107,7 @@ public class PromotionRestController {
         return ResponseEntity.ok(response);
 
     }
+
 
     //find by id
     @GetMapping("/promotions/{id}")
@@ -131,4 +126,5 @@ public class PromotionRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
+
 }

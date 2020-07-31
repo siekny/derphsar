@@ -17,6 +17,7 @@ public class ProductServiceImp implements ProductService {
         this.productRepository = productRepository;
     }
 
+    // get all products
     @Override
     public List<ProductDto> getProducts(int shopId) {
         if(shopId == 0)
@@ -25,6 +26,7 @@ public class ProductServiceImp implements ProductService {
             return productRepository.findProductByShopId(shopId);
     }
 
+    //insert a product
     @Override
     public ProductDto insert(ProductDto productDto) {
         System.out.println("Product"+productDto);
@@ -35,11 +37,13 @@ public class ProductServiceImp implements ProductService {
             return null;
     }
 
+    //delete a product
     @Override
     public void deleteProduct(String id) {
         productRepository.deleteProduct(id);
     }
 
+    //update a product
     @Override
     public ProductDto updateProduct(String id, ProductDto productDto) {
         boolean isUpdated = productRepository.updateProduct(id,productDto);
@@ -49,7 +53,7 @@ public class ProductServiceImp implements ProductService {
         return null;
     }
 
-    //find by id
+    //find a product by id
     @Override
     public ProductDto findById(String proId) {
         return  productRepository.findById(proId);

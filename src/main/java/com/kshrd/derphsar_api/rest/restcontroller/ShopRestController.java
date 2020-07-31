@@ -1,4 +1,4 @@
-package com.kshrd.derphsar_api.rest.shop;
+package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
@@ -34,7 +34,6 @@ public class ShopRestController {
         ModelMapper mapper = new ModelMapper();
         ShopDto shopDto = mapper.map(shop, ShopDto.class);
 
-
         UUID uuid = UUID.randomUUID();
         shopDto.setShopId("DP"+uuid.toString().substring(0,10));
 
@@ -49,7 +48,7 @@ public class ShopRestController {
     }
 
 
-//    get all shops
+    //get all shops
     @GetMapping("/shops")
     public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops() {
 
@@ -69,7 +68,8 @@ public class ShopRestController {
         return ResponseEntity.ok(response);
     }
 
-//    delete a shop
+
+    //delete a shop
     @DeleteMapping("/shops/{shop_id}")
     public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("shop_id") String shop_id){
         BaseApiResponse<Void> response = new BaseApiResponse<>();
@@ -81,7 +81,8 @@ public class ShopRestController {
         return ResponseEntity.ok(response);
     }
 
-//    update a shop
+
+    //update a shop
     @PutMapping("/shops/{shop_id}")
     public ResponseEntity<BaseApiResponse<ShopRequestModel>> updateShop(
             @PathVariable("shop_id") String shop_id,
@@ -97,6 +98,7 @@ public class ShopRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
+
 
     //find by id
     @GetMapping("/shops/{id}")
@@ -115,4 +117,6 @@ public class ShopRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
+
+
 }

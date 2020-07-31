@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository {
 
+    //get all products
     @SelectProvider(value = ProductProvider.class, method = "getProducts")
     @Results({
             @Result(column = "pro_id" ,property = "proId"),
@@ -24,7 +25,8 @@ public interface ProductRepository {
     })
     List<ProductDto> getProducts();
 
-    //select all shop
+
+    //select all shops
     @Select("SELECT * FROM dp_shops WHERE id=#{shop_id}")
     @Results({
             @Result(column = "id" ,property = "id"),
@@ -53,6 +55,23 @@ public interface ProductRepository {
     boolean updateProduct(String id, ProductDto product);
 
 
+    //Search product by shop
+    @Select("SELECT * FROM dp_products WHERE shop_id=#{shopId}")
+    @Results({
+            @Result(column = "shop_id" ,property = "shop",many = @Many(select = "selectOneShop")),
+    })
+    List<ProductDto> findProductByShopId(@Param("shopId") int shopId);
+
+    //select on shop
+    @Select("SELECT * FROM dp_shops WHERE id = #{shop_id}")
+    ShopDto selectOneShop(int shop_id);
+
+    //find product by id
+    @Select("SELECT * FROM dp_products WHERE pro_id = #{proId}")
+    ProductDto findById(String proId);
+
+
+
 //    //find product by shop id
 //    @Select("SELECT * FROM dp_products WHERE shop_id = 1")
 //    @Results({
@@ -69,23 +88,6 @@ public interface ProductRepository {
 //            @Result(column = "address" ,property = "address")
 //    })
 //    ShopDto selectOneShop(String shopId);
-
-
-
-    //Search product by shop
-    @Select("SELECT * FROM dp_products WHERE shop_id=#{shopId}")
-    @Results({
-            @Result(column = "shop_id" ,property = "shop",many = @Many(select = "selectOneShop")),
-    })
-    List<ProductDto> findProductByShopId(@Param("shopId") int shopId);
-
-    //select on shop
-    @Select("SELECT * FROM dp_shops WHERE id = #{shop_id}")
-    ShopDto selectOneShop(int shop_id);
-
-    //find product by id
-    @Select("SELECT * FROM dp_products WHERE pro_id = #{proId}")
-    ProductDto findById(String proId);
 
 
 }

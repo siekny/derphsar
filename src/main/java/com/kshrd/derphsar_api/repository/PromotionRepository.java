@@ -14,7 +14,7 @@ import java.util.List;
 public interface PromotionRepository {
 
 
-    //get all promotion
+    //get all promotions
     @SelectProvider(value = PromotionProvider.class, method = "getPromotions")
     @Results({
             @Result(column = "promo_id" ,property = "promoId"),
@@ -46,9 +46,10 @@ public interface PromotionRepository {
     void deletePromotion(String id);
 
 
-    //update a promotions
+    //update a promotion
     @Update("UPDATE dp_promotion set title = #{promotion.title}, is_apply = #{promotion.isApply}, start_date= #{promotion.startDate} ,end_date = #{promotion.endDate},start_rank = #{promotion.startRank}, end_rank= #{promotion.endRank},cover = #{promotion.cover}, status = #{promotion.status}  WHERE promo_id = #{id}")
     boolean updatePromotion(String id, PromotionDto promotion);
+
 
 
     //create a promotion
@@ -68,6 +69,8 @@ public interface PromotionRepository {
     //select on shop
     @Select("SELECT * FROM dp_shops WHERE id = #{shop_id}")
     ShopDto selectOneShop(int shop_id);
+
+
 
     //find product by id
     @Select("SELECT * FROM dp_promotion WHERE promo_id = #{promoId}")

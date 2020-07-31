@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface WishListRepository {
 
-    //    Insert wishlist
+    //Insert wishlist
     @Insert("INSERT INTO dp_wishlist(wishlist_id, fav_date, u_id, pro_id) "+
             "VALUES (#{wishlistId}, #{favDate}, #{u_id}, #{pro_id})")
-
     boolean insert(WishListDto wishListDto);
 
-    //    Get wishlist
+
+    //Get all wishlist
     @SelectProvider(value = WishListProvider.class, method = "getWishList")
     @Results({
             @Result(column = "wishlist_id" ,property = "wishlistId"),
@@ -22,7 +22,8 @@ public interface WishListRepository {
     })
     List<WishListDto> select();
 
-    //    Delete wishlist
+
+    //Delete a wishlist
     @Delete("delete FROM dp_wishlist where wishlist_id = #{wishlist_id}")
     void delete(String wishlist_id);
 

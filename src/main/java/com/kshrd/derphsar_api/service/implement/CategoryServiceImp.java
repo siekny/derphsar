@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 @ComponentScan("com.example.derphsar_api.repository")
 public class CategoryServiceImp  implements CategoryService {
+
     public CategoryRepository categoryRepository;
 
     @Autowired

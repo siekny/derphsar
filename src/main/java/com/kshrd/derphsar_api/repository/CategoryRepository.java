@@ -15,6 +15,7 @@ import java.util.List;
 @Repository
 public interface CategoryRepository {
 
+    //select all categories
     @SelectProvider(type = CategoryProvider.class, method = "select")
     @Results({
             @Result(column = "cat_id" ,property = "catId"),

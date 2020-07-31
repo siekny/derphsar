@@ -16,7 +16,6 @@ public class ExceptionConfiguration {
         response.setDetail(e.getMessage());
 
         return ResponseEntity.ok(response);
-
     }
 
 }

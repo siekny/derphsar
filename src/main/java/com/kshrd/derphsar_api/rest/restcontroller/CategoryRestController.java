@@ -1,4 +1,4 @@
-package com.kshrd.derphsar_api.rest.category;
+package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.repository.dto.CategoryDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1")
 public class CategoryRestController {
+
     CategoryServiceImp categoryServiceImp;
 
     @Autowired
@@ -27,8 +28,9 @@ public class CategoryRestController {
     }
 
 
-    @GetMapping("/categoies")
+    @GetMapping("/categories")
     public ResponseEntity<BaseApiResponse<List<CategoryRequestModel>>> getCategories(){
+
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<CategoryRequestModel>> response =
                 new BaseApiResponse<>();
