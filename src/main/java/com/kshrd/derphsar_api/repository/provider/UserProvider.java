@@ -1,8 +1,11 @@
 package com.kshrd.derphsar_api.repository.provider;
 
+import com.kshrd.derphsar_api.repository.dto.UserDto;
 import org.apache.ibatis.jdbc.SQL;
 
 public class UserProvider {
+
+    //find user by email
     public String findByEmail(String email){
         return new SQL(){{
             SELECT("u.*, ur.*, r.name AS \"role_name\"");
@@ -12,4 +15,21 @@ public class UserProvider {
             WHERE("u.email LIKE #{email}");
         }}.toString();
     }
+
+    //insert new user
+    public String insertUser(UserDto user){
+        return new SQL(){{
+            INSERT_INTO("dp_users");
+            VALUES("user_id, name, gender, age, phone, email, password ,status, profile", "#{userId}, #{name}, #{gender}, #{age}, #{phone}, #{email}, #{password}, TRUE, #{profile}");
+        }}.toString();
+    }
+
+    //insert user role by default ROLE_BUYER
+    public String insertUserRole(UserDto user){
+        return new SQL(){{
+            INSERT_INTO("dp_user_role");
+            VALUES("user_id, role_id", "(SELECT id FROM dp_users WHERE email LIKE #{email}), (SELECT id FROM dp_role WHERE name LIKE 'ROLE_BUYER')");
+        }}.toString();
+    }
+
 }
