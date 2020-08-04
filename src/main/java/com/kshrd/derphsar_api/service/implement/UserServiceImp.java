@@ -4,9 +4,11 @@ package com.kshrd.derphsar_api.service.implement;
 import com.kshrd.derphsar_api.repository.UserRepository;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
+import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -61,10 +63,19 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public UserDto updateUserById(String userId, UserDto userDto) {
+        Boolean isUpdated = userRepository.updateUserById(userId, userDto);
+        if(isUpdated)
+            return userDto;
+        else
+            return null;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         UserDto user = this.userRepository.findByEmail(email);
-        System.out.println(user);
+        //System.out.println(user);
         return user;
     }
 }

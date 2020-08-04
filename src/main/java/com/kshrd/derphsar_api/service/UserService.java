@@ -18,4 +18,6 @@ public interface UserService extends UserDetailsService {
     UserResponseModel getOneUserById(String userId);
 
     void deleteUserById(String userId);
+
+    UserDto updateUserById(String userId, UserDto userDto);
 }

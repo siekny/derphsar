@@ -54,8 +54,20 @@ public class UserProvider {
     //
     public String deleteUserById(){
         return new SQL(){{
-            DELETE_FROM("dp_users");
+            UPDATE("dp_users");
+            SET("status = 'FALSE'");
             WHERE("user_id = #{userId}");
         }}.toString();
     }
+
+
+    //
+    public String updateUserById(){
+        return new SQL(){{
+            UPDATE("dp_users");
+            SET("name = #{name}, gender = #{gender}, age = #{age}, phone = #{phone}, email = #{email}, profile = #{profile}");
+            WHERE("user_id = #{userId}");
+        }}.toString();
+    }
+
 }

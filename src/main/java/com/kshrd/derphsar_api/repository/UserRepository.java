@@ -59,10 +59,13 @@ public interface UserRepository {
     UserResponseModel getOneUserById(String userId);
 
 
-//    @SelectProvider(type = UserProvider.class, method = "deleteUserById")
-//    Boolean deleteUserById(String userId);
 
-    @Update("UPDATE dp_users SET status = 'FALSE' WHERE user_id = #{userId}")
+    @UpdateProvider(type = UserProvider.class, method = "deleteUserById")
     void deleteOneUserById(String userId);
+
+
+    //@UpdateProvider(type = UserProvider.class, method = "updateUserById")
+    @Update("UPDATE dp_users SET name = #{user.name} , gender = #{user.gender}, age = #{user.age}, phone = #{user.phone}, email = #{user.email}, profile = #{user.profile} WHERE user_id = #{userId}")
+    boolean updateUserById(String userId, UserDto user);
 
 }

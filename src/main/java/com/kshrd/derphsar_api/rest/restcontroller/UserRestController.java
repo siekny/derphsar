@@ -112,31 +112,7 @@ public class UserRestController {
     }
 
 
-    //delete user by id
-//    @DeleteMapping("/users/{userId}")
-//    public ResponseEntity<BaseApiResponse<UserResponseModel>> delete(@PathVariable("userId") String userId){
-//        BaseApiResponse<UserResponseModel> responseAPI = new BaseApiResponse<>();
-//        List<UserResponseModel> list = userServiceImp.getAllUsers();
-//        for(int i=0;i<list.size();i++){
-//            if(userId.equals(list.get(i).getId())){
-//                UserResponseModel t = userServiceImp.getOneUserById(userId);
-//                userServiceImp.deleteUserById(userId);
-//                responseAPI.setMessage("User has been delete successfully");
-//                responseAPI.setData(t);
-//                responseAPI.setStatus(HttpStatus.OK);
-//            }
-//            else {
-//                responseAPI.setMessage("User has been not delete successfully");
-//                responseAPI.setData(null);
-//                responseAPI.setStatus(HttpStatus.NOT_FOUND);
-//            }
-//        }
-//        return ResponseEntity.ok(responseAPI);
-//
-//    }
-
-
-    //delete a user
+    //delete a user by update field status
     @DeleteMapping("/users/{userId}")
     public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("userId") String userId){
         BaseApiResponse<Void> response = new BaseApiResponse<>();
@@ -151,9 +127,28 @@ public class UserRestController {
             response.setData(null);
             response.setStatus(HttpStatus.NOT_FOUND);
         }
-
         return ResponseEntity.ok(response);
     }
+
+
+    //update a shop
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<BaseApiResponse<UserResponseModel>> updateUserById(
+            @PathVariable("userId") String userId,
+            @RequestBody UserRequestModel userRequestModel){
+
+        ModelMapper modelMapper = new ModelMapper();
+        UserDto dto = modelMapper.map(userRequestModel, UserDto.class);
+        UserResponseModel responseModel = modelMapper.map(userServiceImp.updateUserById(userId,dto),UserResponseModel.class);
+
+        BaseApiResponse<UserResponseModel> response = new BaseApiResponse <>();
+        response.setMessage("you have updated a user successfully!");
+        response.setStatus(HttpStatus.OK);
+        response.setData(responseModel);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
+
 
 
 }
