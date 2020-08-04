@@ -3,11 +3,15 @@ package com.kshrd.derphsar_api.service.implement;
 
 import com.kshrd.derphsar_api.repository.UserRepository;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
+import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
+import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -29,6 +33,26 @@ public class UserServiceImp implements UserService {
         userRepository.insertUser(userDto);
         userRepository.insertUserRole(userDto);
         return userDto;
+    }
+
+    @Override
+    public List<UserResponseModel> getAllUsers() {
+        List<UserResponseModel> list = userRepository.getAllUsers();
+        List<RoleResponse> roleResponse;
+        for(int i=0 ;i<list.size(); i++){
+            roleResponse = userRepository.role(list.get(i).getId());
+            list.get(i).setRole(roleResponse);
+        }
+        return list;
+    }
+
+    @Override
+    public UserResponseModel getOneUserById(String userId) {
+        UserResponseModel userResponseModel = userRepository.getOneUserById(userId);
+        List<RoleResponse> roleResponses;
+        roleResponses = userRepository.role(userResponseModel.getId());
+        userResponseModel.setRole(roleResponses);
+        return userResponseModel;
     }
 
     @Override

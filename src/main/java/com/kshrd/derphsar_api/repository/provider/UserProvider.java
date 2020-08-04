@@ -32,4 +32,22 @@ public class UserProvider {
         }}.toString();
     }
 
+    //select all user
+    public String getAllUsers(){
+        return new SQL(){{
+            SELECT("*");
+            FROM("dp_users");
+        }}.toString();
+    }
+
+    //select a user by id
+    public String getOneUserById(){
+        return new SQL(){{
+            SELECT("*");
+            FROM("dp_users");
+            WHERE("user_id = #{userId}");
+        }}.toString();
+    }
+
+
 }
