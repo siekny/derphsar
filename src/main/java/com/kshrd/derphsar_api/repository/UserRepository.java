@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.repository;
 
 
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.provider.UserProvider;
 import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
@@ -57,5 +58,11 @@ public interface UserRepository {
     )
     UserResponseModel getOneUserById(String userId);
 
+
+//    @SelectProvider(type = UserProvider.class, method = "deleteUserById")
+//    Boolean deleteUserById(String userId);
+
+    @Update("UPDATE dp_users SET status = 'FALSE' WHERE user_id = #{userId}")
+    void deleteOneUserById(String userId);
 
 }

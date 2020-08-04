@@ -33,7 +33,7 @@ public interface ShopRepository {
 
 
     //Update a shop
-    @Update("UPDATE dp_shops set name = #{shop.name}, address = #{shop.address}, description= #{shop.description} , profile= #{shop.profile} , cover= #{shop.cover} , status = #{shop.status}, is_open = #{shop.isOpen}, working_time= #{shop.workingTime} WHERE shop_id = #{shop_id}")
+    @Update("UPDATE dp_shops SET name = #{shop.name}, address = #{shop.address}, description= #{shop.description} , profile= #{shop.profile} , cover= #{shop.cover} , status = #{shop.status}, is_open = #{shop.isOpen}, working_time= #{shop.workingTime} WHERE shop_id = #{shop_id}")
     boolean update(String shop_id, ShopDto shop);
 
 

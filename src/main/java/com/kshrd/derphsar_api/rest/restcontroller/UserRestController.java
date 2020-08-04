@@ -2,9 +2,11 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 
 
 import com.kshrd.derphsar_api.repository.dto.PromotionDto;
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
+import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.service.implement.UserServiceImp;
@@ -90,6 +92,7 @@ public class UserRestController {
     }
 
 
+    //get one user by userId
     @GetMapping("/users/{userId}")
     public ResponseEntity<BaseApiResponse<UserResponseModel>> getOneUserById(@PathVariable String userId){
         BaseApiResponse<UserResponseModel> baseApiResponse = new BaseApiResponse<>();
@@ -106,7 +109,50 @@ public class UserRestController {
             baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
         }
         return ResponseEntity.ok(baseApiResponse);
+    }
 
+
+    //delete user by id
+//    @DeleteMapping("/users/{userId}")
+//    public ResponseEntity<BaseApiResponse<UserResponseModel>> delete(@PathVariable("userId") String userId){
+//        BaseApiResponse<UserResponseModel> responseAPI = new BaseApiResponse<>();
+//        List<UserResponseModel> list = userServiceImp.getAllUsers();
+//        for(int i=0;i<list.size();i++){
+//            if(userId.equals(list.get(i).getId())){
+//                UserResponseModel t = userServiceImp.getOneUserById(userId);
+//                userServiceImp.deleteUserById(userId);
+//                responseAPI.setMessage("User has been delete successfully");
+//                responseAPI.setData(t);
+//                responseAPI.setStatus(HttpStatus.OK);
+//            }
+//            else {
+//                responseAPI.setMessage("User has been not delete successfully");
+//                responseAPI.setData(null);
+//                responseAPI.setStatus(HttpStatus.NOT_FOUND);
+//            }
+//        }
+//        return ResponseEntity.ok(responseAPI);
+//
+//    }
+
+
+    //delete a user
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("userId") String userId){
+        BaseApiResponse<Void> response = new BaseApiResponse<>();
+
+        try{
+            userServiceImp.deleteUserById(userId);
+            response.setMessage("you have deleted a user successfully!");
+            response.setStatus(HttpStatus.OK);
+            response.setTime(new Timestamp(System.currentTimeMillis()));
+        }catch (Exception e){
+            response.setMessage("User has been not delete successfully");
+            response.setData(null);
+            response.setStatus(HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
 

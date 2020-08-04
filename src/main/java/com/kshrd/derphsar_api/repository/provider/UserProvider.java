@@ -37,6 +37,7 @@ public class UserProvider {
         return new SQL(){{
             SELECT("*");
             FROM("dp_users");
+            WHERE("status = 'TRUE'");
         }}.toString();
     }
 
@@ -50,4 +51,11 @@ public class UserProvider {
     }
 
 
+    //
+    public String deleteUserById(){
+        return new SQL(){{
+            DELETE_FROM("dp_users");
+            WHERE("user_id = #{userId}");
+        }}.toString();
+    }
 }
