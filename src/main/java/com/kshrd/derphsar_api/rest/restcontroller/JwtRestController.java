@@ -22,11 +22,6 @@ public class JwtRestController {
     private AuthenticationManager authenticationManager;
     @Autowired
     UserServiceImp userServiceImp;
-
-//    public void setUserService(UserService userService) {
-//        this.userService = userService;
-//    }
-
     @Autowired
     JwtTokenUtil jwtTokenUtil;
     @Autowired

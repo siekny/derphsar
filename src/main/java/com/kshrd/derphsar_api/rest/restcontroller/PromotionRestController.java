@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.repository.dto.PromotionDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
+import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.service.implement.PromotionServiceImp;
@@ -22,6 +23,12 @@ import java.util.UUID;
 public class PromotionRestController {
 
     private PromotionServiceImp promotionServiceImp;
+    private MessageProperties message;
+
+    @Autowired
+    public void setMessage(MessageProperties message) {
+        this.message = message;
+    }
 
     @Autowired
     public void setPromotionServiceImp(PromotionServiceImp promotionServiceImp) {
@@ -43,7 +50,7 @@ public class PromotionRestController {
             promotions.add(mapper.map(promotionDto, PromotionResponseModel.class));
         }
 
-        response.setMessage("You have found all articles successfully");
+        response.setMessage(message.selected("Promotions"));
         response.setData(promotions);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -59,7 +66,7 @@ public class PromotionRestController {
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
         promotionServiceImp.deletePromotion(id);
-        response.setMessage("you have deleted promotion successfully");
+        response.setMessage(message.deleted("Promotion"));
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
@@ -76,7 +83,7 @@ public class PromotionRestController {
         PromotionRequestModel responeModel = modelMapper.map(promotionServiceImp.updatePromotion(id, dto), PromotionRequestModel.class);
 
         BaseApiResponse<PromotionRequestModel> respone = new BaseApiResponse<>();
-        respone.setMessage("YOU HAVE UPDATED SUCCESSFULLY!");
+        respone.setMessage(message.updated("Promotion"));
         respone.setStatus(HttpStatus.OK);
         respone.setData(responeModel);
         respone.setTime(new Timestamp(System.currentTimeMillis()));
@@ -99,7 +106,7 @@ public class PromotionRestController {
 
         PromotionDto result = promotionServiceImp.createPromotion(promotionDto);
         PromotionRequestModel result2 = mapper.map(result, PromotionRequestModel.class);
-        response.setMessage("You have added product successfully");
+        response.setMessage(message.inserted("Promotion"));
         response.setData(result2);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -120,7 +127,7 @@ public class PromotionRestController {
         List<PromotionRequestModel> promotionRequestModels = new ArrayList<>();
 
         promotionRequestModels.add(mapper.map(promotionDto, PromotionRequestModel.class));
-        response.setMessage("You have found promotion by id successfully");
+        response.setMessage(message.selectedOne("Promotion"));
         response.setData(promotionRequestModels);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));

@@ -75,7 +75,7 @@ public class UserServiceImp implements UserService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         UserDto user = this.userRepository.findByEmail(email);
-        //System.out.println(user);
+        System.out.println(user);
         return user;
     }
 }

@@ -2,6 +2,7 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
+import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
 import com.kshrd.derphsar_api.service.implement.ProductServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,6 +22,12 @@ import java.util.UUID;
 @RequestMapping("/api/v1")
 public class ProductRestController {
     private ProductServiceImp productService;
+    private MessageProperties message;
+
+    @Autowired
+    public void setMessage(MessageProperties message) {
+        this.message = message;
+    }
 
     @Autowired
     public void setProductService(ProductServiceImp productService) {
@@ -42,7 +49,7 @@ public class ProductRestController {
 
         ProductDto result = productService.insert(productDto);
         ProductRequestModel result2 = mapper.map(result, ProductRequestModel.class);
-        response.setMessage("You have added product successfully");
+        response.setMessage(message.inserted("Product"));
         response.setData(result2);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -80,7 +87,7 @@ public class ProductRestController {
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
         productService.deleteProduct(id);
-        response.setMessage("you have deleted product successfully");
+        response.setMessage(message.deleted("Product"));
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
@@ -98,7 +105,7 @@ public class ProductRestController {
         ProductRequestModel responeModel=modelMapper.map(productService.updateProduct(id,dto),ProductRequestModel.class);
 
         BaseApiResponse<ProductRequestModel> respone=new BaseApiResponse <>();
-        respone.setMessage("YOU HAVE UPDATED SUCCESSFULLY!");
+        respone.setMessage(message.updated("Update"));
         respone.setStatus(HttpStatus.OK);
         respone.setData(responeModel);
         respone.setTime(new Timestamp(System.currentTimeMillis()));
@@ -117,7 +124,7 @@ public class ProductRestController {
         List<ProductRequestModel> productRequestModels = new ArrayList<>();
 
         productRequestModels.add(mapper.map(productDto, ProductRequestModel.class));
-        response.setMessage("You have found product by id successfully");
+        response.setMessage(message.selectedOne("Product"));
         response.setData(productRequestModels);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));

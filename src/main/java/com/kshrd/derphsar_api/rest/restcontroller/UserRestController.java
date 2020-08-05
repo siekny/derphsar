@@ -5,11 +5,13 @@ import com.kshrd.derphsar_api.repository.dto.PromotionDto;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
+import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.service.implement.UserServiceImp;
+import org.apache.logging.log4j.message.Message;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,13 @@ import java.util.UUID;
 public class UserRestController {
     private UserServiceImp userServiceImp;
     private BCryptPasswordEncoder encoder;
+    private MessageProperties message;
+
+
+    @Autowired
+    public void setMessage(MessageProperties message) {
+        this.message = message;
+    }
 
     @Autowired
     public void setUserServiceImp(UserServiceImp userServiceImp) {
@@ -40,7 +49,7 @@ public class UserRestController {
 
     // user register new account
     @PostMapping("/register")
-    public ResponseEntity<BaseApiResponse<UserRequestModel>> createPromotion(
+    public ResponseEntity<BaseApiResponse<UserRequestModel>> createUser(
             @RequestBody UserRequestModel userRequestModel) {
 
         BaseApiResponse<UserRequestModel> response = new BaseApiResponse<>();
@@ -57,7 +66,8 @@ public class UserRestController {
 
             UserDto result = userServiceImp.insertUser(userDto);
             UserRequestModel result2 = mapper.map(result, UserRequestModel.class);
-            response.setMessage("register successfully");
+//            response.setMessage("register successfully");
+            response.setMessage(message.inserted("User"));
             response.setData(result2);
             response.setStatus(HttpStatus.OK);
             response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -78,7 +88,7 @@ public class UserRestController {
 
         try{
             List<UserResponseModel> users = userServiceImp.getAllUsers();
-            response.setMessage("Users have been found successfully");
+            response.setMessage(message.selected("Users"));
             response.setStatus(HttpStatus.OK);
             response.setData(users);
             response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -98,12 +108,12 @@ public class UserRestController {
         BaseApiResponse<UserResponseModel> baseApiResponse = new BaseApiResponse<>();
         try {
             UserResponseModel userResponse = userServiceImp.getOneUserById(userId);
-            baseApiResponse.setMessage("User has been found successfully");
+            baseApiResponse.setMessage(message.selectedOne("User"));
             baseApiResponse.setStatus(HttpStatus.FOUND);
             baseApiResponse.setData(userResponse);
             baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
         }catch (Exception ex){
-            baseApiResponse.setMessage("User has been found successfully");
+            baseApiResponse.setMessage(message.hasNoRecord("User"));
             baseApiResponse.setStatus(HttpStatus.NOT_FOUND);
             baseApiResponse.setData(null);
             baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
@@ -119,11 +129,11 @@ public class UserRestController {
 
         try{
             userServiceImp.deleteUserById(userId);
-            response.setMessage("you have deleted a user successfully!");
+            response.setMessage(message.deleted("User"));
             response.setStatus(HttpStatus.OK);
             response.setTime(new Timestamp(System.currentTimeMillis()));
         }catch (Exception e){
-            response.setMessage("User has been not delete successfully");
+            response.setMessage(message.deleteError("User"));
             response.setData(null);
             response.setStatus(HttpStatus.NOT_FOUND);
         }
@@ -142,7 +152,7 @@ public class UserRestController {
         UserResponseModel responseModel = modelMapper.map(userServiceImp.updateUserById(userId,dto),UserResponseModel.class);
 
         BaseApiResponse<UserResponseModel> response = new BaseApiResponse <>();
-        response.setMessage("you have updated a user successfully!");
+        response.setMessage(message.updated("User"));
         response.setStatus(HttpStatus.OK);
         response.setData(responseModel);
         response.setTime(new Timestamp(System.currentTimeMillis()));

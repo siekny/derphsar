@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 import com.kshrd.derphsar_api.repository.dto.CategoryDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.category.request.CategoryRequestModel;
+import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.service.implement.CategoryServiceImp;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,13 @@ import java.util.List;
 public class CategoryRestController {
 
     CategoryServiceImp categoryServiceImp;
+    private MessageProperties message;
+
+
+    @Autowired
+    public void setMessage(MessageProperties message) {
+        this.message = message;
+    }
 
     @Autowired
     public void setCategoryService(CategoryServiceImp categoryServiceImp) {
@@ -42,7 +50,7 @@ public class CategoryRestController {
             articles.add(mapper.map(categoryDto, CategoryRequestModel.class));
         }
 
-        response.setMessage("You have found all categories successfully");
+        response.setMessage(message.selected("Categories"));
         response.setData(articles);
         response.setStatus(HttpStatus.FOUND);
         response.setTime(new Timestamp(System.currentTimeMillis()));

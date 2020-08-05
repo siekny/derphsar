@@ -2,6 +2,7 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
+import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.service.implement.ShopServiceImp;
 import org.modelmapper.ModelMapper;
@@ -19,6 +20,12 @@ import java.util.UUID;
 public class ShopRestController {
 
     private ShopServiceImp shopServiceImp;
+    private MessageProperties message;
+
+    @Autowired
+    public void setMessage(MessageProperties message) {
+        this.message = message;
+    }
 
     @Autowired
     public void setShopServiceImp(ShopServiceImp shopServiceImp) {
@@ -40,7 +47,7 @@ public class ShopRestController {
         ShopDto result = shopServiceImp.createShop(shopDto);
         ShopRequestModel requestModel = mapper.map(result, ShopRequestModel.class);
 
-        response.setMessage("you have inserted a shop successfully!");
+        response.setMessage(message.inserted("Shop"));
         response.setData(requestModel);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -61,7 +68,7 @@ public class ShopRestController {
         for (ShopDto shopDto : shopDtoList) {
             shops.add(mapper.map(shopDto, ShopRequestModel.class));
         }
-        response.setMessage("you have selected all shops successfully!");
+        response.setMessage(message.selected("Shops"));
         response.setData(shops);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -75,7 +82,7 @@ public class ShopRestController {
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
         shopServiceImp.deleteShop(shop_id);
-        response.setMessage("you have deleted a shop successfully!");
+        response.setMessage(message.deleted("Shop"));
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
@@ -92,7 +99,7 @@ public class ShopRestController {
         ShopRequestModel responseModel = modelMapper.map(shopServiceImp.updateShop(shop_id,dto),ShopRequestModel.class);
 
         BaseApiResponse<ShopRequestModel> response=new BaseApiResponse <>();
-        response.setMessage("you have updated a shop successfully!");
+        response.setMessage(message.updated("Shop"));
         response.setStatus(HttpStatus.OK);
         response.setData(responseModel);
         response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -111,7 +118,7 @@ public class ShopRestController {
         List<ShopRequestModel> shopRequestModels = new ArrayList<>();
 
         shopRequestModels.add(mapper.map(shopDto, ShopRequestModel.class));
-        response.setMessage("You have found shop by id successfully");
+        response.setMessage(message.selectedOne("Shop"));
         response.setData(shopRequestModels);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
