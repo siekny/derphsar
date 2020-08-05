@@ -34,8 +34,8 @@ public class JwtRequestFilter  extends OncePerRequestFilter {
 
         //jwt Token is in the form "Bearer token". Remove Bearer word and get only the Token
 
-        if(requestHeader!=null && requestHeader.startsWith("DerPhsar")){
-            jwtToken = requestHeader.substring(9);
+        if(requestHeader!=null && requestHeader.startsWith("Bearer")){
+            jwtToken = requestHeader.substring(7);
             try{
                 email=jwtTokenUtil.getUsernameFromToken(jwtToken);
             }catch (IllegalArgumentException e){
@@ -45,7 +45,7 @@ public class JwtRequestFilter  extends OncePerRequestFilter {
                 System.out.println("JWT Token has Expired");
             }
         }else {
-            logger.warn("JWT token does not begin with DerPhsar String");
+            logger.warn("JWT token does not begin with Bearer String");
         }
 
         //Once we get the token validate it

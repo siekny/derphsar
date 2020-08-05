@@ -24,27 +24,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
-
     @Autowired
+    private UserDetailsService userServiceImp;
+        @Autowired
     private BCryptPasswordEncoder encoder;
     @Autowired
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
     JwtRequestFilter jwtRequestFilter;
 
-
-
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    public void setUserDetailsService(@Qualifier("userServiceImp") UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.csrf().disable().
                 authorizeRequests()
                 .antMatchers("/api/v1/login").permitAll()
@@ -55,7 +45,24 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
     }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**");
+    }
+
+        @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userServiceImp).passwordEncoder(encoder);
+    }
+
 
     @Override
     @Bean
@@ -63,12 +70,5 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
-    }
 
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/authenticate");
-//    }
 }
