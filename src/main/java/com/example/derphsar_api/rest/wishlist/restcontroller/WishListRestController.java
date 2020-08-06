@@ -1,5 +1,6 @@
 package com.example.derphsar_api.rest.wishlist.restcontroller;
 
+import com.example.derphsar_api.page.Pagination;
 import com.example.derphsar_api.repository.dto.WishListDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
 import com.example.derphsar_api.rest.wishlist.request.WishListRequestModel;
@@ -52,17 +53,30 @@ public class WishListRestController {
 
 //    get all wishlist
     @GetMapping("/wishlists")
-    public ResponseEntity<BaseApiResponse<List<WishListRequestModel>>> getWishLists() {
+    public ResponseEntity<BaseApiResponse<List<WishListRequestModel>>> getWishLists(@RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                                    @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit) {
+
+
+        Pagination pagination = new Pagination(page, limit);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+
+        pagination.setTotalCount(wishListServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
 
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<WishListRequestModel>> response =
                 new BaseApiResponse<>();
 
-        List<WishListDto> wishListDto = wishListServiceImp.getWishLists();
+        List<WishListDto> wishListDto = wishListServiceImp.getWishLists(pagination);
         List<WishListRequestModel> wishListRequestModels = new ArrayList<>();
         for (WishListDto wishList : wishListDto) {
             wishListRequestModels.add(mapper.map(wishList, WishListRequestModel.class));
         }
+        response.setPagination(pagination);
         response.setMessage("you have selected all wishlists successfully!");
         response.setData(wishListRequestModels);
         response.setStatus(HttpStatus.OK);

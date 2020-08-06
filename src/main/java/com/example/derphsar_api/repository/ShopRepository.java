@@ -1,6 +1,7 @@
 package com.example.derphsar_api.repository;
 
 import com.example.derphsar_api.mybatis.JSONTypeHandlerPg;
+import com.example.derphsar_api.page.Pagination;
 import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.repository.provider.ProductProvider;
@@ -13,32 +14,36 @@ import java.util.List;
 @Repository
 public interface ShopRepository {
 
-//    Insert shop
+    //Insert shop
     @Insert("INSERT INTO dp_shops(shop_id, name, address, description, profile, cover, is_open, status, working_time, u_id, cat_id) "+
             "VALUES (#{shopId}, #{name}, #{address}, #{description}, #{profile}, #{cover}, #{isOpen}, #{status}, #{workingTime}, #{u_id}, #{cat_id})")
-
     boolean insert(ShopDto shop);
 
 
-//    Get shops
-    @SelectProvider(value = ShopProvider.class, method = "getShops")
+    //Get shops
+    @Select("SELECT * FROM dp_shops WHERE status = 'true' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
     @Results({
             @Result(column = "shop_id" ,property = "shopId"),
             @Result(column = "is_open" ,property = "isOpen"),
             @Result(column = "working_time" ,property = "workingTime")
     })
-    List<ShopDto> select();
+    List<ShopDto> select(@Param("pagination") Pagination pagination);
 
 
-//    Delete shop
-    @Delete("delete FROM dp_shops where shop_id = #{shop_id}")
-    void delete(String shop_id);
+    //Delete shop
+    @Delete("UPDATE dp_shops SET status = 'false' where shop_id = #{shopId}")
+    void delete(String shopId);
 
-//    Update shop
-    @Update("UPDATE dp_shops set name = #{shop.name}, address = #{shop.address}, description= #{shop.description} , profile= #{shop.profile} , cover= #{shop.cover} , status = #{shop.status}, is_open = #{shop.isOpen}, working_time= #{shop.workingTime} WHERE shop_id = #{shop_id}")
-    boolean update(String shop_id, ShopDto shop);
+    //Update shop
+    @Update("UPDATE dp_shops set name = #{shop.name}, address = #{shop.address}, description= #{shop.description} , profile= #{shop.profile} , cover= #{shop.cover} , status = #{shop.status}, is_open = #{shop.isOpen}, working_time= #{shop.workingTime} WHERE shop_id = #{shopId}")
+    boolean update(String shopId, ShopDto shop);
 
-//    find by id
+    //find by id
     @Select("SELECT * FROM dp_shops WHERE shop_id = #{shopId}")
     ShopDto findById(String shopId);
+
+
+    //count all shops
+    @Select("SELECT COUNT(id) FROM dp_shops WHERE status = 'true'")
+    int countId();
 }

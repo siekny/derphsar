@@ -1,6 +1,7 @@
 package com.example.derphsar_api.rest.promotion.restcontroller;
 
 
+import com.example.derphsar_api.page.Pagination;
 import com.example.derphsar_api.repository.dto.PromotionDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
 import com.example.derphsar_api.rest.promotion.request.PromotionRequestModel;
@@ -30,19 +31,33 @@ public class PromotionRestController {
 
     //get all promotions
     @GetMapping("/promotions")
-    public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> select(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
+    public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> select(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
+                                                                                @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                                @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit) {
+
+
+        Pagination pagination = new Pagination(page, limit);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+
+        pagination.setTotalCount(promotionServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
 
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<PromotionResponseModel>> response =
                 new BaseApiResponse<>();
 
-        List<PromotionDto> promotionDtoList = promotionServiceImp.getPromotions(shopId);
+        List<PromotionDto> promotionDtoList = promotionServiceImp.getPromotions(pagination,shopId);
         List<PromotionResponseModel> promotions = new ArrayList<>();
 
         for (PromotionDto promotionDto : promotionDtoList) {
             promotions.add(mapper.map(promotionDto, PromotionResponseModel.class));
         }
 
+        response.setPagination(pagination);
         response.setMessage("You have found all articles successfully");
         response.setData(promotions);
         response.setStatus(HttpStatus.OK);
@@ -89,7 +104,7 @@ public class PromotionRestController {
 
 
     //post promotion
-    @PostMapping("/promotion")
+    @PostMapping("/promotions")
     public ResponseEntity<BaseApiResponse<PromotionRequestModel>> createPromotion(
             @RequestBody PromotionRequestModel promotionRequestModel) {
 

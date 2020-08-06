@@ -1,5 +1,6 @@
 package com.example.derphsar_api.service.implement;
 
+import com.example.derphsar_api.page.Pagination;
 import com.example.derphsar_api.repository.PromotionRepository;
 import com.example.derphsar_api.repository.dto.PromotionDto;
 import com.example.derphsar_api.service.PromotionService;
@@ -19,11 +20,21 @@ public class PromotionServiceImp implements PromotionService {
     }
 
     @Override
-    public List<PromotionDto> getPromotions(int shopId) {
+    public List<PromotionDto> getPromotions(Pagination pagination, int shopId) {
         if (shopId == 0)
-            return promotionRepository.getPromotions();
+            return promotionRepository.getPromotions(pagination);
         else
             return promotionRepository.findPromotionByShopId(shopId);
+    }
+
+    @Override
+    public List<PromotionDto> getPromotions(int shopId) {
+        return null;
+    }
+
+    @Override
+    public List<PromotionDto> getPromotions(Pagination pagination) {
+        return null;
     }
 
     @Override
@@ -54,5 +65,10 @@ public class PromotionServiceImp implements PromotionService {
     @Override
     public PromotionDto findById(String promoId) {
         return  promotionRepository.findById(promoId);
+    }
+
+    @Override
+    public int countId() {
+        return promotionRepository.countId();
     }
 }

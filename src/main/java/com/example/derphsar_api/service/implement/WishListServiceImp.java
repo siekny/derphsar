@@ -1,5 +1,6 @@
 package com.example.derphsar_api.service.implement;
 
+import com.example.derphsar_api.page.Pagination;
 import com.example.derphsar_api.repository.WishListRepository;
 import com.example.derphsar_api.repository.dto.WishListDto;
 import com.example.derphsar_api.service.WishLishService;
@@ -30,9 +31,15 @@ public class WishListServiceImp implements WishLishService{
 
     //    get wishlist
     @Override
-    public List<WishListDto> getWishLists(){
-        return wishListRepository.select();
+    public List<WishListDto> getWishLists(Pagination pagination){
+        return wishListRepository.select(pagination);
     }
+
+    @Override
+    public List<WishListDto> getWishLists() {
+        return null;
+    }
+
 
     //    delete wishlist
     @Override
@@ -40,4 +47,9 @@ public class WishListServiceImp implements WishLishService{
         wishListRepository.delete(wishlist_id);
     }
 
+    //count all id
+    @Override
+    public int countId() {
+        return wishListRepository.countId();
+    }
 }

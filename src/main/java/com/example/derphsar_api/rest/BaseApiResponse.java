@@ -1,5 +1,6 @@
 package com.example.derphsar_api.rest;
 
+import com.example.derphsar_api.page.Pagination;
 import org.springframework.http.HttpStatus;
 
 import java.sql.Timestamp;
@@ -9,6 +10,15 @@ public class BaseApiResponse<T> {
     private T data;
     private HttpStatus status;
     private Timestamp time;
+    public Pagination pagination;
+
+    public Pagination getPagination() {
+        return pagination;
+    }
+
+    public void setPagination(Pagination pagination) {
+        this.pagination = pagination;
+    }
 
     public BaseApiResponse(){}
 

@@ -10,17 +10,12 @@ public class PromotionDto {
     private Date startDate;
     private Date endDate;
     private boolean status;
-    private String cover;
-    private double startRank;
-    private double endRank;
-    private ShopDto shop;
-
-    private int shop_id;
-
+    private double rank;
+    private int pro_id;
 
     public PromotionDto(){}
 
-    public PromotionDto(int id, String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ShopDto shop, int shop_id) {
+    public PromotionDto(int id, String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, double rank, int pro_id) {
         this.id = id;
         this.promoId = promoId;
         this.title = title;
@@ -28,31 +23,9 @@ public class PromotionDto {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
-        this.cover = cover;
-        this.startRank = startRank;
-        this.endRank = endRank;
-        this.shop = shop;
-        this.shop_id = shop_id;
+        this.rank = rank;
+        this.pro_id = pro_id;
     }
-
-    @Override
-    public String toString() {
-        return "PromotionDto{" +
-                "id=" + id +
-                ", promoId='" + promoId + '\'' +
-                ", title='" + title + '\'' +
-                ", isApply=" + isApply +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", status=" + status +
-                ", cover='" + cover + '\'' +
-                ", startRank=" + startRank +
-                ", endRank=" + endRank +
-                ", shop=" + shop +
-                ", shop_id=" + shop_id +
-                '}';
-    }
-
 
     public int getId() {
         return id;
@@ -110,43 +83,34 @@ public class PromotionDto {
         this.status = status;
     }
 
-    public String getCover() {
-        return cover;
+    public double getRank() {
+        return rank;
     }
 
-    public void setCover(String cover) {
-        this.cover = cover;
+    public void setRank(double rank) {
+        this.rank = rank;
     }
 
-    public double getStartRank() {
-        return startRank;
+    public int getPro_id() {
+        return pro_id;
     }
 
-    public void setStartRank(double startRank) {
-        this.startRank = startRank;
+    public void setPro_id(int pro_id) {
+        this.pro_id = pro_id;
     }
 
-    public double getEndRank() {
-        return endRank;
-    }
-
-    public void setEndRank(double endRank) {
-        this.endRank = endRank;
-    }
-
-    public ShopDto getShop() {
-        return shop;
-    }
-
-    public void setShop(ShopDto shop) {
-        this.shop = shop;
-    }
-
-    public int getShop_id() {
-        return shop_id;
-    }
-
-    public void setShop_id(int shop_id) {
-        this.shop_id = shop_id;
+    @Override
+    public String toString() {
+        return "PromotionDto{" +
+                "id=" + id +
+                ", promoId='" + promoId + '\'' +
+                ", title='" + title + '\'' +
+                ", isApply=" + isApply +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status=" + status +
+                ", rank=" + rank +
+                ", pro_id=" + pro_id +
+                '}';
     }
 }

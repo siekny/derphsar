@@ -1,5 +1,6 @@
 package com.example.derphsar_api.service.implement;
 
+import com.example.derphsar_api.page.Pagination;
 import com.example.derphsar_api.repository.ShopRepository;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.service.ShopService;
@@ -18,7 +19,7 @@ public class ShopServiceImp implements ShopService {
         this.shopRepository = shopRepository;
     }
 
-//    create shop
+    //create shop
     @Override
     public ShopDto createShop(ShopDto shop) {
         boolean isInserted = shopRepository.insert(shop);
@@ -28,31 +29,37 @@ public class ShopServiceImp implements ShopService {
             return null;
     }
 
-//    get shops
+    //get shops
     @Override
-    public List<ShopDto> getShops(){
-        return shopRepository.select();
+    public List<ShopDto> getShops(Pagination pagination){
+        return shopRepository.select(pagination);
     }
 
-//    delete shop
+    //delete shop
     @Override
-    public void deleteShop(String shop_id) {
-        shopRepository.delete(shop_id);
+    public void deleteShop(String shopId) {
+        shopRepository.delete(shopId);
     }
 
-//    update shop
+    //update shop
     @Override
-    public ShopDto updateShop(String shop_id, ShopDto shop) {
-        boolean isUpdated = shopRepository.update(shop_id,shop);
+    public ShopDto updateShop(String shopId, ShopDto shop) {
+        boolean isUpdated = shopRepository.update(shopId,shop);
         if(isUpdated){
             return shop;
         }
         return null;
     }
 
-//    find by id
+    //find by id
     @Override
     public ShopDto findById(String shopId) {
         return  shopRepository.findById(shopId);
+    }
+
+    //count all id
+    @Override
+    public int countId() {
+        return shopRepository.countId();
     }
 }

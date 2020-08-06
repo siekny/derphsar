@@ -1,5 +1,6 @@
 package com.example.derphsar_api.rest.shop.restcontroller;
 
+import com.example.derphsar_api.page.Pagination;
 import com.example.derphsar_api.repository.dto.ShopDto;
 import com.example.derphsar_api.rest.BaseApiResponse;
 import com.example.derphsar_api.rest.shop.request.ShopRequestModel;
@@ -25,7 +26,7 @@ public class ShopRestController {
         this.shopServiceImp = shopServiceImp;
     }
 
-//    create a shop
+    //create a shop
     @PostMapping("/shops")
     public ResponseEntity<BaseApiResponse<ShopRequestModel>> createShop(@RequestBody ShopRequestModel shop){
 
@@ -49,19 +50,32 @@ public class ShopRestController {
     }
 
 
-//    get all shops
+    //get all shops
     @GetMapping("/shops")
-    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops() {
+    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops(@RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                            @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit) {
+
+        Pagination pagination = new Pagination(page, limit);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+
+        pagination.setTotalCount(shopServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
 
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<ShopRequestModel>> response =
                 new BaseApiResponse<>();
 
-        List<ShopDto> shopDtoList = shopServiceImp.getShops();
+        List<ShopDto> shopDtoList = shopServiceImp.getShops(pagination);
         List<ShopRequestModel> shops = new ArrayList<>();
         for (ShopDto shopDto : shopDtoList) {
             shops.add(mapper.map(shopDto, ShopRequestModel.class));
         }
+
+        response.setPagination(pagination);
         response.setMessage("you have selected all shops successfully!");
         response.setData(shops);
         response.setStatus(HttpStatus.OK);
@@ -69,26 +83,26 @@ public class ShopRestController {
         return ResponseEntity.ok(response);
     }
 
-//    delete a shop
-    @DeleteMapping("/shops/{shop_id}")
-    public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("shop_id") String shop_id){
+    //delete a shop
+    @DeleteMapping("/shops/{shopId}")
+    public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("shopId") String shopId){
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
-        shopServiceImp.deleteShop(shop_id);
+        shopServiceImp.deleteShop(shopId);
         response.setMessage("you have deleted a shop successfully!");
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
 
-//    update a shop
-    @PutMapping("/shops/{shop_id}")
+    //update a shop
+    @PutMapping("/shops/{shopId}")
     public ResponseEntity<BaseApiResponse<ShopRequestModel>> updateShop(
-            @PathVariable("shop_id") String shop_id,
+            @PathVariable("shopId") String shopId,
             @RequestBody ShopRequestModel shopRequestModel){
         ModelMapper modelMapper = new ModelMapper();
         ShopDto dto = modelMapper.map(shopRequestModel,ShopDto.class);
-        ShopRequestModel responseModel = modelMapper.map(shopServiceImp.updateShop(shop_id,dto),ShopRequestModel.class);
+        ShopRequestModel responseModel = modelMapper.map(shopServiceImp.updateShop(shopId,dto),ShopRequestModel.class);
 
         BaseApiResponse<ShopRequestModel> response=new BaseApiResponse <>();
         response.setMessage("you have updated a shop successfully!");

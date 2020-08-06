@@ -1,5 +1,7 @@
 package com.example.derphsar_api.rest.wishlist.request;
 
+import com.example.derphsar_api.page.Pagination;
+
 import java.util.Date;
 
 public class WishListRequestModel {

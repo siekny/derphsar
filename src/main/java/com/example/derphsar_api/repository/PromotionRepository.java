@@ -1,6 +1,7 @@
 package com.example.derphsar_api.repository;
 
 
+import com.example.derphsar_api.page.Pagination;
 import com.example.derphsar_api.repository.dto.ProductDto;
 import com.example.derphsar_api.repository.dto.PromotionDto;
 import com.example.derphsar_api.repository.dto.ShopDto;
@@ -15,22 +16,20 @@ public interface PromotionRepository {
 
 
     //get all promotion
-    @SelectProvider(value = PromotionProvider.class, method = "getPromotions")
+    @Select("SELECT * FROM dp_promotions WHERE status = 'true' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
     @Results({
             @Result(column = "promo_id" ,property = "promoId"),
             @Result(column = "is_apply" ,property = "isApply"),
             @Result(column = "start_date" ,property = "startDate"),
             @Result(column = "end_date" ,property = "endDate"),
-            @Result(column = "start_rank" ,property = "startRank"),
-            @Result(column = "end_rank" ,property = "endRank"),
-            @Result(column = "shop_id" ,property = "shop_id")
+            @Result(column = "pro_id" ,property = "proId")
 //           @Result(column = "pro_id", property = "product", many = @Many(select = "getProduct"))
     })
-    List<PromotionDto> getPromotions();
+    List<PromotionDto> getPromotions(@Param("pagination") Pagination pagination);
 
 
 
-    //select all product
+    //select one product
     @Select("SELECT * FROM dp_products WHERE id=#{pro_id}")
     @Results({
             @Result(column = "id" ,property = "id"),
@@ -42,24 +41,22 @@ public interface PromotionRepository {
 
 
     //delete promotions
-    @Delete("delete FROM dp_promotion WHERE promo_id =#{id}")
+    @Delete("UPDATE dp_promotions SET status = 'false' where promo_id = #{promoId}")
     void deletePromotion(String id);
 
 
     //update a promotions
-    @Update("UPDATE dp_promotion set title = #{promotion.title}, is_apply = #{promotion.isApply}, start_date= #{promotion.startDate} ,end_date = #{promotion.endDate},start_rank = #{promotion.startRank}, end_rank= #{promotion.endRank},cover = #{promotion.cover}, status = #{promotion.status}  WHERE promo_id = #{id}")
+    @Update("UPDATE dp_promotions SET title = #{promotion.title}, is_apply = #{promotion.isApply}, start_date= #{promotion.startDate} ,end_date = #{promotion.endDate},start_rank = #{promotion.startRank}, end_rank= #{promotion.endRank},cover = #{promotion.cover}, status = #{promotion.status}  WHERE promo_id = #{id}")
     boolean updatePromotion(String id, PromotionDto promotion);
 
 
     //create a promotion
-    @Insert("INSERT INTO dp_promotion (promo_id, title, is_apply, start_rank, start_date, end_date, status,pro_id , end_rank)" +
-            "VALUES (  #{promoId, jdbcType=VARCHAR}, #{title}, #{isApply}, #{startRank}, #{startDate}, #{endDate},#{status},#{ product.id}, #{endRank})")
+    @Insert("INSERT INTO dp_promotions(promo_id, title, is_apply, rank, start_date, end_date, status, pro_id) " +
+            "VALUES (#{promoId}, #{title}, #{isApply}, #{rank}, #{startDate}, #{endDate}, #{status},#{pro_id}")
     boolean createPromotion(PromotionDto promotionDto);
 
-
-
     //Search promotion by shop id
-    @Select("SELECT * FROM dp_promotion WHERE shop_id=#{shopId}")
+    @Select("SELECT * FROM dp_promotions WHERE shop_id=#{shopId}")
     @Results({
             @Result(column = "shop_id" ,property = "shop",many = @Many(select = "selectOneShop")),
     })
@@ -70,6 +67,10 @@ public interface PromotionRepository {
     ShopDto selectOneShop(int shop_id);
 
     //find product by id
-    @Select("SELECT * FROM dp_promotion WHERE promo_id = #{promoId}")
+    @Select("SELECT * FROM dp_promotions WHERE promo_id = #{promoId}")
     PromotionDto findById(String promoId);
+
+    //count all shops
+    @Select("SELECT COUNT(id) FROM dp_promotions WHERE status = 'true'")
+    int countId();
 }

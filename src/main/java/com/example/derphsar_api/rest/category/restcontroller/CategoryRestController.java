@@ -27,7 +27,7 @@ public class CategoryRestController {
     }
 
 
-    @GetMapping("/categoies")
+    @GetMapping("/categories")
     public ResponseEntity<BaseApiResponse<List<CategoryRequestModel>>> getCategories(){
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<CategoryRequestModel>> response =
