@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 import com.kshrd.derphsar_api.configuration.jwtconfiguration.JwtTokenUtil;
 import com.kshrd.derphsar_api.repository.dto.JwtResponse;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
+import com.kshrd.derphsar_api.repository.dto.UserLoginDto;
 import com.kshrd.derphsar_api.service.UserService;
 import com.kshrd.derphsar_api.service.implement.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("api/v1")
-public class JwtRestController {
+public class UserLoginRestController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -30,7 +31,7 @@ public class JwtRestController {
 
 
     @PostMapping("login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserDto user)throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserLoginDto user)throws Exception {
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
 

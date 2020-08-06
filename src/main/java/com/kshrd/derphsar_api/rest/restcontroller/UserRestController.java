@@ -158,7 +158,4 @@ public class UserRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
-
-
-
 }

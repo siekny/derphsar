@@ -17,10 +17,12 @@ public class ShopDto {
     private int u_id;
     private int cat_id;
 
+    private UserDto user;
+
     public ShopDto() {
     }
 
-    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, int u_id, int cat_id) {
+    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, int u_id, int cat_id, UserDto user) {
         this.id = id;
         this.shopId = shopId;
         this.name = name;
@@ -33,7 +35,9 @@ public class ShopDto {
         this.workingTime = workingTime;
         this.u_id = u_id;
         this.cat_id = cat_id;
+        this.user = user;
     }
+
 
     @Override
     public String toString() {
@@ -50,9 +54,9 @@ public class ShopDto {
                 ", workingTime=" + workingTime +
                 ", u_id=" + u_id +
                 ", cat_id=" + cat_id +
+                ", user=" + user +
                 '}';
     }
-
 
     public int getId() {
         return id;
@@ -114,8 +118,8 @@ public class ShopDto {
         return isOpen;
     }
 
-    public void setOpen(boolean isOpen) {
-        this.isOpen = isOpen;
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 
     public boolean isStatus() {
@@ -148,5 +152,13 @@ public class ShopDto {
 
     public void setCat_id(int cat_id) {
         this.cat_id = cat_id;
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 }
