@@ -2,6 +2,7 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 
 
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
@@ -38,23 +39,15 @@ public class SubResourceRestController {
         this.subResourceServiceImp = subResourceServiceImp;
     }
 
-    //
-//    @GetMapping(value = "/{messageId}/comments/{commentsContent}")
-//    public String getCommentResource(
-//            @PathVariable("messageId") String messageId,
-//            @PathVariable("commentsContent") String commentsContent) {
-//        //test
-//        return messageId + "/" + commentsContent;
-//    }
-
     @GetMapping("users/{userId}/shops")
-    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops(@PathVariable("userId") int userId) {
+    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops(@PathVariable("userId") String userId) {
 
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<ShopRequestModel>> response =
                 new BaseApiResponse<>();
 
-        List<ShopDto> shopDtoList = subResourceServiceImp.getAllShopsByUserId(userId);
+        UserDto userDto = subResourceServiceImp.getUserByUserId(userId);
+        List<ShopDto> shopDtoList = subResourceServiceImp.getAllShopsByUserId(userDto.getId());
         List<ShopRequestModel> shops = new ArrayList<>();
         for (ShopDto shopDto : shopDtoList) {
             shops.add(mapper.map(shopDto, ShopRequestModel.class));

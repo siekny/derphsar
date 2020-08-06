@@ -14,22 +14,26 @@ import java.util.List;
 public interface SubResourceRepository {
 
 
+//    @SelectProvider(type = SubResourceProvider.class, method = "getAllShopsByUserId")
+//    List<ShopDto> getAllShopsByUserId(int userId);
+
+
+    //Search shop by user
     @SelectProvider(type = SubResourceProvider.class, method = "getAllShopsByUserId")
-    List<ShopDto> getAllShopsByUserId(int userId);
-
-
-    //Search product by shop
-    @Select("SELECT * FROM dp_shops WHERE u_id=#{userId}")
     @Results({
             @Result(column = "shop_id", property = "shopId"),
             @Result(column = "is_open", property = "isOpen"),
             @Result(column = "working_time", property = "workingTime"),
           //  @Result(column = "u_id" ,property = "user.id",many = @Many(select = "selectOneUser")),
     })
-    List<ShopDto> findShopsByUserId(int userId);
+    List<ShopDto> getAllShopsByUserId(int id);
+
 
     //select on shop
-    @Select("SELECT * FROM dp_users WHERE id = #{userId}")
-    UserDto selectOneUser(int userId);
+//    @Select("SELECT * FROM dp_users WHERE id = #{userId}")
+//    UserDto selectOneUser(int userId);
 
+
+    @SelectProvider(type = SubResourceProvider.class, method = "getUserByUserId")
+    UserDto getUserByUserId(String userId);
 }
