@@ -23,7 +23,7 @@ public interface OrderRepository {
     @Select("SELECT dp_order.shop_id,dp_order.user_id, dp_order_detail.item_id, dp_order_detail.detail, dp_order_detail.quantity, dp_order_detail.order_date, dp_order_detail.status, dp_order_detail.order_id, dp_order_detail.pro_id\n" +
             "FROM dp_order_detail \n" +
             "INNER JOIN dp_order ON dp_order_detail.order_id = dp_order.id;")
-    @Results({
+    @Results({    
             @Result(column = "order_id" ,property = "orderId")
     })
     List<OrderDto> select();
