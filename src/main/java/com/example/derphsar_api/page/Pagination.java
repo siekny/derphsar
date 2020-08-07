@@ -1,79 +1,44 @@
 package com.example.derphsar_api.page;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.io.Serializable;
-
-public class Pagination implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @JsonProperty("page")
+public class Pagination {
     private int page;
-
-    @JsonProperty("limit")
     private int limit;
 
-    @JsonProperty("total_count")
-    private int totalCount;
+    private int nextPage;
+    private int previousPage;
 
-    @JsonProperty("total_pages")
+    private int totalCount;
     private int totalPages;
 
-    @JsonIgnore
+    private int pagesToShow;
+    private int startPage;
+    private int endPage;
     private int offset;
-
-    public Pagination(){
-        this(1,15,0,0);
+    public Pagination() {
+        this(1,5,0,0,5);
+    }
+    public Pagination(int page, int limit, int totalCount, int totalPages, int pagesToShow){
+        this.page= page;
+        this.limit= limit;
+        this.totalCount=totalCount;
+        this.totalPages=totalPages;
+        this.pagesToShow=pagesToShow;
     }
 
-    public Pagination(int page, int limit){
-        this.page = page;
-        this.limit = limit;
-        this.totalCount = 0;
-        this.totalPages = 0;
+    public Pagination(int page, int limit, int totalPages, int pagesToShow) {
+        this.page= page;
+        this.limit= limit;
+        this.totalCount=totalCount;
+        this.totalPages=totalPages;
+        this.pagesToShow=pagesToShow;
     }
 
-    public Pagination(int page, int limit, int totalCount, int totalPages){
-        this.page = page;
-        this.limit = limit;
-        this.totalCount = totalCount;
-        this.totalPages = totalPages;
-    }
     public int getPage() {
         return page;
     }
 
-    public int totalPages(){
-        return (int) Math.ceil((double)this.totalCount/limit);
-
-    }
-
-    public int nextPage(){
-        return this.page+1;
-    }
-
-    public int previousPage(){
-        return this.page-1;
-    }
-
-    public boolean hasNextPage(){
-        return this.nextPage() <=this.totalPages()? true :false;
-    }
-
-    public boolean hasPreviousPage(){
-        return this.previousPage()>=1 ? true : false;
-    }
-
-    public int offset(){
-        this.offset = (this.page-1)* limit;
-        return this.offset;
-    }
-
     public void setPage(int currentPage) {
-        this.page = currentPage;
-        this.offset();
+        this.page = (currentPage<=1)? 1:currentPage;
     }
 
     public int getLimit() {
@@ -90,34 +55,104 @@ public class Pagination implements Serializable {
 
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
-        this.totalPages = (int) totalPages();
-//        if(this.totalPages() < this.page){
-//            throw new CustomGenericException("500", "The total pages has only " + this.totalPages() +" and your current page is "+ this.page);
-//        }
+        this.setStartPageEndPage(getTotalPages());
     }
-
+    private  void setStartPageEndPage(int totalPages){
+        int halfPagesToShow= pagesToShow/2;
+        if(totalPages<=pagesToShow){
+            startPage=1;
+            endPage=totalPages;
+        }else if(page - halfPagesToShow <=0){
+            startPage=1;
+            endPage=pagesToShow;
+        }else if(page +halfPagesToShow== totalPages){
+            startPage=page-halfPagesToShow;
+            endPage=totalPages;
+        }else if(page +halfPagesToShow > totalPages){
+            startPage=totalPages-pagesToShow +1;
+            endPage=totalPages;
+        }else{
+            startPage=page-halfPagesToShow;
+            endPage=page+halfPagesToShow;
+        }
+    }
     public int getTotalPages() {
-        return totalPages;
+        return (int )Math.ceil((double)this.totalCount/limit);
     }
 
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
     }
 
+    public int getPagesToShow() {
+        return pagesToShow;
+    }
+
+    public void setPagesToShow(int pagesToShow) {
+        this.pagesToShow = pagesToShow;
+    }
+
+    public int getStartPage() {
+        return startPage;
+    }
+
+    public void setStartPage(int startPage) {
+        this.startPage = startPage;
+    }
+
+    public int getEndPage() {
+        return endPage;
+    }
+
+    public void setEndPage(int endPage) {
+        this.endPage = endPage;
+    }
+
     public int getOffset() {
-        return offset;
+        return (this.page-1)*this.limit;
     }
 
     public void setOffset(int offset) {
         this.offset = offset;
     }
 
-    /**
-     * @return the serialversionuid
-     */
-    public static long getSerialversionuid() {
-        return serialVersionUID;
+    public int getNextPage() {
+        return (page>=getTotalPages())?getTotalPages():page+1;
     }
 
+    public void setNextPage(int nextPage) {
+        this.nextPage = nextPage;
+    }
 
+    public int getPreviousPage() {
+        return (page<=1)?1:page-1;
+    }
+
+    public void setPreviousPage(int previousPage) {
+        this.previousPage = previousPage;
+    }
+
+    @Override
+    public String toString() {
+        return "Paging{" +
+                "page=" + page +
+                ", limit=" + limit +
+                ", nextPage=" + nextPage +
+                ", previousPage=" + previousPage +
+                ", totalCount=" + totalCount +
+                ", totalPages=" + totalPages +
+                ", pagesToShow=" + pagesToShow +
+                ", startPage=" + startPage +
+                ", endPage=" + endPage +
+                ", offset=" + offset +
+                '}';
+    }
+
+    public int nextPage() {
+        return this.page+1;
+    }
+
+    public int previousPage() {
+        return this.page-1;
+    }
 }

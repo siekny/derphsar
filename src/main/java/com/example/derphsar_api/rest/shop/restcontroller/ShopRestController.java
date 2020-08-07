@@ -53,9 +53,11 @@ public class ShopRestController {
     //get all shops
     @GetMapping("/shops")
     public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops(@RequestParam(value = "page" , required = false , defaultValue = "1") int page,
-                                                                            @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit) {
+                                                                            @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+                                                                            @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+                                                                            @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
 
-        Pagination pagination = new Pagination(page, limit);
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
         pagination.setPage(page);
         pagination.setLimit(limit);
         pagination.nextPage();
