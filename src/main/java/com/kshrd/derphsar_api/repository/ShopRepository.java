@@ -1,7 +1,9 @@
 package com.kshrd.derphsar_api.repository;
 
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.provider.ShopProvider;
+import com.kshrd.derphsar_api.repository.provider.SubResourceProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -41,5 +43,20 @@ public interface ShopRepository {
     @Select("SELECT * FROM dp_shops WHERE shop_id = #{shopId}")
     ShopDto findById(String shopId);
 
+
+
+    //Search shop by user
+    @SelectProvider(type = SubResourceProvider.class, method = "getAllShopsByUserId")
+    @Results({
+            @Result(column = "shop_id", property = "shopId"),
+            @Result(column = "is_open", property = "isOpen"),
+            @Result(column = "working_time", property = "workingTime"),
+            //  @Result(column = "u_id" ,property = "user.id",many = @Many(select = "selectOneUser")),
+    })
+    List<ShopDto> getAllShopsByUserId(int id);
+
+
+    @SelectProvider(type = SubResourceProvider.class, method = "getUserByUserId")
+    UserDto getUserByUserId(String userId);
 
 }

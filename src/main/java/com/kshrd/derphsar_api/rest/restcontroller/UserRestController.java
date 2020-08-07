@@ -11,6 +11,7 @@ import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.service.implement.UserServiceImp;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.message.Message;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class UserRestController {
 
     // user register new account
     @PostMapping("/register")
+    @ApiOperation(value = "user register", response = UserRequestModel.class)
     public ResponseEntity<BaseApiResponse<UserRequestModel>> createUser(
             @RequestBody UserRequestModel userRequestModel) {
 
@@ -83,6 +85,7 @@ public class UserRestController {
 
     //select all users
     @GetMapping("/users")
+    @ApiOperation(value = "show all users", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<UserResponseModel>>> getAllUsers(){
         BaseApiResponse<List<UserResponseModel>> response = new BaseApiResponse<>();
 
@@ -104,6 +107,7 @@ public class UserRestController {
 
     //get one user by userId
     @GetMapping("/users/{userId}")
+    @ApiOperation(value = "show all users", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<UserResponseModel>> getOneUserById(@PathVariable String userId){
         BaseApiResponse<UserResponseModel> baseApiResponse = new BaseApiResponse<>();
         try {
@@ -124,7 +128,8 @@ public class UserRestController {
 
     //delete a user by update field status
     @DeleteMapping("/users/{userId}")
-    public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("userId") String userId){
+    @ApiOperation(value = "delete a user", response = UserResponseModel.class)
+    public ResponseEntity<BaseApiResponse<Void>> deleteUser(@PathVariable("userId") String userId){
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
         try{
@@ -143,6 +148,7 @@ public class UserRestController {
 
     //update a shop
     @PutMapping("/users/{userId}")
+    @ApiOperation(value = "update a user by Id", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<UserResponseModel>> updateUserById(
             @PathVariable("userId") String userId,
             @RequestBody UserRequestModel userRequestModel){

@@ -1,6 +1,9 @@
 package com.kshrd.derphsar_api.service;
 
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
+import com.kshrd.derphsar_api.rest.wishlist.respone.WishListResponse;
 
 import java.util.List;
 
@@ -13,5 +16,12 @@ public interface WishLishService {
 
     //    delete wishlist
     void deleteWishList(String wishlist_id);
+
+
+    List<WishListDto> getAllWishListByUserId (int userId);
+
+    List<WishListResponse> test(int userId);
+    
+    UserDto getUserByUserId(String userId);
 
 }

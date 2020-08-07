@@ -2,6 +2,7 @@ package com.kshrd.derphsar_api.service.implement;
 
 import com.kshrd.derphsar_api.repository.ShopRepository;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,15 @@ public class ShopServiceImp implements ShopService {
     @Override
     public ShopDto findById(String shopId) {
         return  shopRepository.findById(shopId);
+    }
+
+    @Override
+    public List<ShopDto> getAllShopsByUserId(int userId) {
+        return shopRepository.getAllShopsByUserId(userId);
+    }
+
+    @Override
+    public UserDto getUserByUserId(String userId) {
+        return shopRepository.getUserByUserId(userId);
     }
 }

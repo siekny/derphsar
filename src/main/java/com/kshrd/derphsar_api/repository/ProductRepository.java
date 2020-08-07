@@ -62,9 +62,13 @@ public interface ProductRepository {
     })
     List<ProductDto> findProductByShopId(@Param("shopId") int shopId);
 
+
+
     //select on shop
     @Select("SELECT * FROM dp_shops WHERE id = #{shop_id}")
     ShopDto selectOneShop(int shop_id);
+
+
 
     //find product by id
     @Select("SELECT * FROM dp_products WHERE pro_id = #{proId}")

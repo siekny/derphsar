@@ -8,16 +8,19 @@ public class WishListRequestModel {
     private Date favDate;
     private int u_id;
     private int pro_id;
+    private boolean status;
 
     public WishListRequestModel() {
     }
 
-    public WishListRequestModel(String wishlistId, Date favDate, int u_id, int pro_id) {
+    public WishListRequestModel(String wishlistId, Date favDate, int u_id, int pro_id, boolean status) {
         this.wishlistId = wishlistId;
         this.favDate = favDate;
         this.u_id = u_id;
         this.pro_id = pro_id;
+        this.status = status;
     }
+
 
     @Override
     public String toString() {
@@ -26,8 +29,10 @@ public class WishListRequestModel {
                 ", favDate=" + favDate +
                 ", u_id=" + u_id +
                 ", pro_id=" + pro_id +
+                ", status=" + status +
                 '}';
     }
+
 
     public String getWishlistId() {
         return wishlistId;
@@ -59,5 +64,13 @@ public class WishListRequestModel {
 
     public void setPro_id(int pro_id) {
         this.pro_id = pro_id;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

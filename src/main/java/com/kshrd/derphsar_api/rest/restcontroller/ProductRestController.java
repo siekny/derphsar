@@ -2,11 +2,13 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
+import com.kshrd.derphsar_api.rest.category.request.CategoryRequestModel;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
 import com.kshrd.derphsar_api.service.implement.ProductServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,7 @@ public class ProductRestController {
 
     //post a product
     @PostMapping("/products")
+    @ApiOperation(value = "post product to shop", response = ProductRequestModel.class)
     public ResponseEntity<BaseApiResponse<ProductRequestModel>> createProduct(
             @RequestBody ProductRequestModel productRequestModel) {
 
@@ -60,6 +63,7 @@ public class ProductRestController {
 
     //get all products
     @GetMapping("/products")
+    @ApiOperation(value = "show all products", response = ProductRequestModel.class)
     public List<ProductDto> getProducts(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
 
         List<ProductDto> data;
@@ -83,6 +87,7 @@ public class ProductRestController {
 
     //Delete a product
     @DeleteMapping("/products/{id}")
+    @ApiOperation(value = "delete a product", response = Void.class)
     public ResponseEntity<BaseApiResponse<Void>> deleteProduct(@PathVariable("id") String id){
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
@@ -97,6 +102,7 @@ public class ProductRestController {
 
     //Update a product
     @PutMapping("/products/{id}")
+    @ApiOperation(value = "update a product", response = ProductRequestModel.class)
     public ResponseEntity<BaseApiResponse<ProductRequestModel>> updateProduct(
             @PathVariable("id") String id,
             @RequestBody ProductRequestModel productRequestModel){
@@ -115,6 +121,7 @@ public class ProductRestController {
 
     //find by id
     @GetMapping("/products/{id}")
+    @ApiOperation(value = "find a product by id", response = ProductRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<ProductRequestModel>>> findById(@PathVariable("id") String id){
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<ProductRequestModel>> response =

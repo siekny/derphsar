@@ -5,6 +5,7 @@ import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.category.request.CategoryRequestModel;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.service.implement.CategoryServiceImp;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,7 @@ public class CategoryRestController {
 
 
     @GetMapping("/categories")
+    @ApiOperation(value = "Show all categories", response = CategoryRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<CategoryRequestModel>>> getCategories(){
 
         ModelMapper mapper = new ModelMapper();

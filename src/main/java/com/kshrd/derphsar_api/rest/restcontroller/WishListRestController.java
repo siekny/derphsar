@@ -1,9 +1,16 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
+import com.kshrd.derphsar_api.rest.message.MessageProperties;
+import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
+import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.rest.wishlist.request.WishListRequestModel;
+import com.kshrd.derphsar_api.rest.wishlist.respone.WishListResponse;
 import com.kshrd.derphsar_api.service.implement.WishListServiceImp;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +27,13 @@ import java.util.UUID;
 public class WishListRestController {
 
     private WishListServiceImp wishListServiceImp;
+    private MessageProperties message;
+
+
+    @Autowired
+    public void setMessage(MessageProperties message) {
+        this.message = message;
+    }
 
     @Autowired
     public void setWishListServiceImp(WishListServiceImp wishListServiceImp) {
@@ -28,7 +42,8 @@ public class WishListRestController {
 
     //create a wishlist
     @PostMapping("/wishlists")
-    public ResponseEntity<BaseApiResponse<WishListRequestModel>> createWishList(@RequestBody WishListRequestModel wishListRequestModel){
+    @ApiOperation(value = "create a wishlist", response = WishListRequestModel.class)
+    public ResponseEntity<BaseApiResponse<WishListRequestModel>> createWishList(@RequestBody WishListRequestModel wishListRequestModel) {
 
         BaseApiResponse<WishListRequestModel> response = new BaseApiResponse<>();
 
@@ -36,7 +51,7 @@ public class WishListRestController {
         WishListDto wishListDto = mapper.map(wishListRequestModel, WishListDto.class);
 
         UUID uuid = UUID.randomUUID();
-        wishListDto.setWishlistId("DP"+uuid.toString().substring(0,10));
+        wishListDto.setWishlistId("DP" + uuid.toString().substring(0, 10));
 
         WishListDto result = wishListServiceImp.createWishList(wishListDto);
         WishListRequestModel requestModel = mapper.map(result, WishListRequestModel.class);
@@ -51,6 +66,7 @@ public class WishListRestController {
 
     //get all wishlist
     @GetMapping("/wishlists")
+    @ApiOperation(value = "show all wishlist", response = WishListRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<WishListRequestModel>>> getWishLists() {
 
         ModelMapper mapper = new ModelMapper();
@@ -62,7 +78,7 @@ public class WishListRestController {
         for (WishListDto wishList : wishListDto) {
             wishListRequestModels.add(mapper.map(wishList, WishListRequestModel.class));
         }
-        response.setMessage("you have selected all wishlists successfully!");
+        response.setMessage("WishLists have been found succesfully");
         response.setData(wishListRequestModels);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -72,7 +88,8 @@ public class WishListRestController {
 
     //delete a wishlist
     @DeleteMapping("/wishlists/{wishlist_id}")
-    public ResponseEntity<BaseApiResponse<Void>> deleteWishList(@PathVariable("wishlist_id") String wishlist_id){
+    @ApiOperation(value = "delete a wishlist", response = Void.class)
+    public ResponseEntity<BaseApiResponse<Void>> deleteWishList(@PathVariable("wishlist_id") String wishlist_id) {
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
         wishListServiceImp.deleteWishList(wishlist_id);
@@ -83,4 +100,19 @@ public class WishListRestController {
         return ResponseEntity.ok(response);
     }
 
+
+    @GetMapping("wishlists/{userId}")
+    @ApiOperation(value = "show all wishlist by user id", response = Void.class)
+    public ResponseEntity<BaseApiResponse<List<WishListResponse>>> getAllWishlistByUserId(@PathVariable("userId") int userId) {
+
+        BaseApiResponse<List<WishListResponse>> restApiMessage = new BaseApiResponse<>();
+       //UserDto userDto = wishListServiceImp.getUserByUserId(userId);
+        restApiMessage.setData(wishListServiceImp.test(userId));
+        restApiMessage.setStatus(HttpStatus.FOUND);
+        restApiMessage.setTime(new Timestamp(System.currentTimeMillis()));
+        restApiMessage.setMessage("Select is successfully");
+        return ResponseEntity.ok(restApiMessage);
+
+
+    }
 }

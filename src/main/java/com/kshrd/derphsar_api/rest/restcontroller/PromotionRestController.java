@@ -4,9 +4,11 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 import com.kshrd.derphsar_api.repository.dto.PromotionDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
+import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
 import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.service.implement.PromotionServiceImp;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +39,7 @@ public class PromotionRestController {
 
     //get all promotions
     @GetMapping("/promotions")
+    @ApiOperation(value = "show all promotion", response = PromotionResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> getPromotions(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
 
         ModelMapper mapper = new ModelMapper();
@@ -62,6 +65,7 @@ public class PromotionRestController {
 
     //Delete a promotion
     @DeleteMapping("/promotions/{id}")
+    @ApiOperation(value = "delete a promotion", response = Void.class)
     public ResponseEntity<BaseApiResponse<Void>> deletePromotion(@PathVariable("id") String id) {
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
@@ -75,6 +79,7 @@ public class PromotionRestController {
 
     //Update a promotions
     @PutMapping("/promotions/{id}")
+    @ApiOperation(value = "update a promotion", response = PromotionRequestModel.class)
     public ResponseEntity<BaseApiResponse<PromotionRequestModel>> updatePromotion(
             @PathVariable("id") String id,
             @RequestBody PromotionRequestModel promotionRequestModel) {
@@ -93,6 +98,7 @@ public class PromotionRestController {
 
     //post promotion
     @PostMapping("/promotion")
+    @ApiOperation(value = "create a promotion", response = PromotionRequestModel.class)
     public ResponseEntity<BaseApiResponse<PromotionRequestModel>> createPromotion(
             @RequestBody PromotionRequestModel promotionRequestModel) {
 
@@ -118,6 +124,7 @@ public class PromotionRestController {
 
     //find by id
     @GetMapping("/promotions/{id}")
+    @ApiOperation(value = "show all promotions", response = PromotionRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<PromotionRequestModel>>> findById(@PathVariable("id") String id){
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<PromotionRequestModel>> response =

@@ -1,10 +1,13 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
+import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.service.implement.ShopServiceImp;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +37,7 @@ public class ShopRestController {
 
 //    create a shop
     @PostMapping("/shops")
+    @ApiOperation(value = "create a shop", response = ShopRequestModel.class)
     public ResponseEntity<BaseApiResponse<ShopRequestModel>> createShop(@RequestBody ShopRequestModel shop){
 
         BaseApiResponse<ShopRequestModel> response = new BaseApiResponse<>();
@@ -57,6 +61,7 @@ public class ShopRestController {
 
     //get all shops
     @GetMapping("/shops")
+    @ApiOperation(value = "show all shops", response = ShopRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops() {
 
         ModelMapper mapper = new ModelMapper();
@@ -78,6 +83,7 @@ public class ShopRestController {
 
     //delete a shop
     @DeleteMapping("/shops/{shop_id}")
+    @ApiOperation(value = "delete a shops", response = Void.class)
     public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("shop_id") String shop_id){
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
@@ -91,6 +97,7 @@ public class ShopRestController {
 
     //update a shop
     @PutMapping("/shops/{shop_id}")
+    @ApiOperation(value = "update a shops", response = ShopRequestModel.class)
     public ResponseEntity<BaseApiResponse<ShopRequestModel>> updateShop(
             @PathVariable("shop_id") String shop_id,
             @RequestBody ShopRequestModel shopRequestModel){
@@ -109,6 +116,7 @@ public class ShopRestController {
 
     //find by id
     @GetMapping("/shops/{id}")
+    @ApiOperation(value = "show a shop by shop id", response = ShopRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> findById(@PathVariable("id") String id){
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<ShopRequestModel>> response =
@@ -126,4 +134,24 @@ public class ShopRestController {
     }
 
 
+    @GetMapping("shops/{userId}")
+    @ApiOperation(value = "get all shops by user id", response = ShopRequestModel.class)
+    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getAllShopsByUserId(@PathVariable("userId") String userId) {
+
+        ModelMapper mapper = new ModelMapper();
+        BaseApiResponse<List<ShopRequestModel>> response =
+                new BaseApiResponse<>();
+
+        UserDto userDto = shopServiceImp.getUserByUserId(userId);
+        List<ShopDto> shopDtoList = shopServiceImp.getAllShopsByUserId(userDto.getId());
+        List<ShopRequestModel> shops = new ArrayList<>();
+        for (ShopDto shopDto : shopDtoList) {
+            shops.add(mapper.map(shopDto, ShopRequestModel.class));
+        }
+        response.setMessage(message.selected("Shops"));
+        response.setData(shops);
+        response.setStatus(HttpStatus.OK);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 }
