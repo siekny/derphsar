@@ -1,9 +1,11 @@
 package com.kshrd.derphsar_api.rest.user.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kshrd.derphsar_api.repository.dto.RoleDto;
 
 public class UserRequestModel {
 
+    @JsonIgnore
     private String userId;
     private String name;
     private String gender;
@@ -11,8 +13,10 @@ public class UserRequestModel {
     private String phone;
     private String email;
     private String password;
+    @JsonIgnore
     private boolean status;
     private String profile;
+    @JsonIgnore
     private RoleDto role;
 
     public UserRequestModel(){}

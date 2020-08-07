@@ -90,9 +90,9 @@ public interface WishListRepository {
     @Results({
             @Result(property = "wishlistId", column = "wishlist_id"),
             @Result(property = "favDate", column = "fav_date"),
-//            @Result(property = "user.name", column = "name"),
-//           @Result(property = "user.id", column = "id"),
-            //@Result(column = "u_id", property = "user", many = @Many(select = "getuser"))
+            @Result(property = "user.name", column = "name"),
+            @Result(property = "user.id", column = "id"),
+            //@Result(column = "u_id", property = "user", many = @Many(select = "getUserById"))
 
     })
     List<WishListResponse> test(int uId);
@@ -104,7 +104,7 @@ public interface WishListRepository {
             @Result(column = "id" ,property = "id"),
             @Result(column = "name" ,property = "name")
     })
-    UserDto getuser(int u_id);
+    UserDto getUserById(int u_id);
 
 
 

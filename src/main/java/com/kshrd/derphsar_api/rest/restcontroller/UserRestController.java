@@ -51,10 +51,10 @@ public class UserRestController {
     // user register new account
     @PostMapping("/register")
     @ApiOperation(value = "user register", response = UserRequestModel.class)
-    public ResponseEntity<BaseApiResponse<UserRequestModel>> createUser(
+    public ResponseEntity<BaseApiResponse<UserResponseModel>> createUser(
             @RequestBody UserRequestModel userRequestModel) {
 
-        BaseApiResponse<UserRequestModel> response = new BaseApiResponse<>();
+        BaseApiResponse<UserResponseModel> response = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
 
         UserDto userDto = mapper.map(userRequestModel, UserDto.class);
@@ -67,8 +67,7 @@ public class UserRestController {
             userDto.setUserId("DP"+uuid.toString().substring(0,10));
 
             UserDto result = userServiceImp.insertUser(userDto);
-            UserRequestModel result2 = mapper.map(result, UserRequestModel.class);
-//            response.setMessage("register successfully");
+            UserResponseModel result2 = mapper.map(result, UserResponseModel.class);
             response.setMessage(message.inserted("User"));
             response.setData(result2);
             response.setStatus(HttpStatus.OK);

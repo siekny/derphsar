@@ -112,7 +112,7 @@ public class WishListRestController {
         restApiMessage.setTime(new Timestamp(System.currentTimeMillis()));
         restApiMessage.setMessage("Select is successfully");
         return ResponseEntity.ok(restApiMessage);
-
-
     }
+
+
 }

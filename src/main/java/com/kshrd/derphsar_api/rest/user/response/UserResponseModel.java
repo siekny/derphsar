@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.rest.user.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kshrd.derphsar_api.repository.dto.RoleDto;
 import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
 
@@ -7,6 +8,7 @@ import java.util.List;
 
 public class UserResponseModel {
 
+    @JsonIgnore
     private int id;
     private String userId;
     private String name;
@@ -17,6 +19,7 @@ public class UserResponseModel {
     private String password;
     private boolean status;
     private String profile;
+    @JsonIgnore
     private List<RoleResponse> role;
 
     public UserResponseModel(){}
