@@ -98,22 +98,23 @@ public class PromotionRestController {
 
     //post promotion
     @PostMapping("/promotion")
-    @ApiOperation(value = "create a promotion", response = PromotionRequestModel.class)
-    public ResponseEntity<BaseApiResponse<PromotionRequestModel>> createPromotion(
+    @ApiOperation(value = "create a promotion", response = PromotionResponseModel.class)
+    public ResponseEntity<BaseApiResponse<PromotionResponseModel>> createPromotion(
             @RequestBody PromotionRequestModel promotionRequestModel) {
 
-        BaseApiResponse<PromotionRequestModel> response = new BaseApiResponse<>();
+        BaseApiResponse<PromotionResponseModel> response = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
 
         PromotionDto promotionDto = mapper.map(promotionRequestModel, PromotionDto.class);
 
         UUID uuid = UUID.randomUUID();
         promotionDto.setPromoId("DP"+uuid.toString().substring(0,10));
+        promotionDto.setStatus(true);
 
         PromotionDto result = promotionServiceImp.createPromotion(promotionDto);
-        PromotionRequestModel result2 = mapper.map(result, PromotionRequestModel.class);
+        PromotionResponseModel responseModel = mapper.map(result, PromotionResponseModel.class);
         response.setMessage(message.inserted("Promotion"));
-        response.setData(result2);
+        response.setData(responseModel);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
 

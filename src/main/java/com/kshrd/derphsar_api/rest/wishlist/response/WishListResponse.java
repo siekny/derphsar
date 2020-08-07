@@ -1,5 +1,6 @@
-package com.kshrd.derphsar_api.rest.wishlist.respone;
+package com.kshrd.derphsar_api.rest.wishlist.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 
@@ -7,6 +8,7 @@ import java.util.Date;
 
 public class WishListResponse {
 
+    @JsonIgnore
     private int id;
     private String wishlistId;
     private Date favDate;

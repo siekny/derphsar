@@ -1,149 +1,152 @@
 package com.kshrd.derphsar_api.rest.product.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 
 public class ProductResponseModel {
-    private String proId;
-    private String proName;
-    private Double proPrice;
-    private String proDescription;
-    private boolean proStatus;
-    private boolean proIsSold;
-    private int proViewCount;
 
-    private String proImageName;
-    private String proImageUrl;
+    @JsonIgnore
+    private String id;
+    private String name;
+    private Double price;
+    private String description;
+    private boolean status;
+    private boolean isSold;
+    private int viewCount;
 
-    private String procolor;
-    private String proSize;
+    private String imageName;
+    private String imageUrl;
 
-    private Object proImages;
-    private Object proDetails;
+    private String color;
+    private String size;
+
+    private Object images;
+    private Object details;
 
     private ShopDto shop;
 
 
     public ProductResponseModel(){}
 
-    public ProductResponseModel(String proId, String proName, Double proPrice, String proDescription, boolean proStatus, boolean proIsSold, int proViewCount, String proImageName, String proImageUrl, String procolor, String proSize, Object proImages, Object proDetails, ShopDto shop) {
-        this.proId = proId;
-        this.proName = proName;
-        this.proPrice = proPrice;
-        this.proDescription = proDescription;
-        this.proStatus = proStatus;
-        this.proIsSold = proIsSold;
-        this.proViewCount = proViewCount;
-        this.proImageName = proImageName;
-        this.proImageUrl = proImageUrl;
-        this.procolor = procolor;
-        this.proSize = proSize;
-        this.proImages = proImages;
-        this.proDetails = proDetails;
+    public ProductResponseModel(String id, String name, Double price, String description, boolean status, boolean isSold, int viewCount, String imageName, String imageUrl, String color, String size, Object images, Object details, ShopDto shop) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.status = status;
+        this.isSold = isSold;
+        this.viewCount = viewCount;
+        this.imageName = imageName;
+        this.imageUrl = imageUrl;
+        this.color = color;
+        this.size = size;
+        this.images = images;
+        this.details = details;
         this.shop = shop;
     }
 
-    public String getProId() {
-        return proId;
+    public String getId() {
+        return id;
     }
 
-    public void setProId(String proId) {
-        this.proId = proId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getProName() {
-        return proName;
+    public String getName() {
+        return name;
     }
 
-    public void setProName(String proName) {
-        this.proName = proName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Double getProPrice() {
-        return proPrice;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setProPrice(Double proPrice) {
-        this.proPrice = proPrice;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public String getProDescription() {
-        return proDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProDescription(String proDescription) {
-        this.proDescription = proDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public boolean isProStatus() {
-        return proStatus;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setProStatus(boolean proStatus) {
-        this.proStatus = proStatus;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
-    public boolean isProIsSold() {
-        return proIsSold;
+    public boolean isSold() {
+        return isSold;
     }
 
-    public void setProIsSold(boolean proIsSold) {
-        this.proIsSold = proIsSold;
+    public void setSold(boolean sold) {
+        this.isSold = sold;
     }
 
-    public int getProViewCount() {
-        return proViewCount;
+    public int getViewCount() {
+        return viewCount;
     }
 
-    public void setProViewCount(int proViewCount) {
-        this.proViewCount = proViewCount;
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 
-    public String getProImageName() {
-        return proImageName;
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setProImageName(String proImageName) {
-        this.proImageName = proImageName;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
-    public String getProImageUrl() {
-        return proImageUrl;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setProImageUrl(String proImageUrl) {
-        this.proImageUrl = proImageUrl;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getProcolor() {
-        return procolor;
+    public String getColor() {
+        return color;
     }
 
-    public void setProcolor(String procolor) {
-        this.procolor = procolor;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public String getProSize() {
-        return proSize;
+    public String getSize() {
+        return size;
     }
 
-    public void setProSize(String proSize) {
-        this.proSize = proSize;
+    public void setSize(String size) {
+        this.size = size;
     }
 
-    public Object getProImages() {
-        return proImages;
+    public Object getImages() {
+        return images;
     }
 
-    public void setProImages(Object proImages) {
-        this.proImages = proImages;
+    public void setImages(Object images) {
+        this.images = images;
     }
 
-    public Object getProDetails() {
-        return proDetails;
+    public Object getDetails() {
+        return details;
     }
 
-    public void setProDetails(Object proDetails) {
-        this.proDetails = proDetails;
+    public void setDetails(Object details) {
+        this.details = details;
     }
 
     public ShopDto getShop() {
@@ -158,19 +161,19 @@ public class ProductResponseModel {
     @Override
     public String toString() {
         return "ProductResponseModel{" +
-                "proId='" + proId + '\'' +
-                ", proName='" + proName + '\'' +
-                ", proPrice=" + proPrice +
-                ", proDescription='" + proDescription + '\'' +
-                ", proStatus=" + proStatus +
-                ", proIsSold=" + proIsSold +
-                ", proViewCount=" + proViewCount +
-                ", proImageName='" + proImageName + '\'' +
-                ", proImageUrl='" + proImageUrl + '\'' +
-                ", procolor='" + procolor + '\'' +
-                ", proSize='" + proSize + '\'' +
-                ", proImages=" + proImages +
-                ", proDetails=" + proDetails +
+                "proId='" + id + '\'' +
+                ", proName='" + name + '\'' +
+                ", proPrice=" + price +
+                ", proDescription='" + description + '\'' +
+                ", proStatus=" + status +
+                ", proIsSold=" + isSold +
+                ", proViewCount=" + viewCount +
+                ", proImageName='" + imageName + '\'' +
+                ", proImageUrl='" + imageUrl + '\'' +
+                ", procolor='" + color + '\'' +
+                ", proSize='" + size + '\'' +
+                ", proImages=" + images +
+                ", proDetails=" + details +
                 ", shop=" + shop +
                 '}';
     }

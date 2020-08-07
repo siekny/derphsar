@@ -1,14 +1,11 @@
 package com.kshrd.derphsar_api.repository;
 
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
-import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
-import com.kshrd.derphsar_api.repository.provider.SubResourceProvider;
 import com.kshrd.derphsar_api.repository.provider.WishListProvider;
-import com.kshrd.derphsar_api.rest.wishlist.respone.WishListResponse;
+import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 import org.apache.ibatis.annotations.*;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 

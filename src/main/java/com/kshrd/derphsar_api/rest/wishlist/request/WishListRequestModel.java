@@ -1,13 +1,18 @@
 package com.kshrd.derphsar_api.rest.wishlist.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class WishListRequestModel {
 
+    @JsonIgnore
     private String wishlistId;
+    @JsonIgnore
     private Date favDate;
     private int u_id;
     private int pro_id;
+    @JsonIgnore
     private boolean status;
 
     public WishListRequestModel() {

@@ -7,6 +7,7 @@ import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
+import com.kshrd.derphsar_api.rest.shop.response.ShopResponseModel;
 import com.kshrd.derphsar_api.service.implement.ShopServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
@@ -38,22 +39,23 @@ public class ShopRestController {
 
 //    create a shop
     @PostMapping("/shops")
-    @ApiOperation(value = "create a shop", response = ShopRequestModel.class)
-    public ResponseEntity<BaseApiResponse<ShopRequestModel>> createShop(@RequestBody ShopRequestModel shop){
+    @ApiOperation(value = "create a shop", response = ShopResponseModel.class)
+    public ResponseEntity<BaseApiResponse<ShopResponseModel>> createShop(@RequestBody ShopRequestModel shop){
 
-        BaseApiResponse<ShopRequestModel> response = new BaseApiResponse<>();
+        BaseApiResponse<ShopResponseModel> response = new BaseApiResponse<>();
 
         ModelMapper mapper = new ModelMapper();
         ShopDto shopDto = mapper.map(shop, ShopDto.class);
 
         UUID uuid = UUID.randomUUID();
         shopDto.setShopId("DP"+uuid.toString().substring(0,10));
+        shopDto.setStatus(true);
 
         ShopDto result = shopServiceImp.createShop(shopDto);
-        ShopRequestModel requestModel = mapper.map(result, ShopRequestModel.class);
+        ShopResponseModel responseModel = mapper.map(result, ShopResponseModel.class);
 
         response.setMessage(message.inserted("Shop"));
-        response.setData(requestModel);
+        response.setData(responseModel);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);

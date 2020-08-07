@@ -1,14 +1,10 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
-import com.kshrd.derphsar_api.repository.dto.ShopDto;
-import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
-import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
-import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.rest.wishlist.request.WishListRequestModel;
-import com.kshrd.derphsar_api.rest.wishlist.respone.WishListResponse;
+import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 import com.kshrd.derphsar_api.service.implement.WishListServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
@@ -29,7 +25,6 @@ public class WishListRestController {
     private WishListServiceImp wishListServiceImp;
     private MessageProperties message;
 
-
     @Autowired
     public void setMessage(MessageProperties message) {
         this.message = message;
@@ -42,22 +37,24 @@ public class WishListRestController {
 
     //create a wishlist
     @PostMapping("/wishlists")
-    @ApiOperation(value = "create a wishlist", response = WishListRequestModel.class)
-    public ResponseEntity<BaseApiResponse<WishListRequestModel>> createWishList(@RequestBody WishListRequestModel wishListRequestModel) {
+    @ApiOperation(value = "create a wishlist", response = WishListResponse.class)
+    public ResponseEntity<BaseApiResponse<WishListResponse>> createWishList(@RequestBody WishListRequestModel wishListRequestModel) {
 
-        BaseApiResponse<WishListRequestModel> response = new BaseApiResponse<>();
+        BaseApiResponse<WishListResponse> response = new BaseApiResponse<>();
 
         ModelMapper mapper = new ModelMapper();
         WishListDto wishListDto = mapper.map(wishListRequestModel, WishListDto.class);
 
         UUID uuid = UUID.randomUUID();
         wishListDto.setWishlistId("DP" + uuid.toString().substring(0, 10));
+        wishListDto.setFavDate(new Timestamp(System.currentTimeMillis()));
+        wishListDto.setStatus(true);
 
         WishListDto result = wishListServiceImp.createWishList(wishListDto);
-        WishListRequestModel requestModel = mapper.map(result, WishListRequestModel.class);
+        WishListResponse wishListResponse = mapper.map(result, WishListResponse.class);
 
-        response.setMessage("you have inserted a wishlist successfully!");
-        response.setData(requestModel);
+        response.setMessage(message.inserted("Wishlist"));
+        response.setData(wishListResponse);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);

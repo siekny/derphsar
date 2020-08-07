@@ -1,13 +1,16 @@
 package com.kshrd.derphsar_api.rest.product.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 
 public class ProductRequestModel {
 
+    @JsonIgnore
     private String proId;
     private String name;
     private Double price;
     private String description;
+    @JsonIgnore
     private boolean status;
     private boolean isSold;
     private int viewCount;

@@ -1,14 +1,18 @@
 package com.kshrd.derphsar_api.rest.promotion.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Date;
 
 public class PromotionRequestModel {
 
+    @JsonIgnore
     private String promoId;
     private String title;
     private boolean isApply;
     private Date startDate;
     private Date endDate;
+    @JsonIgnore
     private boolean status;
     private String cover;
     private double startRank;

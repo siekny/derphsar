@@ -3,7 +3,7 @@ package com.kshrd.derphsar_api.service.implement;
 import com.kshrd.derphsar_api.repository.WishListRepository;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
-import com.kshrd.derphsar_api.rest.wishlist.respone.WishListResponse;
+import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 import com.kshrd.derphsar_api.service.WishLishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

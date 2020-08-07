@@ -1,9 +1,8 @@
 package com.kshrd.derphsar_api.service;
 
-import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
-import com.kshrd.derphsar_api.rest.wishlist.respone.WishListResponse;
+import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 
 import java.util.List;
 

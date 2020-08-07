@@ -5,6 +5,7 @@ import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.category.request.CategoryRequestModel;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
+import com.kshrd.derphsar_api.rest.product.response.ProductResponseModel;
 import com.kshrd.derphsar_api.service.implement.ProductServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,22 +39,23 @@ public class ProductRestController {
 
     //post a product
     @PostMapping("/products")
-    @ApiOperation(value = "post product to shop", response = ProductRequestModel.class)
-    public ResponseEntity<BaseApiResponse<ProductRequestModel>> createProduct(
+    @ApiOperation(value = "post product to shop", response = ProductResponseModel.class)
+    public ResponseEntity<BaseApiResponse<ProductResponseModel>> createProduct(
             @RequestBody ProductRequestModel productRequestModel) {
 
-        BaseApiResponse<ProductRequestModel> response = new BaseApiResponse<>();
+        BaseApiResponse<ProductResponseModel> response = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
 
         ProductDto productDto = mapper.map(productRequestModel, ProductDto.class);
 
         UUID uuid = UUID.randomUUID();
         productDto.setProId("DP"+uuid.toString().substring(0,10));
+        productDto.setStatus(true);
 
         ProductDto result = productService.insert(productDto);
-        ProductRequestModel result2 = mapper.map(result, ProductRequestModel.class);
+        ProductResponseModel responseModel = mapper.map(result, ProductResponseModel.class);
         response.setMessage(message.inserted("Product"));
-        response.setData(result2);
+        response.setData(responseModel);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
 

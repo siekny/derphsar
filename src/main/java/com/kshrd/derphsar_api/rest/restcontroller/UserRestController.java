@@ -50,7 +50,7 @@ public class UserRestController {
 
     // user register new account
     @PostMapping("/register")
-    @ApiOperation(value = "user register", response = UserRequestModel.class)
+    @ApiOperation(value = "user register", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<UserResponseModel>> createUser(
             @RequestBody UserRequestModel userRequestModel) {
 
@@ -65,6 +65,7 @@ public class UserRestController {
 
             UUID uuid = UUID.randomUUID();
             userDto.setUserId("DP"+uuid.toString().substring(0,10));
+            userDto.setStatus(true);
 
             UserDto result = userServiceImp.insertUser(userDto);
             UserResponseModel result2 = mapper.map(result, UserResponseModel.class);
