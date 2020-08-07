@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.service.implement;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.ShopRepository;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
@@ -29,11 +30,19 @@ public class ShopServiceImp implements ShopService {
             return null;
     }
 
-    //get all shops
+//    //get all shops
+//    @Override
+//    public List<ShopDto> getShops(){
+//        return shopRepository.select();
+//    }
+
+
+    //get shops
     @Override
-    public List<ShopDto> getShops(){
-        return shopRepository.select();
+    public List<ShopDto> getShops(Pagination pagination){
+        return shopRepository.select(pagination);
     }
+
 
     //delete a shop
     @Override
@@ -65,5 +74,12 @@ public class ShopServiceImp implements ShopService {
     @Override
     public UserDto getUserByUserId(String userId) {
         return shopRepository.getUserByUserId(userId);
+    }
+
+
+    //count all id
+    @Override
+    public int countId() {
+        return shopRepository.countId();
     }
 }

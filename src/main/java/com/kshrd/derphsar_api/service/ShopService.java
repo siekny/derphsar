@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.service;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 
@@ -11,7 +12,7 @@ public interface ShopService {
     ShopDto createShop(ShopDto shop);
 
 //    get all shop
-    List<ShopDto> getShops();
+    List<ShopDto> getShops(Pagination pagination);
 
 //    delete shop
     void deleteShop(String shop_id);
@@ -25,4 +26,7 @@ public interface ShopService {
     List<ShopDto> getAllShopsByUserId (int userId);
 
     UserDto getUserByUserId(String userId);
+
+    //
+    int countId();
 }

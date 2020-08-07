@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
@@ -60,26 +61,62 @@ public class ShopRestController {
 
 
     //get all shops
+//    @GetMapping("/shops")
+//    @ApiOperation(value = "show all shops", response = ShopRequestModel.class)
+//    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops() {
+//
+//        ModelMapper mapper = new ModelMapper();
+//        BaseApiResponse<List<ShopRequestModel>> response =
+//                new BaseApiResponse<>();
+//
+//        List<ShopDto> shopDtoList = shopServiceImp.getShops();
+//        List<ShopRequestModel> shops = new ArrayList<>();
+//        for (ShopDto shopDto : shopDtoList) {
+//            shops.add(mapper.map(shopDto, ShopRequestModel.class));
+//        }
+//        response.setMessage(message.selected("Shops"));
+//        response.setData(shops);
+//        response.setStatus(HttpStatus.OK);
+//        response.setTime(new Timestamp(System.currentTimeMillis()));
+//        return ResponseEntity.ok(response);
+//    }
+
+
+    //get all shops
     @GetMapping("/shops")
     @ApiOperation(value = "show all shops", response = ShopRequestModel.class)
-    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops() {
+    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops(@RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                            @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+                                                                            @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+                                                                            @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+
+        pagination.setTotalCount(shopServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
 
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<ShopRequestModel>> response =
                 new BaseApiResponse<>();
 
-        List<ShopDto> shopDtoList = shopServiceImp.getShops();
+        List<ShopDto> shopDtoList = shopServiceImp.getShops(pagination);
         List<ShopRequestModel> shops = new ArrayList<>();
         for (ShopDto shopDto : shopDtoList) {
             shops.add(mapper.map(shopDto, ShopRequestModel.class));
         }
-        response.setMessage(message.selected("Shops"));
+
+        response.setPagination(pagination);
+        response.setMessage("you have selected all shops successfully!");
         response.setData(shops);
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
-
 
     //delete a shop
     @DeleteMapping("/shops/{shop_id}")

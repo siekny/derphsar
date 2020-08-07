@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.repository;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.provider.ShopProvider;
@@ -19,13 +20,22 @@ public interface ShopRepository {
 
 
     //Get all shops
-    @SelectProvider(value = ShopProvider.class, method = "getShops")
+//    @SelectProvider(value = ShopProvider.class, method = "getShops")
+//    @Results({
+//            @Result(column = "shop_id" ,property = "shopId"),
+//            @Result(column = "is_open" ,property = "isOpen"),
+//            @Result(column = "working_time" ,property = "workingTime")
+//    })
+//    List<ShopDto> select();
+
+    //Get shops
+    @Select("SELECT * FROM dp_shops WHERE status = 'true' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
     @Results({
             @Result(column = "shop_id" ,property = "shopId"),
             @Result(column = "is_open" ,property = "isOpen"),
             @Result(column = "working_time" ,property = "workingTime")
     })
-    List<ShopDto> select();
+    List<ShopDto> select(@Param("pagination") Pagination pagination);
 
 
     //Delete a shop
@@ -58,5 +68,10 @@ public interface ShopRepository {
 
     @SelectProvider(type = SubResourceProvider.class, method = "getUserByUserId")
     UserDto getUserByUserId(String userId);
+
+
+    //count all shops
+    @Select("SELECT COUNT(id) FROM dp_shops WHERE status = 'true'")
+    int countId();
 
 }
