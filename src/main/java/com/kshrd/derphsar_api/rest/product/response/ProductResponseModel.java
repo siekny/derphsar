@@ -2,11 +2,11 @@ package com.kshrd.derphsar_api.rest.product.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.rest.shop.response.ShopResponseModel;
 
 public class ProductResponseModel {
 
-    @JsonIgnore
-    private String id;
+    private String proId;
     private String name;
     private Double price;
     private String description;
@@ -14,43 +14,50 @@ public class ProductResponseModel {
     private boolean isSold;
     private int viewCount;
 
-    private String imageName;
-    private String imageUrl;
-
-    private String color;
-    private String size;
 
     private Object images;
     private Object details;
 
-    private ShopDto shop;
+    private ShopResponseModel shop;
 
 
     public ProductResponseModel(){}
 
-    public ProductResponseModel(String id, String name, Double price, String description, boolean status, boolean isSold, int viewCount, String imageName, String imageUrl, String color, String size, Object images, Object details, ShopDto shop) {
-        this.id = id;
+    public ProductResponseModel(String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopResponseModel shop) {
+        this.proId = proId;
         this.name = name;
         this.price = price;
         this.description = description;
         this.status = status;
         this.isSold = isSold;
         this.viewCount = viewCount;
-        this.imageName = imageName;
-        this.imageUrl = imageUrl;
-        this.color = color;
-        this.size = size;
         this.images = images;
         this.details = details;
         this.shop = shop;
     }
 
-    public String getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "ProductResponseModel{" +
+                "proId='" + proId + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", isSold=" + isSold +
+                ", viewCount=" + viewCount +
+                ", images=" + images +
+                ", details=" + details +
+                ", shop=" + shop +
+                '}';
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getProId() {
+        return proId;
+    }
+
+    public void setProId(String proId) {
+        this.proId = proId;
     }
 
     public String getName() {
@@ -90,7 +97,7 @@ public class ProductResponseModel {
     }
 
     public void setSold(boolean sold) {
-        this.isSold = sold;
+        isSold = sold;
     }
 
     public int getViewCount() {
@@ -99,38 +106,6 @@ public class ProductResponseModel {
 
     public void setViewCount(int viewCount) {
         this.viewCount = viewCount;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
     }
 
     public Object getImages() {
@@ -149,32 +124,11 @@ public class ProductResponseModel {
         this.details = details;
     }
 
-    public ShopDto getShop() {
+    public ShopResponseModel getShop() {
         return shop;
     }
 
-    public void setShop(ShopDto shop) {
+    public void setShop(ShopResponseModel shop) {
         this.shop = shop;
-    }
-
-
-    @Override
-    public String toString() {
-        return "ProductResponseModel{" +
-                "proId='" + id + '\'' +
-                ", proName='" + name + '\'' +
-                ", proPrice=" + price +
-                ", proDescription='" + description + '\'' +
-                ", proStatus=" + status +
-                ", proIsSold=" + isSold +
-                ", proViewCount=" + viewCount +
-                ", proImageName='" + imageName + '\'' +
-                ", proImageUrl='" + imageUrl + '\'' +
-                ", procolor='" + color + '\'' +
-                ", proSize='" + size + '\'' +
-                ", proImages=" + images +
-                ", proDetails=" + details +
-                ", shop=" + shop +
-                '}';
     }
 }

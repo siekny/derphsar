@@ -2,6 +2,10 @@ package com.kshrd.derphsar_api.rest.shop.response;
 
 import com.kshrd.derphsar_api.repository.dto.CategoryDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
+import com.kshrd.derphsar_api.rest.category.response.CategoryResponseModel;
+import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
+import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
+import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 
 import java.util.Date;
 
@@ -16,16 +20,15 @@ public class ShopResponseModel {
     private boolean isOpen;
     private boolean status;
     private Date workingTime;
-    private int u_id;
-    private int cat_id;
 
-    private UserDto userDto;
-    private CategoryDto categoryDto;
+    private UserResponseModel user;
+    private CategoryResponseModel category;
+    private PromotionResponseModel promotion;
 
     public ShopResponseModel() {
     }
 
-    public ShopResponseModel(String shopId, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, int u_id, int cat_id, UserDto userDto, CategoryDto categoryDto) {
+    public ShopResponseModel(String shopId, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, UserResponseModel user, CategoryResponseModel category, PromotionResponseModel promotion) {
         this.shopId = shopId;
         this.name = name;
         this.address = address;
@@ -35,11 +38,29 @@ public class ShopResponseModel {
         this.isOpen = isOpen;
         this.status = status;
         this.workingTime = workingTime;
-        this.u_id = u_id;
-        this.cat_id = cat_id;
-        this.userDto = userDto;
-        this.categoryDto = categoryDto;
+        this.user = user;
+        this.category = category;
+        this.promotion = promotion;
     }
+
+    @Override
+    public String toString() {
+        return "ShopResponseModel{" +
+                "shopId='" + shopId + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", description='" + description + '\'' +
+                ", profile='" + profile + '\'' +
+                ", cover='" + cover + '\'' +
+                ", isOpen=" + isOpen +
+                ", status=" + status +
+                ", workingTime=" + workingTime +
+                ", user=" + user +
+                ", category=" + category +
+                ", promotion=" + promotion +
+                '}';
+    }
+
 
     public String getShopId() {
         return shopId;
@@ -113,54 +134,27 @@ public class ShopResponseModel {
         this.workingTime = workingTime;
     }
 
-    public int getU_id() {
-        return u_id;
+    public UserResponseModel getUser() {
+        return user;
     }
 
-    public void setU_id(int u_id) {
-        this.u_id = u_id;
+    public void setUser(UserResponseModel user) {
+        this.user = user;
     }
 
-    public int getCat_id() {
-        return cat_id;
+    public CategoryResponseModel getCategory() {
+        return category;
     }
 
-    public void setCat_id(int cat_id) {
-        this.cat_id = cat_id;
+    public void setCategory(CategoryResponseModel category) {
+        this.category = category;
     }
 
-    public UserDto getUserDto() {
-        return userDto;
+    public PromotionResponseModel getPromotion() {
+        return promotion;
     }
 
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
-    }
-
-    public CategoryDto getCategoryDto() {
-        return categoryDto;
-    }
-
-    public void setCategoryDto(CategoryDto categoryDto) {
-        this.categoryDto = categoryDto;
-    }
-
-    @Override
-    public String toString() {
-        return "ShopResponseModel{" +
-                "shopId='" + shopId + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", description='" + description + '\'' +
-                ", profile='" + profile + '\'' +
-                ", cover='" + cover + '\'' +
-                ", isOpen=" + isOpen +
-                ", status=" + status +
-                ", workingTime=" + workingTime +
-                ", u_id=" + u_id +
-                ", cat_id=" + cat_id +
-                ", userDto=" + userDto +
-                ", categoryDto=" + categoryDto +
-                '}';
+    public void setPromotion(PromotionResponseModel promotion) {
+        this.promotion = promotion;
     }
 }

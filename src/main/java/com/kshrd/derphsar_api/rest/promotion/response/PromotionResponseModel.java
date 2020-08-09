@@ -15,13 +15,11 @@ public class PromotionResponseModel {
     private String cover;
     private double startRank;
     private double endRank;
-    private ShopDto shop;
 
-    private int shop_id;
 
     public PromotionResponseModel(){}
 
-    public PromotionResponseModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ShopDto shop, int shop_id) {
+    public PromotionResponseModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank) {
         this.promoId = promoId;
         this.title = title;
         this.isApply = isApply;
@@ -31,8 +29,6 @@ public class PromotionResponseModel {
         this.cover = cover;
         this.startRank = startRank;
         this.endRank = endRank;
-        this.shop = shop;
-        this.shop_id = shop_id;
     }
 
 
@@ -48,8 +44,6 @@ public class PromotionResponseModel {
                 ", cover='" + cover + '\'' +
                 ", startRank=" + startRank +
                 ", endRank=" + endRank +
-                ", shop=" + shop +
-                ", shop_id=" + shop_id +
                 '}';
     }
 
@@ -124,21 +118,5 @@ public class PromotionResponseModel {
 
     public void setEndRank(double endRank) {
         this.endRank = endRank;
-    }
-
-    public ShopDto getShop() {
-        return shop;
-    }
-
-    public void setShop(ShopDto shop) {
-        this.shop = shop;
-    }
-
-    public int getShop_id() {
-        return shop_id;
-    }
-
-    public void setShop_id(int shop_id) {
-        this.shop_id = shop_id;
     }
 }

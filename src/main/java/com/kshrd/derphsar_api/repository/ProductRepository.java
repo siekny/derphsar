@@ -2,8 +2,7 @@ package com.kshrd.derphsar_api.repository;
 
 import com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg;
 import com.kshrd.derphsar_api.page.Pagination;
-import com.kshrd.derphsar_api.repository.dto.ProductDto;
-import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.repository.dto.*;
 import com.kshrd.derphsar_api.repository.provider.ProductProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
@@ -23,20 +22,50 @@ public interface ProductRepository {
             @Result(column = "view_count" ,property = "viewCount"),
             @Result(column = "details" ,property = "details", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
             @Result(column = "images" ,property = "images", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
-            @Result(column = "shop_id", property = "shop", many = @Many(select = "getShops"))
+            @Result(column = "shop_id", property = "shop", many = @Many(select = "getShop"))
     })
     List<ProductDto> getProducts(@Param("pagination") Pagination pagination);
 
 
     //select all shops
-    @Select("SELECT * FROM dp_shops WHERE id=#{shop_id}")
+    @Select("SELECT * FROM dp_shops WHERE id=#{shop_id} AND status = 'true'")
     @Results({
             @Result(column = "id" ,property = "id"),
             @Result(column = "shop_id" ,property = "shopId"),
             @Result(column = "name" ,property = "name"),
-            @Result(column = "address" ,property = "address")
+            @Result(column = "address" ,property = "address"),
+            @Result(column = "u_id", property = "user", many = @Many(select = "getUser")),
+            @Result(column = "cat_id", property = "category", many = @Many(select = "getCategory")),
+            @Result(column = "promo_id", property = "promotion", many = @Many(select = "getPromotion"))
     })
-    ShopDto getShops(int shop_id);
+    ShopDto getShop(int shop_id);
+
+
+    @Select("SELECT * FROM dp_users WHERE id = #{user_id}  AND status = 'true'")
+    @Results({
+            @Result(column = "user_id", property = "userId")
+    })
+    UserDto getUser(int user_id);
+
+
+    @Select("SELECT * FROM dp_category WHERE id= #{cate_id}")
+    @Results({
+            @Result(column = "cat_id", property = "catId")
+    })
+    CategoryDto getCategory(int cate_id);
+
+
+    @Select("SELECT * FROM dp_promotion WHERE id= #{promo_id}  AND status = 'true'")
+    @Results({
+            @Result(column = "promo_id", property = "promoId"),
+            @Result(column = "is_apply", property = "isApply"),
+            @Result(column = "end_date", property = "endDate"),
+            @Result(column = "start_date", property = "startDate"),
+            @Result(column = "start_rank", property = "startRank"),
+            @Result(column = "end_rank", property = "endRank"),
+    })
+    PromotionDto getPromotion(int promo_id);
+
 
 
 

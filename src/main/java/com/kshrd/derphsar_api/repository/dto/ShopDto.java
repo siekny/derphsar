@@ -14,15 +14,16 @@ public class ShopDto {
     private boolean isOpen;
     private boolean status;
     private Date workingTime;
-    private int u_id;
-    private int cat_id;
 
     private UserDto user;
+    private CategoryDto category;
+    private PromotionDto promotion;
+
 
     public ShopDto() {
     }
 
-    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, int u_id, int cat_id, UserDto user) {
+    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, UserDto user, CategoryDto category, PromotionDto promotion) {
         this.id = id;
         this.shopId = shopId;
         this.name = name;
@@ -33,9 +34,9 @@ public class ShopDto {
         this.isOpen = isOpen;
         this.status = status;
         this.workingTime = workingTime;
-        this.u_id = u_id;
-        this.cat_id = cat_id;
         this.user = user;
+        this.category = category;
+        this.promotion = promotion;
     }
 
 
@@ -52,11 +53,12 @@ public class ShopDto {
                 ", isOpen=" + isOpen +
                 ", status=" + status +
                 ", workingTime=" + workingTime +
-                ", u_id=" + u_id +
-                ", cat_id=" + cat_id +
                 ", user=" + user +
+                ", category=" + category +
+                ", promotion=" + promotion +
                 '}';
     }
+
 
     public int getId() {
         return id;
@@ -138,27 +140,27 @@ public class ShopDto {
         this.workingTime = workingTime;
     }
 
-    public int getU_id() {
-        return u_id;
-    }
-
-    public void setU_id(int u_id) {
-        this.u_id = u_id;
-    }
-
-    public int getCat_id() {
-        return cat_id;
-    }
-
-    public void setCat_id(int cat_id) {
-        this.cat_id = cat_id;
-    }
-
     public UserDto getUser() {
         return user;
     }
 
     public void setUser(UserDto user) {
         this.user = user;
+    }
+
+    public CategoryDto getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDto category) {
+        this.category = category;
+    }
+
+    public PromotionDto getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(PromotionDto promotion) {
+        this.promotion = promotion;
     }
 }

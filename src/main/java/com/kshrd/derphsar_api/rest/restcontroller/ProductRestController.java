@@ -9,6 +9,7 @@ import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
 import com.kshrd.derphsar_api.rest.product.response.ProductResponseModel;
 import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
+import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 import com.kshrd.derphsar_api.service.implement.ProductServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -67,9 +68,71 @@ public class ProductRestController {
 
 
     //get all products
+//    @GetMapping("/products")
+//    @ApiOperation(value = "show all products", response = ProductDto.class)
+//    public List<ProductDto> getProducts(
+//                                        //@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
+//                                        @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+//                                        @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+//                                        @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+//                                        @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+//
+//        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+//        pagination.setPage(page);
+//        pagination.setLimit(limit);
+//        pagination.nextPage();
+//        pagination.previousPage();
+//
+//
+//        pagination.setTotalCount(productService.countId());
+//        pagination.setTotalPages(pagination.getTotalPages());
+//
+//
+////        ModelMapper mapper = new ModelMapper();
+////        BaseApiResponse<List<ShopRequestModel>> response =
+////                new BaseApiResponse<>();
+////
+////        List<ShopDto> shopDtoList = shopServiceImp.getShops(pagination);
+////        List<ShopRequestModel> shops = new ArrayList<>();
+////        for (ShopDto shopDto : shopDtoList) {
+////            shops.add(mapper.map(shopDto, ShopRequestModel.class));
+////        }
+////
+////        response.setPagination(pagination);
+////        response.setMessage("you have selected all shops successfully!");
+////        response.setData(shops);
+////        response.setStatus(HttpStatus.OK);
+////        response.setTime(new Timestamp(System.currentTimeMillis()));
+////        return ResponseEntity.ok(response);
+//
+//        /////
+//        List<ProductDto> data;
+//        data = productService.getProducts(pagination);
+//
+//        //ModelMapper mapper = new ModelMapper();
+//        BaseApiResponse<List<ProductRequestModel>> response =
+//                new BaseApiResponse<>();
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        for (ProductDto jd : data) {
+//            try {
+//                Object test = mapper.readValue(jd.getDetails().toString(), Object.class);
+//                Object test1 = mapper.readValue(jd.getImages().toString(), Object.class);
+//                jd.setDetails(test);
+//                jd.setImages(test1);
+//            } catch (JsonProcessingException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return data;
+//    }
+
+
+    //get all products
     @GetMapping("/products")
     @ApiOperation(value = "show all products", response = ProductDto.class)
-    public List<ProductDto> getProducts(
+     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getProducts(
                                         //@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
                                         @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
                                         @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
@@ -86,45 +149,32 @@ public class ProductRestController {
         pagination.setTotalCount(productService.countId());
         pagination.setTotalPages(pagination.getTotalPages());
 
-
-//        ModelMapper mapper = new ModelMapper();
-//        BaseApiResponse<List<ShopRequestModel>> response =
-//                new BaseApiResponse<>();
-//
-//        List<ShopDto> shopDtoList = shopServiceImp.getShops(pagination);
-//        List<ShopRequestModel> shops = new ArrayList<>();
-//        for (ShopDto shopDto : shopDtoList) {
-//            shops.add(mapper.map(shopDto, ShopRequestModel.class));
-//        }
-//
-//        response.setPagination(pagination);
-//        response.setMessage("you have selected all shops successfully!");
-//        response.setData(shops);
-//        response.setStatus(HttpStatus.OK);
-//        response.setTime(new Timestamp(System.currentTimeMillis()));
-//        return ResponseEntity.ok(response);
-
-        /////
-        List<ProductDto> data;
-        data = productService.getProducts(pagination);
-
-        //ModelMapper mapper = new ModelMapper();
-        BaseApiResponse<List<ProductRequestModel>> response =
-                new BaseApiResponse<>();
+        BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
+        List<ProductDto> productDtos = productService.getProducts(pagination);
+        List<ProductResponseModel> productResponseModels = new ArrayList<>();
 
-        for (ProductDto jd : data) {
-            try {
-                Object test = mapper.readValue(jd.getDetails().toString(), Object.class);
-                Object test1 = mapper.readValue(jd.getImages().toString(), Object.class);
-                jd.setDetails(test);
-                jd.setImages(test1);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+        for(ProductDto productDto : productDtos){
+           try {
+               Object test = mapper.readValue(productDto.getDetails().toString(), Object.class);
+               Object test1 = mapper.readValue(productDto.getImages().toString(), Object.class);
+               productDto.setDetails(test);
+               productDto.setImages(test1);
+
+               ModelMapper modelMapper = new ModelMapper();
+               ProductResponseModel productResponseModel = modelMapper .map(productDto, ProductResponseModel.class);
+               productResponseModels.add(productResponseModel);
+           }catch (JsonProcessingException e){
+               e.printStackTrace();
+           }
         }
-        return data;
+        response.setData(productResponseModels);
+        response.setStatus(HttpStatus.FOUND);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        response.setMessage(message.selected("Products"));
+
+        return ResponseEntity.ok(response);
     }
 
 
