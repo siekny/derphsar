@@ -1,11 +1,9 @@
-package com.kshrd.derphsar_api.repository.dto;
+package com.kshrd.derphsar_api.rest.shop.response;
 
 import java.util.Date;
 
-public class ShopDto {
-
-    private int id;
-    private String shopId;
+public class ShopPromotionResponse {
+    private String shopid;
     private String name;
     private String address;
     private String description;
@@ -14,20 +12,13 @@ public class ShopDto {
     private boolean isOpen;
     private boolean status;
     private Date workingTime;
-    private int u_id;
     private int cat_id;
+    private int u_id;
 
-    private UserDto user;
-    private CategoryDto category;
-    private PromotionDto promotion;
+    public ShopPromotionResponse(){}
 
-
-    public ShopDto() {
-    }
-
-    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, int u_id, int cat_id, UserDto user, CategoryDto category, PromotionDto promotion) {
-        this.id = id;
-        this.shopId = shopId;
+    public ShopPromotionResponse(String shopid, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, int cat_id, int u_id) {
+        this.shopid = shopid;
         this.name = name;
         this.address = address;
         this.description = description;
@@ -36,18 +27,14 @@ public class ShopDto {
         this.isOpen = isOpen;
         this.status = status;
         this.workingTime = workingTime;
-        this.u_id = u_id;
         this.cat_id = cat_id;
-        this.user = user;
-        this.category = category;
-        this.promotion = promotion;
+        this.u_id = u_id;
     }
 
     @Override
     public String toString() {
-        return "ShopDto{" +
-                "id=" + id +
-                ", shopId='" + shopId + '\'' +
+        return "ShopPromotionResponse{" +
+                "shopid='" + shopid + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +
@@ -56,29 +43,18 @@ public class ShopDto {
                 ", isOpen=" + isOpen +
                 ", status=" + status +
                 ", workingTime=" + workingTime +
-                ", u_id=" + u_id +
                 ", cat_id=" + cat_id +
-                ", user=" + user +
-                ", category=" + category +
-                ", promotion=" + promotion +
+                ", u_id=" + u_id +
                 '}';
     }
 
 
-    public int getId() {
-        return id;
+    public String getShopid() {
+        return shopid;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
+    public void setShopid(String shopid) {
+        this.shopid = shopid;
     }
 
     public String getName() {
@@ -145,14 +121,6 @@ public class ShopDto {
         this.workingTime = workingTime;
     }
 
-    public int getU_id() {
-        return u_id;
-    }
-
-    public void setU_id(int u_id) {
-        this.u_id = u_id;
-    }
-
     public int getCat_id() {
         return cat_id;
     }
@@ -161,27 +129,11 @@ public class ShopDto {
         this.cat_id = cat_id;
     }
 
-    public UserDto getUser() {
-        return user;
+    public int getU_id() {
+        return u_id;
     }
 
-    public void setUser(UserDto user) {
-        this.user = user;
-    }
-
-    public CategoryDto getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryDto category) {
-        this.category = category;
-    }
-
-    public PromotionDto getPromotion() {
-        return promotion;
-    }
-
-    public void setPromotion(PromotionDto promotion) {
-        this.promotion = promotion;
+    public void setU_id(int u_id) {
+        this.u_id = u_id;
     }
 }

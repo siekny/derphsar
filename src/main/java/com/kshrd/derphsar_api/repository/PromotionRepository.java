@@ -15,7 +15,8 @@ public interface PromotionRepository {
 
 
     //get all promotions
-    @SelectProvider(value = PromotionProvider.class, method = "getPromotions")
+//    @SelectProvider(value = PromotionProvider.class, method = "getPromotions")
+    @Select("SELECT * FROM dp_promotion WHERE status = 'true'")
     @Results({
             @Result(column = "promo_id" ,property = "promoId"),
             @Result(column = "is_apply" ,property = "isApply"),
@@ -23,10 +24,22 @@ public interface PromotionRepository {
             @Result(column = "end_date" ,property = "endDate"),
             @Result(column = "start_rank" ,property = "startRank"),
             @Result(column = "end_rank" ,property = "endRank"),
-            @Result(column = "shop_id" ,property = "shop_id")
+            @Result(column = "id", property = "shop", many = @Many(select = "getShop"))
 //           @Result(column = "pro_id", property = "product", many = @Many(select = "getProduct"))
     })
     List<PromotionDto> getPromotions();
+
+
+    @Select("SELECT * FROM dp_shops WHERE promo_id = #{shop_id} AND status = 'true'")
+    @Results({
+            @Result(column = "shop_id", property = "shopId"),
+            @Result(column = "is_open", property = "isOpen"),
+            @Result(column = "working_time", property = "workingTime"),
+            @Result(column = "u_id", property = "u_id"),
+            @Result(column = "cat_id", property = "cat_id")
+
+    })
+    ShopDto getShop(int shop_id);
 
 
 

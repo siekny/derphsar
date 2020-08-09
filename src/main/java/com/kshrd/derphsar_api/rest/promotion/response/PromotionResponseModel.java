@@ -1,6 +1,8 @@
 package com.kshrd.derphsar_api.rest.promotion.response;
 
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.rest.shop.response.ShopPromotionResponse;
+import com.kshrd.derphsar_api.rest.shop.response.ShopResponseModel;
 
 import java.sql.Date;
 
@@ -16,10 +18,12 @@ public class PromotionResponseModel {
     private double startRank;
     private double endRank;
 
+    private ShopPromotionResponse shop;
 
     public PromotionResponseModel(){}
 
-    public PromotionResponseModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank) {
+
+    public PromotionResponseModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ShopPromotionResponse shop) {
         this.promoId = promoId;
         this.title = title;
         this.isApply = isApply;
@@ -29,6 +33,7 @@ public class PromotionResponseModel {
         this.cover = cover;
         this.startRank = startRank;
         this.endRank = endRank;
+        this.shop = shop;
     }
 
 
@@ -44,6 +49,7 @@ public class PromotionResponseModel {
                 ", cover='" + cover + '\'' +
                 ", startRank=" + startRank +
                 ", endRank=" + endRank +
+                ", shop=" + shop +
                 '}';
     }
 
@@ -118,5 +124,13 @@ public class PromotionResponseModel {
 
     public void setEndRank(double endRank) {
         this.endRank = endRank;
+    }
+
+    public ShopPromotionResponse getShop() {
+        return shop;
+    }
+
+    public void setShop(ShopPromotionResponse shop) {
+        this.shop = shop;
     }
 }

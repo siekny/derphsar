@@ -63,17 +63,17 @@ public class WishListRestController {
 
     //get all wishlist
     @GetMapping("/wishlists")
-    @ApiOperation(value = "show all wishlist", response = WishListRequestModel.class)
-    public ResponseEntity<BaseApiResponse<List<WishListRequestModel>>> getWishLists() {
+    @ApiOperation(value = "show all wishlist", response = WishListResponse.class)
+    public ResponseEntity<BaseApiResponse<List<WishListResponse>>> getWishLists() {
 
         ModelMapper mapper = new ModelMapper();
-        BaseApiResponse<List<WishListRequestModel>> response =
+        BaseApiResponse<List<WishListResponse>> response =
                 new BaseApiResponse<>();
 
         List<WishListDto> wishListDto = wishListServiceImp.getWishLists();
-        List<WishListRequestModel> wishListRequestModels = new ArrayList<>();
+        List<WishListResponse> wishListRequestModels = new ArrayList<>();
         for (WishListDto wishList : wishListDto) {
-            wishListRequestModels.add(mapper.map(wishList, WishListRequestModel.class));
+            wishListRequestModels.add(mapper.map(wishList, WishListResponse.class));
         }
         response.setMessage("WishLists have been found succesfully");
         response.setData(wishListRequestModels);
