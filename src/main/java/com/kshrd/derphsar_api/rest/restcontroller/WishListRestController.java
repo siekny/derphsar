@@ -98,16 +98,31 @@ public class WishListRestController {
     }
 
 
+
     @GetMapping("wishlists/{userId}")
     @ApiOperation(value = "show all wishlist by user id", response = Void.class)
     public ResponseEntity<BaseApiResponse<List<WishListResponse>>> getAllWishlistByUserId(@PathVariable("userId") int userId) {
 
         BaseApiResponse<List<WishListResponse>> restApiMessage = new BaseApiResponse<>();
+        ModelMapper mapper = new ModelMapper();
        //UserDto userDto = wishListServiceImp.getUserByUserId(userId);
-        restApiMessage.setData(wishListServiceImp.test(userId));
+
+        List<WishListDto> wishListDtos = wishListServiceImp.test(userId);
+
+        List<WishListResponse> wishListResponses = new ArrayList<>();
+
+        for (WishListDto wishListDto : wishListDtos) {
+            WishListResponse wishListResponse = mapper.map(wishListDto, WishListResponse.class);
+            wishListResponses.add(wishListResponse);
+        }
+
+        restApiMessage.setData(wishListResponses);
         restApiMessage.setStatus(HttpStatus.FOUND);
         restApiMessage.setTime(new Timestamp(System.currentTimeMillis()));
         restApiMessage.setMessage("Select is successfully");
+
+        System.out.println("Whislist = " + restApiMessage);
+
         return ResponseEntity.ok(restApiMessage);
     }
 

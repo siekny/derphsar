@@ -5,15 +5,18 @@ import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 import com.kshrd.derphsar_api.service.WishLishService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
 public class WishListServiceImp implements WishLishService{
 
     private WishListRepository wishListRepository;
+    ModelMapper mapper = new ModelMapper();
 
     @Autowired
     public void setWishListRepository(WishListRepository wishListRepository) {
@@ -48,10 +51,10 @@ public class WishListServiceImp implements WishLishService{
     }
 
     @Override
-    public List<WishListResponse> test(int userId) {
-        System.out.println(wishListRepository.test(userId));
+    public List<WishListDto> test(int userId) {
         return wishListRepository.test(userId);
     }
+
 
 
     @Override

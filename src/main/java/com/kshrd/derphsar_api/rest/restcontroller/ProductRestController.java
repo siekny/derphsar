@@ -1,11 +1,14 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.category.request.CategoryRequestModel;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
 import com.kshrd.derphsar_api.rest.product.response.ProductResponseModel;
+import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.service.implement.ProductServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -65,11 +68,49 @@ public class ProductRestController {
 
     //get all products
     @GetMapping("/products")
-    @ApiOperation(value = "show all products", response = ProductRequestModel.class)
-    public List<ProductDto> getProducts(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
+    @ApiOperation(value = "show all products", response = ProductDto.class)
+    public List<ProductDto> getProducts(
+                                        //@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
+                                        @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                        @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+                                        @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+                                        @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
 
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+
+        pagination.setTotalCount(productService.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
+
+
+//        ModelMapper mapper = new ModelMapper();
+//        BaseApiResponse<List<ShopRequestModel>> response =
+//                new BaseApiResponse<>();
+//
+//        List<ShopDto> shopDtoList = shopServiceImp.getShops(pagination);
+//        List<ShopRequestModel> shops = new ArrayList<>();
+//        for (ShopDto shopDto : shopDtoList) {
+//            shops.add(mapper.map(shopDto, ShopRequestModel.class));
+//        }
+//
+//        response.setPagination(pagination);
+//        response.setMessage("you have selected all shops successfully!");
+//        response.setData(shops);
+//        response.setStatus(HttpStatus.OK);
+//        response.setTime(new Timestamp(System.currentTimeMillis()));
+//        return ResponseEntity.ok(response);
+
+        /////
         List<ProductDto> data;
-        data = productService.getProducts(shopId);
+        data = productService.getProducts(pagination);
+
+        //ModelMapper mapper = new ModelMapper();
+        BaseApiResponse<List<ProductRequestModel>> response =
+                new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
 

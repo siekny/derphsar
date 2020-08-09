@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.service.implement;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.ProductRepository;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.service.ProductService;
@@ -19,12 +20,17 @@ public class ProductServiceImp implements ProductService {
 
     // get all products
     @Override
-    public List<ProductDto> getProducts(int shopId) {
-        if(shopId == 0)
-            return productRepository.getProducts();
-        else
-            return productRepository.findProductByShopId(shopId);
+    public List<ProductDto> getProducts(Pagination pagination) {
+        //if(shopId == 0)
+            return productRepository.getProducts(pagination);
+        //else
+            //return productRepository.findProductByShopId(shopId, pagination);
     }
+
+//    @Override
+//    public List<ProductDto> getProducts(int shopId, Pagination pagination) {
+//        return null;
+//    }
 
     //insert a product
     @Override
@@ -57,6 +63,11 @@ public class ProductServiceImp implements ProductService {
     @Override
     public ProductDto findById(String proId) {
         return  productRepository.findById(proId);
+    }
+
+    @Override
+    public int countId() {
+        return productRepository.countId();
     }
 
 }

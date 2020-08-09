@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.repository;
 
 import com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg;
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.provider.ProductProvider;
@@ -14,7 +15,8 @@ import java.util.List;
 public interface ProductRepository {
 
     //get all products
-    @SelectProvider(value = ProductProvider.class, method = "getProducts")
+   // @SelectProvider(value = ProductProvider.class, method = "getProducts")
+    @Select("SELECT * FROM dp_products WHERE status = 'true' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
     @Results({
             @Result(column = "pro_id" ,property = "proId"),
             @Result(column = "is_sold" ,property = "isSold"),
@@ -23,7 +25,7 @@ public interface ProductRepository {
             @Result(column = "images" ,property = "images", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
             @Result(column = "shop_id", property = "shop", many = @Many(select = "getShops"))
     })
-    List<ProductDto> getProducts();
+    List<ProductDto> getProducts(@Param("pagination") Pagination pagination);
 
 
     //select all shops
@@ -56,11 +58,11 @@ public interface ProductRepository {
 
 
     //Search product by shop
-    @Select("SELECT * FROM dp_products WHERE shop_id=#{shopId}")
+    @Select("SELECT * FROM dp_products WHERE shop_id=#{shopId} AND status = 'true' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
     @Results({
             @Result(column = "shop_id" ,property = "shop",many = @Many(select = "selectOneShop")),
     })
-    List<ProductDto> findProductByShopId(@Param("shopId") int shopId);
+    List<ProductDto> findProductByShopId(@Param("shopId") int shopId, @Param("pagination") Pagination pagination);
 
 
 
@@ -93,5 +95,8 @@ public interface ProductRepository {
 //    })
 //    ShopDto selectOneShop(String shopId);
 
+
+    @SelectProvider(type = ProductProvider.class, method = "countId")
+    int countId();
 
 }

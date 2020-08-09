@@ -1,5 +1,7 @@
 package com.kshrd.derphsar_api.repository.provider;
 
+import com.kshrd.derphsar_api.page.Pagination;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
 public class ProductProvider {
@@ -15,10 +17,21 @@ public class ProductProvider {
 
 
     //get all products
-    public String getProducts() {
+    public String getProducts(@Param("pagination") Pagination pagination) {
         return new SQL(){{
             SELECT("*");
             FROM("dp_products");
+            WHERE("status = TRUE");
+            LIMIT("#{pagination.limit}  OFFSET #{pagination.offset}");
+        }}.toString();
+    }
+
+
+    public String countId(){
+        return new SQL(){{
+            SELECT("COUNT(id)");
+            FROM("dp_products");
+            WHERE("status = 'TRUE'");
         }}.toString();
     }
 

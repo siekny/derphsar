@@ -13,6 +13,7 @@ public class PromotionDto {
     private String cover;
     private double startRank;
     private double endRank;
+
     private ShopDto shop;
 
     private int shop_id;

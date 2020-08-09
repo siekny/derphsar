@@ -47,13 +47,15 @@ public class WishListProvider {
         }}.toString();
     }
 
-
     public String test(int uId){
         return new SQL(){{
-            SELECT("w.*, u.name, u.id");
+            SELECT("w.wishlist_id, w.fav_date, w.status, u.name, u.user_id, pro.name AS proName, pro.pro_id, pro.price, pro.images, sh.name AS shopName, sh.shop_id");
             FROM("dp_wishlist as w");
             INNER_JOIN("dp_users as u ON w.u_id = u.id");
-            WHERE("w.u_id = #{uId}");
+            INNER_JOIN("dp_products as pro ON w.pro_id = pro.id");
+            INNER_JOIN("dp_shops as sh ON pro.shop_id = sh.id");
+            WHERE("w.u_id = #{uId} AND w.status = TRUE");
+
         }}.toString();
     }
 

@@ -82,17 +82,30 @@ public interface WishListRepository {
     UserDto getUserByUserId(String userId);
 
 
-
     @SelectProvider(type = WishListProvider.class, method = "test")
     @Results({
             @Result(property = "wishlistId", column = "wishlist_id"),
             @Result(property = "favDate", column = "fav_date"),
+
             @Result(property = "user.name", column = "name"),
-            @Result(property = "user.id", column = "id"),
+            @Result(property = "user.userId", column = "user_id"),
+
+            @Result(property = "product.name", column = "proName"),
+            @Result(property = "product.proId", column = "pro_id"),
+            @Result(property = "product.price", column = "price"),
+            //@Result(property = "product.image", column = "images"),
+
+            @Result(property = "product.shop.shopId", column = "shop_id"),
+            @Result(property = "product.shop.name", column = "shopName"),
+
+
+            //@Result(property = "product.shop.promotion.promoId", column = "promo_id")
+//
+
             //@Result(column = "u_id", property = "user", many = @Many(select = "getUserById"))
 
     })
-    List<WishListResponse> test(int uId);
+    List<WishListDto> test(int uId);
 
 
 

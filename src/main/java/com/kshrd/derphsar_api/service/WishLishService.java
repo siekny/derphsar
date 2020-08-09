@@ -19,7 +19,8 @@ public interface WishLishService {
 
     List<WishListDto> getAllWishListByUserId (int userId);
 
-    List<WishListResponse> test(int userId);
+
+    List<WishListDto> test(int userId);
 
     
     UserDto getUserByUserId(String userId);
