@@ -16,11 +16,11 @@ class DerphsarApiApplicationTests {
 //		System.out.println(productRepository.getProducts());
 //	}
 
-    @Autowired
-    private WishListRepository wishListRepository;
-
-    @Test
-    void test() {
-        System.out.println(wishListRepository.test(4));
-    }
+//    @Autowired
+//    private WishListRepository wishListRepository;
+//
+//    @Test
+//    void test() {
+//        System.out.println(wishListRepository.get(4));
+//    }
 }

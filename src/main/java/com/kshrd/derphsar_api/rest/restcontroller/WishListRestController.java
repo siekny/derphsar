@@ -105,9 +105,8 @@ public class WishListRestController {
 
         BaseApiResponse<List<WishListResponse>> restApiMessage = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
-       //UserDto userDto = wishListServiceImp.getUserByUserId(userId);
 
-        List<WishListDto> wishListDtos = wishListServiceImp.test(userId);
+        List<WishListDto> wishListDtos = wishListServiceImp.getAllWishListByUserId(userId);
 
         List<WishListResponse> wishListResponses = new ArrayList<>();
 
@@ -119,7 +118,7 @@ public class WishListRestController {
         restApiMessage.setData(wishListResponses);
         restApiMessage.setStatus(HttpStatus.FOUND);
         restApiMessage.setTime(new Timestamp(System.currentTimeMillis()));
-        restApiMessage.setMessage("Select is successfully");
+        restApiMessage.setMessage(message.selected("WishLists"));
 
         System.out.println("Whislist = " + restApiMessage);
 

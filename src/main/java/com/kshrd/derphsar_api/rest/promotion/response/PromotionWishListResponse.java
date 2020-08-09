@@ -3,15 +3,15 @@ package com.kshrd.derphsar_api.rest.promotion.response;
 public class PromotionWishListResponse {
 
     private String promoId;
-    private String name;
+    private String title;
     private String startRank;
     private String endRank;
 
     public PromotionWishListResponse(){}
 
-    public PromotionWishListResponse(String promoId, String name, String startRank, String endRank) {
+    public PromotionWishListResponse(String promoId, String title, String startRank, String endRank) {
         this.promoId = promoId;
-        this.name = name;
+        this.title = title;
         this.startRank = startRank;
         this.endRank = endRank;
     }
@@ -21,12 +21,11 @@ public class PromotionWishListResponse {
     public String toString() {
         return "PromotionWishListResponse{" +
                 "promoId='" + promoId + '\'' +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", startRank='" + startRank + '\'' +
                 ", endRank='" + endRank + '\'' +
                 '}';
     }
-
 
     public String getPromoId() {
         return promoId;
@@ -36,12 +35,12 @@ public class PromotionWishListResponse {
         this.promoId = promoId;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getStartRank() {
@@ -60,3 +59,4 @@ public class PromotionWishListResponse {
         this.endRank = endRank;
     }
 }
+

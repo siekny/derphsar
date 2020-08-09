@@ -24,21 +24,6 @@ public class WishListProvider {
 
 
 
-
-
-    //
-    public String selectAllWishListByUserId(){
-        return new SQL(){{
-            SELECT("pro.name, sh.name, pro.price, promote.start_rank, promote.end_rank, w.fav_date");
-            FROM("dp_wishlist w");
-            INNER_JOIN("dp_products pro ON pro.id = w.pro_id");
-            INNER_JOIN("dp_shops sh ON pro.shop_id = sh.id");
-            INNER_JOIN("dp_promotion promote ON promote.shop_id = sh.id");
-            WHERE("u_id = #{id} AND status = 'TRUE'");
-        }}.toString();
-    }
-
-
     public String getUserByUserId(){
         return new SQL(){{
             SELECT("*");
@@ -47,13 +32,14 @@ public class WishListProvider {
         }}.toString();
     }
 
-    public String test(int uId){
+    public String getAllWishListByUserId(int uId){
         return new SQL(){{
-            SELECT("w.wishlist_id, w.fav_date, w.status, u.name, u.user_id, pro.name AS proName, pro.pro_id, pro.price, pro.images, sh.name AS shopName, sh.shop_id");
+            SELECT("w.wishlist_id, w.fav_date, w.status, u.name, u.user_id, pro.name AS proName, pro.pro_id, pro.price, pro.images, sh.name AS shopName, sh.shop_id, promo.title, promo.promo_id, promo.start_rank, promo.end_rank");
             FROM("dp_wishlist as w");
             INNER_JOIN("dp_users as u ON w.u_id = u.id");
             INNER_JOIN("dp_products as pro ON w.pro_id = pro.id");
             INNER_JOIN("dp_shops as sh ON pro.shop_id = sh.id");
+            INNER_JOIN("dp_promotion as promo ON promo.id = sh.promo_id");
             WHERE("w.u_id = #{uId} AND w.status = TRUE");
 
         }}.toString();

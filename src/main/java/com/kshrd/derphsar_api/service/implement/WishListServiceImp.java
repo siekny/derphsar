@@ -47,13 +47,15 @@ public class WishListServiceImp implements WishLishService{
 
     @Override
     public List<WishListDto> getAllWishListByUserId(int userId) {
-        return wishListRepository.getAllShopsByUserId(userId);
+        return wishListRepository.getAllWishListByUserId(userId);
     }
 
-    @Override
-    public List<WishListDto> test(int userId) {
-        return wishListRepository.test(userId);
-    }
+//    @Override
+//    public List<WishListDto> getAllWishListByUserId(int userId) {
+//        return wishListRepository.getAllShopsByUserId(userId);
+//    }
+
+
 
 
 

@@ -17,10 +17,10 @@ public interface WishLishService {
     void deleteWishList(String wishlist_id);
 
 
-    List<WishListDto> getAllWishListByUserId (int userId);
+    //List<WishListDto> getAllWishListByUserId (int userId);
 
 
-    List<WishListDto> test(int userId);
+    List<WishListDto> getAllWishListByUserId(int userId);
 
     
     UserDto getUserByUserId(String userId);
