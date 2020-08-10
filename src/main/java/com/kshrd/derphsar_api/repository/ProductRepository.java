@@ -18,7 +18,7 @@ public interface ProductRepository {
     @Select("SELECT * FROM dp_products WHERE status = 'true' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
     @Results({
             @Result(column = "pro_id" ,property = "proId"),
-            @Result(column = "is_sold" ,property = "isSold"),
+            @Result(column = "is_sold" ,property = "soldStatus"),
             @Result(column = "view_count" ,property = "viewCount"),
             @Result(column = "details" ,property = "details", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
             @Result(column = "images" ,property = "images", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
@@ -75,7 +75,7 @@ public interface ProductRepository {
 
     //create product
     @Insert("INSERT INTO dp_products (pro_id, name, price, description, status, is_sold, view_count, images , details, shop_id)" +
-            "VALUES ( #{proId}, #{name, jdbcType=VARCHAR}, #{price}, #{description}, #{status}, #{isSold}, #{viewCount},#{images, jdbcType=OTHER, typeHandler=com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg},#{details, jdbcType=OTHER, typeHandler=com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg}, #{shop.id})")
+            "VALUES ( #{proId}, #{name, jdbcType=VARCHAR}, #{price}, #{description}, #{status}, #{soldStatus}, #{viewCount},#{images, jdbcType=OTHER, typeHandler=com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg},#{details, jdbcType=OTHER, typeHandler=com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg}, #{shop.id})")
     boolean insert(ProductDto productDto);
 
 
@@ -86,7 +86,7 @@ public interface ProductRepository {
 
 
     //update a product
-    @Update("UPDATE dp_products set name = #{product.name}, price = #{product.price}, description= #{product.description} ,status = #{product.status}, is_sold = #{product.isSold}, view_count= #{product.viewCount} WHERE pro_id = #{id}")
+    @Update("UPDATE dp_products set name = #{product.name}, price = #{product.price}, description= #{product.description} ,status = #{product.status}, is_sold = #{product.soldStatus}, view_count= #{product.viewCount} WHERE pro_id = #{id}")
     boolean updateProduct(String id, ProductDto product);
 
 

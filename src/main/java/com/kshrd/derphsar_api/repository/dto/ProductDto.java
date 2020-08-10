@@ -7,7 +7,7 @@ public class ProductDto {
     private Double price;
     private String description;
     private boolean status;
-    private boolean isSold;
+    private boolean soldStatus;
     private int viewCount;
 
     private Object images;
@@ -25,7 +25,7 @@ public class ProductDto {
         this.price = price;
         this.description = description;
         this.status = status;
-        this.isSold = isSold;
+        this.soldStatus = isSold;
         this.viewCount = viewCount;
         this.images = images;
         this.details = details;
@@ -80,12 +80,12 @@ public class ProductDto {
         this.status = status;
     }
 
-    public boolean isSold() {
-        return isSold;
+    public boolean isSoldStatus() {
+        return soldStatus;
     }
 
-    public void setSold(boolean sold) {
-        isSold = sold;
+    public void setSoldStatus(boolean soldStatus) {
+        this.soldStatus = soldStatus;
     }
 
     public int getViewCount() {
@@ -130,7 +130,7 @@ public class ProductDto {
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", isSold=" + isSold +
+                ", isSold=" + soldStatus +
                 ", viewCount=" + viewCount +
                 ", images=" + images +
                 ", details=" + details +

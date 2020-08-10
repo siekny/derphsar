@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.rest.product.response;
 
 public class ProductOrderDetailResponse {
+
     private String proId;
     private String name;
     private double price;

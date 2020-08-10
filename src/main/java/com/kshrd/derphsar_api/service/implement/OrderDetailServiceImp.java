@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.service.implement;
 
 import com.kshrd.derphsar_api.repository.OrderDetailRepository;
 import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
+import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailResponse;
 import com.kshrd.derphsar_api.service.OrderDetailService;
@@ -29,6 +30,18 @@ public class OrderDetailServiceImp implements OrderDetailService {
         try{
           if(!data.isEmpty())
               return data;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    @Override
+    public List<OrderDetailDto> findAllWithFilter(OrderDetailFilter orderDetailFilter) {
+        List<OrderDetailDto> data = orderDetailRepository.findAllWithFilter(orderDetailFilter);
+        try {
+            if(!data.isEmpty())
+                return data;
         }catch (Exception e){
             e.printStackTrace();
         }

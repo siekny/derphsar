@@ -2,10 +2,9 @@ package com.kshrd.derphsar_api.repository;
 
 
 import com.kshrd.derphsar_api.repository.dto.*;
-import org.apache.ibatis.annotations.Many;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
+import com.kshrd.derphsar_api.repository.provider.OrderDetailProvider;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -69,7 +68,6 @@ public interface OrderDetailRepository {
 
 
 
-
     @Select("SELECT * FROM dp_products WHERE id = #{pro_id} AND status = 'TRUE'")
     @Results({
             @Result(column = "id" ,property = "id"),
@@ -78,4 +76,34 @@ public interface OrderDetailRepository {
     ProductDto getProduct(int pro_id);
 
 
+    /////
+    @SelectProvider(type = OrderDetailProvider.class, method = "findAllWithFilter")
+    @Results({
+            @Result(property = "itemId" , column = "item_id"),
+            @Result(property = "orderDate" , column = "order_date"),
+
+
+            @Result(property = "product.proId", column = "proId"),
+            @Result(property = "product.name", column = "proName"),
+            @Result(property = "product.price", column = "price"),
+            @Result(property = "product.soldStatus", column = "is_sold"),
+
+
+            @Result(property = "order.orderId", column = "orderId"),
+
+            @Result(property = "order.user.userId", column = "userId"),
+            @Result(property = "order.user.name", column = "userName"),
+            @Result(property = "order.user.phone", column = "phone"),
+
+            @Result(property = "order.shop.shopId", column = "shopId"),
+            @Result(property = "order.shop.name", column = "shopName"),
+
+
+            @Result(property = "order.shop.promotion.promoId", column = "promoId"),
+            @Result(property = "order.shop.promotion.title", column = "title"),
+            @Result(property = "order.shop.promotion.startRank", column = "start_rank"),
+            @Result(property = "order.shop.promotion.endRank", column = "end_rank"),
+
+    })
+    List<OrderDetailDto> findAllWithFilter(@Param("filter")OrderDetailFilter orderDetailFilter);
 }
