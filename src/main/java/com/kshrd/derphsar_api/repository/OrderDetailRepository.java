@@ -4,6 +4,7 @@ package com.kshrd.derphsar_api.repository;
 import com.kshrd.derphsar_api.repository.dto.*;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import com.kshrd.derphsar_api.repository.provider.OrderDetailProvider;
+import com.kshrd.derphsar_api.repository.provider.UserProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -106,4 +107,10 @@ public interface OrderDetailRepository {
 
     })
     List<OrderDetailDto> findAllWithFilter(@Param("filter")OrderDetailFilter orderDetailFilter);
+
+
+
+    //delete order detail
+    @Update("UPDATE dp_order_detail SET status = 'FALSE' WHERE item_id = #{order_detail_id}")
+    boolean deleteOrderDetail(String order_detail_id);
 }

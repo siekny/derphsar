@@ -11,4 +11,6 @@ public interface OrderDetailService {
     List<OrderDetailDto> getOrderDetails();
 
     List<OrderDetailDto> findAllWithFilter(OrderDetailFilter orderDetailFilter);
+
+    boolean deleteOrderdetail(String order_detail_id);
 }

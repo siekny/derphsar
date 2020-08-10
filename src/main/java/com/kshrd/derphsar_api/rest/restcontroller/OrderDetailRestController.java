@@ -17,10 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -115,4 +112,29 @@ public class OrderDetailRestController {
         return ResponseEntity.ok(response);
     }
 
+
+    @DeleteMapping("/orderdetails/{orderDetailId}")
+    public ResponseEntity<BaseApiResponse<String>> delete(@PathVariable String orderDetailId)
+    {
+        BaseApiResponse<String> response = new BaseApiResponse<>();
+        try{
+            Boolean isDeleted = orderDetailServiceImp.deleteOrderdetail(orderDetailId);
+            if(isDeleted)
+            {
+                response.setMessage(message.deleted("OrderDetails"));
+                response.setStatus(HttpStatus.OK);
+            }
+            else
+            {
+                response.setMessage(message.deleteError("OrderDetails"));
+                response.setStatus(HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e)
+        {
+            response.setMessage(message.deleteError("OrderDetails"));
+            response.setStatus(HttpStatus.BAD_REQUEST);
+        }
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 }

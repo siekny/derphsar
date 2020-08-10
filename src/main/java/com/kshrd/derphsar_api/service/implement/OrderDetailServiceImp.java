@@ -47,4 +47,13 @@ public class OrderDetailServiceImp implements OrderDetailService {
         }
         return data;
     }
+
+    @Override
+    public boolean deleteOrderdetail(String order_detail_id) {
+        boolean isDeleted = orderDetailRepository.deleteOrderDetail(order_detail_id);
+        if(isDeleted){
+            return true;
+        }else
+            return false;
+    }
 }
