@@ -1,11 +1,12 @@
-package com.kshrd.derphsar_api.repository.dto;
+package com.kshrd.derphsar_api.rest.orderdetail.response;
 
+import com.kshrd.derphsar_api.rest.order.response.OrderResponse;
+import com.kshrd.derphsar_api.rest.product.response.ProductOrderDetailResponse;
 
 import java.sql.Date;
 
-public class OrderDetailDto {
+public class OrderDetailResponse {
 
-    private int id;
     private String itemId;
     private double quatity;
     private Object detail;
@@ -13,13 +14,12 @@ public class OrderDetailDto {
     private boolean status;
     private Date orderDate;
 
-    private ProductDto product;
-    private OrderDto order;
+    private ProductOrderDetailResponse product;
+    private OrderResponse order;
 
-    public OrderDetailDto(){}
+    public OrderDetailResponse(){}
 
-    public OrderDetailDto(int id, String itemId, double quality, Object detail, Object image, boolean status, Date orderDate, ProductDto product, OrderDto order) {
-        this.id = id;
+    public OrderDetailResponse(String itemId, double quality, Object detail, Object image, boolean status, Date orderDate, ProductOrderDetailResponse product, OrderResponse order) {
         this.itemId = itemId;
         this.quatity = quality;
         this.detail = detail;
@@ -30,11 +30,11 @@ public class OrderDetailDto {
         this.order = order;
     }
 
+
     @Override
     public String toString() {
-        return "OrderDetailDto{" +
-                "id=" + id +
-                ", itemId='" + itemId + '\'' +
+        return "OrderDetailResponse{" +
+                "itemId='" + itemId + '\'' +
                 ", quality=" + quatity +
                 ", detail=" + detail +
                 ", image=" + image +
@@ -45,14 +45,6 @@ public class OrderDetailDto {
                 '}';
     }
 
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getItemId() {
         return itemId;
@@ -102,19 +94,19 @@ public class OrderDetailDto {
         this.orderDate = orderDate;
     }
 
-    public ProductDto getProduct() {
+    public ProductOrderDetailResponse getProduct() {
         return product;
     }
 
-    public void setProduct(ProductDto product) {
+    public void setProduct(ProductOrderDetailResponse product) {
         this.product = product;
     }
 
-    public OrderDto getOrder() {
+    public OrderResponse getOrder() {
         return order;
     }
 
-    public void setOrder(OrderDto order) {
+    public void setOrder(OrderResponse order) {
         this.order = order;
     }
 }

@@ -157,10 +157,10 @@ public class ProductRestController {
 
         for(ProductDto productDto : productDtos){
            try {
-               Object test = mapper.readValue(productDto.getDetails().toString(), Object.class);
-               Object test1 = mapper.readValue(productDto.getImages().toString(), Object.class);
-               productDto.setDetails(test);
-               productDto.setImages(test1);
+               Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
+               Object images = mapper.readValue(productDto.getImages().toString(), Object.class);
+               productDto.setDetails(details);
+               productDto.setImages(images);
 
                ModelMapper modelMapper = new ModelMapper();
                ProductResponseModel productResponseModel = modelMapper .map(productDto, ProductResponseModel.class);
