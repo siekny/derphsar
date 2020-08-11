@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.service.implement;
 
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.OrderDetailRepository;
 import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
@@ -37,8 +38,8 @@ public class OrderDetailServiceImp implements OrderDetailService {
     }
 
     @Override
-    public List<OrderDetailDto> findAllWithFilter(OrderDetailFilter orderDetailFilter) {
-        List<OrderDetailDto> data = orderDetailRepository.findAllWithFilter(orderDetailFilter);
+    public List<OrderDetailDto> findAllWithFilter(OrderDetailFilter orderDetailFilter, Pagination pagination) {
+        List<OrderDetailDto> data = orderDetailRepository.findAllWithFilter(orderDetailFilter,pagination);
         try {
             if(!data.isEmpty())
                 return data;
@@ -55,5 +56,11 @@ public class OrderDetailServiceImp implements OrderDetailService {
             return true;
         }else
             return false;
+    }
+
+    //count all id
+    @Override
+    public int countId() {
+        return orderDetailRepository.countId();
     }
 }

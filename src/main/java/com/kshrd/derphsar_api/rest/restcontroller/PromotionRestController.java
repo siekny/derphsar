@@ -4,7 +4,6 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 import com.kshrd.derphsar_api.repository.dto.PromotionDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
-import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
 import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.service.implement.PromotionServiceImp;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +35,16 @@ public class PromotionRestController {
         this.promotionServiceImp = promotionServiceImp;
     }
 
-    //get all promotions
+
+
+
+
+    /**
+     * Get promotions
+     *
+     * @param shopId - Id of a shop
+     * @return - Return response message
+     */
     @GetMapping("/promotions")
     @ApiOperation(value = "show all promotion", response = PromotionResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> getPromotions(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
@@ -62,8 +69,12 @@ public class PromotionRestController {
     }
 
 
-
-    //Delete a promotion
+    /**
+     * Delete a promotion
+     *
+     * @param id - Id of a promotion
+     * @return - Return response message
+     */
     @DeleteMapping("/promotions/{id}")
     @ApiOperation(value = "delete a promotion", response = Void.class)
     public ResponseEntity<BaseApiResponse<Void>> deletePromotion(@PathVariable("id") String id) {
@@ -77,7 +88,13 @@ public class PromotionRestController {
     }
 
 
-    //Update a promotions
+    /**
+     * Put a promotion
+     *
+     * @param id - Id of a promotion
+     * @param promotionRequestModel - Promotion request model
+     * @return - Return response message
+     */
     @PutMapping("/promotions/{id}")
     @ApiOperation(value = "update a promotion", response = PromotionRequestModel.class)
     public ResponseEntity<BaseApiResponse<PromotionRequestModel>> updatePromotion(
@@ -96,7 +113,12 @@ public class PromotionRestController {
     }
 
 
-    //post promotion
+    /**
+     * Post a promotion
+     *
+     * @param promotionRequestModel - Promotion request model
+     * @return - Return response message
+     */
     @PostMapping("/promotion")
     @ApiOperation(value = "create a promotion", response = PromotionResponseModel.class)
     public ResponseEntity<BaseApiResponse<PromotionResponseModel>> createPromotion(
@@ -123,7 +145,12 @@ public class PromotionRestController {
     }
 
 
-    //find by id
+    /**
+     * Get a promotion
+     *
+     * @param id - Id of a promotion
+     * @return - Return response message
+     */
     @GetMapping("/promotions/{id}")
     @ApiOperation(value = "show all promotions", response = PromotionRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<PromotionRequestModel>>> findById(@PathVariable("id") String id){
@@ -141,5 +168,4 @@ public class PromotionRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
-
 }

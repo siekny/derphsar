@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.repository;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
@@ -107,7 +108,7 @@ public interface WishListRepository {
             //@Result(column = "u_id", property = "user", many = @Many(select = "getUserById"))
 
     })
-    List<WishListDto> getAllWishListByUserId(int uId);
+    List<WishListDto> getAllWishListByUserId(int uId, @Param("pagination") Pagination pagination);
 
 
 
@@ -118,6 +119,8 @@ public interface WishListRepository {
     })
     UserDto getUserById(int u_id);
 
-
+    //count all orders
+    @Select("SELECT COUNT(id) FROM dp_wishlist WHERE status = 'true'")
+    int countId();
 
 }

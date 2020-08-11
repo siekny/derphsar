@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,6 @@ public class CategoryRestController {
     CategoryServiceImp categoryServiceImp;
     private MessageProperties message;
 
-
     @Autowired
     public void setMessage(MessageProperties message) {
         this.message = message;
@@ -36,7 +34,11 @@ public class CategoryRestController {
         this.categoryServiceImp = categoryServiceImp;
     }
 
-
+    /**
+     * Get categories
+     *
+     * @return - Returns all categories
+     */
     @GetMapping("/categories")
     @ApiOperation(value = "Show all categories", response = CategoryRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<CategoryRequestModel>>> getCategories(){
@@ -58,6 +60,5 @@ public class CategoryRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
 
         return ResponseEntity.ok(response);
-
     }
 }

@@ -1,25 +1,19 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
 
-import com.kshrd.derphsar_api.repository.dto.PromotionDto;
-import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
-import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
-import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.service.implement.UserServiceImp;
 import io.swagger.annotations.ApiOperation;
-import org.apache.logging.log4j.message.Message;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -48,7 +42,12 @@ public class UserRestController {
     }
 
 
-    // user register new account
+    /**
+     * Post a user
+     *
+     * @param userRequestModel - User request model
+     * @return - Return response message
+     */
     @PostMapping("/register")
     @ApiOperation(value = "user register", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<UserResponseModel>> createUser(
@@ -83,7 +82,11 @@ public class UserRestController {
     }
 
 
-    //select all users
+    /**
+     * Get users
+     *
+     * @return - Return response message
+     */
     @GetMapping("/users")
     @ApiOperation(value = "show all users", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<UserResponseModel>>> getAllUsers(){
@@ -105,7 +108,15 @@ public class UserRestController {
     }
 
 
-    //get one user by userId
+
+
+
+    /**
+     * Get a user
+     *
+     * @param userId - Id of a user
+     * @return - Return response message
+     */
     @GetMapping("/users/{userId}")
     @ApiOperation(value = "show all users", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<UserResponseModel>> getOneUserById(@PathVariable String userId){
@@ -126,7 +137,15 @@ public class UserRestController {
     }
 
 
-    //delete a user by update field status
+
+
+
+    /**
+     * Delete a user
+     *
+     * @param userId - Id of a user
+     * @return - Return response message
+     */
     @DeleteMapping("/users/{userId}")
     @ApiOperation(value = "delete a user", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<Void>> deleteUser(@PathVariable("userId") String userId){
@@ -146,7 +165,16 @@ public class UserRestController {
     }
 
 
-    //update a shop
+
+
+
+    /**
+     * Put a user
+     *
+     * @param userId - Id of a user
+     * @param userRequestModel - User request model
+     * @return - Return response message
+     */
     @PutMapping("/users/{userId}")
     @ApiOperation(value = "update a user by Id", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<UserResponseModel>> updateUserById(

@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.service;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
@@ -20,9 +21,11 @@ public interface WishLishService {
     //List<WishListDto> getAllWishListByUserId (int userId);
 
 
-    List<WishListDto> getAllWishListByUserId(int userId);
+    List<WishListDto> getAllWishListByUserId(int userId, Pagination pagination);
 
     
     UserDto getUserByUserId(String userId);
 
+    //count all id
+    int countId();
 }
