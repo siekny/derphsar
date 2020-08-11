@@ -18,19 +18,24 @@ public class ProductServiceImp implements ProductService {
         this.productRepository = productRepository;
     }
 
-    // get all products
+//    // get all products
+//    @Override
+//    public List<ProductDto> getProducts(Pagination pagination) {
+//        //if(shopId == 0)
+//        return productRepository.getProducts(pagination);
+//        //else
+//        //return productRepository.findProductByShopId(shopId, pagination);
+//    }
+//
+////    @Override
+////    public List<ProductDto> getProducts(int shopId, Pagination pagination) {
+////        return null;
+////    }
+
     @Override
     public List<ProductDto> getProducts(Pagination pagination) {
-        //if(shopId == 0)
-            return productRepository.getProducts(pagination);
-        //else
-            //return productRepository.findProductByShopId(shopId, pagination);
+        return productRepository.getProducts(pagination);
     }
-
-//    @Override
-//    public List<ProductDto> getProducts(int shopId, Pagination pagination) {
-//        return null;
-//    }
 
     //insert a product
     @Override

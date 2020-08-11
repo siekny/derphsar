@@ -4,7 +4,7 @@ import com.kshrd.derphsar_api.page.Pagination;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
-public class ProductProvider {
+public class ProductProvider{
 
     //get all products
 //    public String getProducts() {

@@ -132,12 +132,12 @@ public class ProductRestController {
     //get all products
     @GetMapping("/products")
     @ApiOperation(value = "show all products", response = ProductDto.class)
-     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getProducts(
-                                        //@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
-                                        @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
-                                        @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
-                                        @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
-                                        @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getProducts(
+            //@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
+            @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+            @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+            @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+            @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
 
         Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
         pagination.setPage(page);
@@ -156,18 +156,18 @@ public class ProductRestController {
         List<ProductResponseModel> productResponseModels = new ArrayList<>();
 
         for(ProductDto productDto : productDtos){
-           try {
-               Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
-               Object images = mapper.readValue(productDto.getImages().toString(), Object.class);
-               productDto.setDetails(details);
-               productDto.setImages(images);
+            try {
+                Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
+                Object images = mapper.readValue(productDto.getImages().toString(), Object.class);
+                productDto.setDetails(details);
+                productDto.setImages(images);
 
-               ModelMapper modelMapper = new ModelMapper();
-               ProductResponseModel productResponseModel = modelMapper .map(productDto, ProductResponseModel.class);
-               productResponseModels.add(productResponseModel);
-           }catch (JsonProcessingException e){
-               e.printStackTrace();
-           }
+                ModelMapper modelMapper = new ModelMapper();
+                ProductResponseModel productResponseModel = modelMapper .map(productDto, ProductResponseModel.class);
+                productResponseModels.add(productResponseModel);
+            }catch (JsonProcessingException e){
+                e.printStackTrace();
+            }
         }
         response.setData(productResponseModels);
         response.setStatus(HttpStatus.FOUND);
