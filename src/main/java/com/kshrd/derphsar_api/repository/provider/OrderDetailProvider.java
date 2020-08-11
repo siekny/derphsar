@@ -18,8 +18,8 @@ public class OrderDetailProvider {
             INNER_JOIN("dp_promotion as promo ON promo.id = sh.promo_id");
             if (orderDetailFilter.getOrderId() != null && orderDetailFilter.getUserId() != null)
                 WHERE("o.user_id =  #{filter.userId} AND  o.id = #{filter.orderId}");
-                LIMIT(pagination.getLimit());
-                OFFSET(pagination.getOffset());
+             LIMIT(pagination.getLimit());
+             OFFSET(pagination.getOffset());
         }}.toString();
     }
 
