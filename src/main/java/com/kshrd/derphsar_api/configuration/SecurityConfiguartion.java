@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -48,6 +49,39 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
+
+//    @Autowired
+//    private Http403ForbiddenEntryPoint forbiddenEntryPoint;
+//
+//    @Bean
+//    public Http403ForbiddenEntryPoint forbiddenEntryPoint() {
+//        return new Http403ForbiddenEntryPoint();
+//    }
+
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.
+//                authorizeRequests()
+//                .antMatchers("/api/v1/login").permitAll()
+//                .antMatchers(HttpMethod.POST,"/api/v1/register").permitAll()
+//                .antMatchers(HttpMethod.GET ,"/**").hasAnyRole("ADMIN","SHOPKEEPER", "BUYER")
+//                .antMatchers("/**").hasRole("ADMIN")
+//                .anyRequest().authenticated()
+//                .and()
+//                .httpBasic()
+//                .authenticationEntryPoint(forbiddenEntryPoint)
+//
+//                .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//
+//        .and()
+//                .csrf().disable();
+//
+//                http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//    }
+
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {

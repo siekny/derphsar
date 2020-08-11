@@ -14,7 +14,7 @@ import java.util.List;
 public interface ProductRepository {
 
     //get all products
-   // @SelectProvider(value = ProductProvider.class, method = "getProducts")
+    // @SelectProvider(value = ProductProvider.class, method = "getProducts")
     @Select("SELECT * FROM dp_products WHERE status = 'true' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
     @Results({
             @Result(column = "pro_id" ,property = "proId"),
