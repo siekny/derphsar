@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
 import com.kshrd.derphsar_api.repository.dto.PromotionDto;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
@@ -44,6 +45,7 @@ public class OrderDetailRestController {
     @ApiOperation(value = "show all order details", response = OrderDetailResponse.class)
     public ResponseEntity<BaseApiResponse<List<OrderDetailResponse>>> getOrderDetails(){
 
+
         BaseApiResponse<List<OrderDetailResponse>> response = new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -77,15 +79,27 @@ public class OrderDetailRestController {
     }
 
 
-
     @GetMapping("/orderdetail")
     @ApiOperation("show all orderdetails filter by userId and orderId")
-    public ResponseEntity<BaseApiResponse<List<OrderDetailFilterResponse>>> FilterbyUserAndOrder(OrderDetailFilter orderDetailFilter) {
+    public ResponseEntity<BaseApiResponse<List<OrderDetailFilterResponse>>> FilterbyUserAndOrder(OrderDetailFilter orderDetailFilter,
+                                                                                                 @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                                                 @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+                                                                                                 @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+                                                                                                 @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+
+        pagination.setTotalCount(orderDetailServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
 
         BaseApiResponse<List<OrderDetailFilterResponse>> response = new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
-        List<OrderDetailDto> orderDetailDtos = orderDetailServiceImp.findAllWithFilter(orderDetailFilter);
+        List<OrderDetailDto> orderDetailDtos = orderDetailServiceImp.findAllWithFilter(orderDetailFilter,pagination);
         List<OrderDetailFilterResponse> orderDetailResponseList = new ArrayList<>();
 
 
@@ -104,6 +118,7 @@ public class OrderDetailRestController {
                 e.printStackTrace();
             }
         }
+        response.setPagination(pagination);
         response.setData(orderDetailResponseList);
         response.setStatus(HttpStatus.FOUND);
         response.setTime(new Timestamp(System.currentTimeMillis()));

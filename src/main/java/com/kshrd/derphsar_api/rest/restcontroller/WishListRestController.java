@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
@@ -101,12 +102,26 @@ public class WishListRestController {
 
     @GetMapping("wishlists/{userId}")
     @ApiOperation(value = "show all wishlist by user id", response = Void.class)
-    public ResponseEntity<BaseApiResponse<List<WishListResponse>>> getAllWishlistByUserId(@PathVariable("userId") int userId) {
+    public ResponseEntity<BaseApiResponse<List<WishListResponse>>> getAllWishlistByUserId(@PathVariable("userId") int userId,
+                                                                                          @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                                          @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+                                                                                          @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+                                                                                          @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
 
-        BaseApiResponse<List<WishListResponse>> restApiMessage = new BaseApiResponse<>();
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+
+        pagination.setTotalCount(wishListServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
+
+        BaseApiResponse<List<WishListResponse>> response = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
 
-        List<WishListDto> wishListDtos = wishListServiceImp.getAllWishListByUserId(userId);
+        List<WishListDto> wishListDtos = wishListServiceImp.getAllWishListByUserId(userId,pagination);
 
         List<WishListResponse> wishListResponses = new ArrayList<>();
 
@@ -115,14 +130,15 @@ public class WishListRestController {
             wishListResponses.add(wishListResponse);
         }
 
-        restApiMessage.setData(wishListResponses);
-        restApiMessage.setStatus(HttpStatus.FOUND);
-        restApiMessage.setTime(new Timestamp(System.currentTimeMillis()));
-        restApiMessage.setMessage(message.selected("WishLists"));
+        response.setPagination(pagination);
+        response.setData(wishListResponses);
+        response.setStatus(HttpStatus.FOUND);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        response.setMessage(message.selected("WishLists"));
 
-        System.out.println("Whislist = " + restApiMessage);
+        System.out.println("Wishlist = " + response);
 
-        return ResponseEntity.ok(restApiMessage);
+        return ResponseEntity.ok(response);
     }
 
 

@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.service.implement;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.WishListRepository;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
@@ -46,8 +47,8 @@ public class WishListServiceImp implements WishLishService{
     }
 
     @Override
-    public List<WishListDto> getAllWishListByUserId(int userId) {
-        return wishListRepository.getAllWishListByUserId(userId);
+    public List<WishListDto> getAllWishListByUserId(int userId, Pagination pagination) {
+        return wishListRepository.getAllWishListByUserId(userId, pagination);
     }
 
 //    @Override
@@ -64,4 +65,10 @@ public class WishListServiceImp implements WishLishService{
         return wishListRepository.getUserByUserId(userId);
     }
 
+
+    //count all id
+    @Override
+    public int countId() {
+        return wishListRepository.countId();
+    }
 }

@@ -1,12 +1,13 @@
 package com.kshrd.derphsar_api.repository.provider;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
 public class OrderDetailProvider {
 
-    public String findAllWithFilter(@Param("filter")OrderDetailFilter orderDetailFilter){
+    public String findAllWithFilter(@Param("filter")OrderDetailFilter orderDetailFilter,@Param("pagination") Pagination pagination){
         return new SQL(){{
             SELECT("od.* , o.order_id AS orderId, pro.id, pro.pro_id AS proId, pro.name AS proName, pro.price, pro.is_sold, u.user_id AS userId, u.name AS userName, u.phone, sh.shop_id AS shopId, sh.name AS shopName, promo.promo_id AS promoId, promo.title, promo.start_rank, promo.end_rank");
             FROM("dp_order_detail as od");
@@ -17,6 +18,8 @@ public class OrderDetailProvider {
             INNER_JOIN("dp_promotion as promo ON promo.id = sh.promo_id");
             if (orderDetailFilter.getOrderId() != null && orderDetailFilter.getUserId() != null)
                 WHERE("o.user_id =  #{filter.userId} AND  o.id = #{filter.orderId}");
+                LIMIT(pagination.getLimit());
+                OFFSET(pagination.getOffset());
         }}.toString();
     }
 

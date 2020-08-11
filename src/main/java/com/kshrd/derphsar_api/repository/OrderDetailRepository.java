@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.repository;
 
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.*;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import com.kshrd.derphsar_api.repository.provider.OrderDetailProvider;
@@ -106,11 +107,17 @@ public interface OrderDetailRepository {
             @Result(property = "order.shop.promotion.endRank", column = "end_rank"),
 
     })
-    List<OrderDetailDto> findAllWithFilter(@Param("filter")OrderDetailFilter orderDetailFilter);
+    List<OrderDetailDto> findAllWithFilter(@Param("filter")OrderDetailFilter orderDetailFilter,@Param("pagination") Pagination pagination);
 
 
 
     //delete order detail
     @Update("UPDATE dp_order_detail SET status = 'FALSE' WHERE item_id = #{order_detail_id}")
     boolean deleteOrderDetail(String order_detail_id);
+
+    //count all orders
+    @Select("SELECT COUNT(id) FROM dp_order_detail WHERE status = 'true'")
+    int countId();
+
+    //List<OrderDetailDto> findAllWithFilter(OrderDetailFilter orderDetailFilter);
 }
