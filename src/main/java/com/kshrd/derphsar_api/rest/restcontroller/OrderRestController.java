@@ -1,6 +1,8 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
 
+import com.kshrd.derphsar_api.repository.OrderRepository;
+import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
 import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
@@ -10,6 +12,7 @@ import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 import com.kshrd.derphsar_api.service.implement.OrderServiceImp;
 import com.kshrd.derphsar_api.service.implement.WishListServiceImp;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,27 +44,47 @@ public class OrderRestController {
         this.orderServiceImp = orderServiceImp;
     }
 
+
+
+
+
+    /**
+     * get all orders by shop id
+     *
+     * @param shopId -  id of shop
+     * @return - list of orders
+     */
+
     @GetMapping("orders/{shopId}")
     @ApiOperation(value = "show all order by shopId", response = Void.class)
     public ResponseEntity<BaseApiResponse<List<OrderResponse>>> getAllOrderByShopId(@PathVariable("shopId") int shopId) {
 
-        BaseApiResponse<List<OrderResponse>> restApiMessage = new BaseApiResponse<>();
+        BaseApiResponse<List<OrderResponse>> baseApiResponse = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
-
-        List<OrderDto> orderDtos = orderServiceImp.getAllOrderByShopId(shopId);
-
         List<OrderResponse> orderResponses = new ArrayList<>();
 
-        for (OrderDto wishListDto : orderDtos) {
-            OrderResponse wishListResponse = mapper.map(wishListDto, OrderResponse.class);
-            orderResponses.add(wishListResponse);
+        try{
+            List<OrderDto> orderDtos = orderServiceImp.getAllOrderByShopId(shopId);
+            for (OrderDto wishListDto : orderDtos) {
+                OrderResponse wishListResponse = mapper.map(wishListDto, OrderResponse.class);
+                orderResponses.add(wishListResponse);
+            }
+
+            if(!orderDtos.isEmpty()){
+                baseApiResponse.setMessage(message.selected("Orders"));
+                baseApiResponse.setData(orderResponses);
+                baseApiResponse.setStatus(HttpStatus.FOUND);
+            }else {
+                baseApiResponse.setMessage(message.hasNoRecords("Orders"));
+                baseApiResponse.setStatus(HttpStatus.NOT_FOUND);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-        restApiMessage.setData(orderResponses);
-        restApiMessage.setStatus(HttpStatus.FOUND);
-        restApiMessage.setTime(new Timestamp(System.currentTimeMillis()));
-        restApiMessage.setMessage(message.selected("Orders"));
-
-        return ResponseEntity.ok(restApiMessage);
+        baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(baseApiResponse);
     }
+
 }

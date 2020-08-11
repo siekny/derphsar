@@ -12,13 +12,14 @@ public class OrderDetailDto {
     private Object image;
     private boolean status;
     private Date orderDate;
+    private boolean checkoutStatus;
 
     private ProductDto product;
     private OrderDto order;
 
     public OrderDetailDto(){}
 
-    public OrderDetailDto(int id, String itemId, double quality, Object detail, Object image, boolean status, Date orderDate, ProductDto product, OrderDto order) {
+    public OrderDetailDto(int id, String itemId, double quality, Object detail, Object image, boolean status, boolean checkoutStatus, Date orderDate, ProductDto product, OrderDto order) {
         this.id = id;
         this.itemId = itemId;
         this.quatity = quality;
@@ -28,6 +29,15 @@ public class OrderDetailDto {
         this.orderDate = orderDate;
         this.product = product;
         this.order = order;
+        this.checkoutStatus = checkoutStatus;
+    }
+
+    public boolean isCheckoutStatus() {
+        return checkoutStatus;
+    }
+
+    public void setCheckoutStatus(boolean checkoutStatus) {
+        this.checkoutStatus = checkoutStatus;
     }
 
     @Override
@@ -35,11 +45,12 @@ public class OrderDetailDto {
         return "OrderDetailDto{" +
                 "id=" + id +
                 ", itemId='" + itemId + '\'' +
-                ", quality=" + quatity +
+                ", quatity=" + quatity +
                 ", detail=" + detail +
                 ", image=" + image +
                 ", status=" + status +
                 ", orderDate=" + orderDate +
+                ", checkoutStatus=" + checkoutStatus +
                 ", product=" + product +
                 ", order=" + order +
                 '}';

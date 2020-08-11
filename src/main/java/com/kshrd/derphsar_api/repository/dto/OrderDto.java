@@ -1,5 +1,7 @@
 package com.kshrd.derphsar_api.repository.dto;
 
+import java.util.List;
+
 public class OrderDto {
     private int id;
     private String orderId;
@@ -23,7 +25,6 @@ public class OrderDto {
         this.orderDetail = orderDetail;
     }
 
-
     @Override
     public String toString() {
         return "OrderDto{" +
@@ -36,7 +37,6 @@ public class OrderDto {
                 ", orderDetail=" + orderDetail +
                 '}';
     }
-
 
     public int getId() {
         return id;

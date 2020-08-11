@@ -71,7 +71,7 @@ public class MessageProperties {
                 new Object[] {resourceName});
     }
 
-    public String hasNoRecord(String resourceName){
+    public String hasNoRecords(String resourceName){
         return accessor.getMessage("message.has-no-records",
                 new Object[] {resourceName});
     }
@@ -79,6 +79,13 @@ public class MessageProperties {
 
     public String hasNullValue(String resourceName){
         return accessor.getMessage("message.has-null-value",
+                new Object[] {resourceName});
+    }
+
+
+
+    public String hasNoRecord(String resourceName){
+        return accessor.getMessage("message.has-no-record",
                 new Object[] {resourceName});
     }
 }

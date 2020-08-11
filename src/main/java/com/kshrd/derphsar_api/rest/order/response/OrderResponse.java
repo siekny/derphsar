@@ -1,7 +1,13 @@
 package com.kshrd.derphsar_api.rest.order.response;
 
+import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailAllOrderResponse;
+import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailResponse;
+import com.kshrd.derphsar_api.rest.shop.response.ShopAllOrderResponse;
 import com.kshrd.derphsar_api.rest.shop.response.ShopOrderDetailResponse;
 import com.kshrd.derphsar_api.rest.user.response.UserOrderDetailResponse;
+
+import java.util.List;
+
 
 public class OrderResponse {
     private String orderId;
@@ -9,15 +15,16 @@ public class OrderResponse {
 //    private int shop_id;
 
     private UserOrderDetailResponse user;
-    private ShopOrderDetailResponse shop;
-
+    private ShopAllOrderResponse shop;
+    private OrderDetailAllOrderResponse orderDetail;
 
     public OrderResponse(){}
 
-    public OrderResponse(String orderId, UserOrderDetailResponse user, ShopOrderDetailResponse shop) {
+    public OrderResponse(String orderId, UserOrderDetailResponse user, ShopAllOrderResponse shop, OrderDetailAllOrderResponse orderDetail) {
         this.orderId = orderId;
         this.user = user;
         this.shop = shop;
+        this.orderDetail = orderDetail;
     }
 
     @Override
@@ -26,9 +33,9 @@ public class OrderResponse {
                 "orderId='" + orderId + '\'' +
                 ", user=" + user +
                 ", shop=" + shop +
+                ", orderDetail=" + orderDetail +
                 '}';
     }
-
 
     public String getOrderId() {
         return orderId;
@@ -46,11 +53,19 @@ public class OrderResponse {
         this.user = user;
     }
 
-    public ShopOrderDetailResponse getShop() {
+    public ShopAllOrderResponse getShop() {
         return shop;
     }
 
-    public void setShop(ShopOrderDetailResponse shop) {
+    public void setShop(ShopAllOrderResponse shop) {
         this.shop = shop;
+    }
+
+    public OrderDetailAllOrderResponse getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(OrderDetailAllOrderResponse orderDetail) {
+        this.orderDetail = orderDetail;
     }
 }
