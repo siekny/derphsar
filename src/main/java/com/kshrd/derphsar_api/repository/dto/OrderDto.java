@@ -9,16 +9,18 @@ public class OrderDto {
 
     private UserDto user;
     private ShopDto shop;
+    private OrderDetailDto orderDetail;
 
     public OrderDto(){}
 
-    public OrderDto(int id, String orderId, int user_id, int shop_id, UserDto user, ShopDto shop) {
+    public OrderDto(int id, String orderId, int user_id, int shop_id, UserDto user, ShopDto shop, OrderDetailDto orderDetail) {
         this.id = id;
         this.orderId = orderId;
         this.user_id = user_id;
         this.shop_id = shop_id;
         this.user = user;
         this.shop = shop;
+        this.orderDetail = orderDetail;
     }
 
 
@@ -31,6 +33,7 @@ public class OrderDto {
                 ", shop_id=" + shop_id +
                 ", user=" + user +
                 ", shop=" + shop +
+                ", orderDetail=" + orderDetail +
                 '}';
     }
 
@@ -81,5 +84,13 @@ public class OrderDto {
 
     public void setShop(ShopDto shop) {
         this.shop = shop;
+    }
+
+    public OrderDetailDto getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(OrderDetailDto orderDetail) {
+        this.orderDetail = orderDetail;
     }
 }

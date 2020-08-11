@@ -6,9 +6,11 @@ import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.repository.provider.WishListProvider;
 import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface WishListRepository {
 
     //Insert wishlist
