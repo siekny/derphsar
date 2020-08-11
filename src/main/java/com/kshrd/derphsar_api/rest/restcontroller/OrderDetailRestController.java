@@ -5,13 +5,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
-import com.kshrd.derphsar_api.repository.dto.PromotionDto;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailFilterResponse;
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailResponse;
-import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.kshrd.derphsar_api.service.implement.OrderDetailServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,18 +37,24 @@ public class OrderDetailRestController {
         this.orderDetailServiceImp = orderDetailServiceImp;
     }
 
-    //get all orderDetails
+
+
+
+
+    /**
+     * Get order details
+     *
+     * @return - Return response message
+     */
     @GetMapping("/orderdetails")
     @ApiOperation(value = "show all order details", response = OrderDetailResponse.class)
     public ResponseEntity<BaseApiResponse<List<OrderDetailResponse>>> getOrderDetails(){
-
 
         BaseApiResponse<List<OrderDetailResponse>> response = new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
         List<OrderDetailDto> orderDetailDtos = orderDetailServiceImp.getOrderDetails();
         List<OrderDetailResponse> orderDetailResponseList = new ArrayList<>();
-
 
             for(OrderDetailDto orderDetailDto : orderDetailDtos){
                 try{
@@ -73,12 +76,20 @@ public class OrderDetailRestController {
             response.setTime(new Timestamp(System.currentTimeMillis()));
             response.setMessage(message.selected("OrderDetails"));
 
-
         return ResponseEntity.ok(response);
-
     }
 
 
+    /**
+     * Get order details
+     *
+     * @param orderDetailFilter - Order detail filter
+     * @param page  - Page of pagination
+     * @param limit - Limit data of a pagination
+     * @param totalPages - Total pages of data limited in a page
+     * @param pagesToShow - Pages to show
+     * @return - Return response message
+     */
     @GetMapping("/orderdetail")
     @ApiOperation("show all orderdetails filter by userId and orderId")
     public ResponseEntity<BaseApiResponse<List<OrderDetailFilterResponse>>> FilterbyUserAndOrder(OrderDetailFilter orderDetailFilter,
@@ -92,7 +103,6 @@ public class OrderDetailRestController {
         pagination.nextPage();
         pagination.previousPage();
 
-
         pagination.setTotalCount(orderDetailServiceImp.countId());
         pagination.setTotalPages(pagination.getTotalPages());
 
@@ -101,7 +111,6 @@ public class OrderDetailRestController {
         ObjectMapper mapper = new ObjectMapper();
         List<OrderDetailDto> orderDetailDtos = orderDetailServiceImp.findAllWithFilter(orderDetailFilter,pagination);
         List<OrderDetailFilterResponse> orderDetailResponseList = new ArrayList<>();
-
 
         for(OrderDetailDto orderDetailDto : orderDetailDtos){
             try{
@@ -128,6 +137,12 @@ public class OrderDetailRestController {
     }
 
 
+    /**
+     * Delete an order detail
+     *
+     * @param orderDetailId - Id of order detail
+     * @return - Return response message
+     */
     @DeleteMapping("/orderdetails/{orderDetailId}")
     public ResponseEntity<BaseApiResponse<String>> delete(@PathVariable String orderDetailId)
     {

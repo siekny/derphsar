@@ -13,11 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/v1")
@@ -36,11 +36,19 @@ public class WishListRestController {
         this.wishListServiceImp = wishListServiceImp;
     }
 
-    //create a wishlist
+
+
+
+
+    /**
+     * Post wishlists
+     *
+     * @param wishListRequestModel - Wishlist request model
+     * @return - Return response message
+     */
     @PostMapping("/wishlists")
     @ApiOperation(value = "create a wishlist", response = WishListResponse.class)
     public ResponseEntity<BaseApiResponse<WishListResponse>> createWishList(@RequestBody WishListRequestModel wishListRequestModel) {
-
         BaseApiResponse<WishListResponse> response = new BaseApiResponse<>();
 
         ModelMapper mapper = new ModelMapper();
@@ -62,7 +70,14 @@ public class WishListRestController {
     }
 
 
-    //get all wishlist
+
+
+
+    /**
+     * Get wishlists
+     *
+     * @return - Return response message
+     */
     @GetMapping("/wishlists")
     @ApiOperation(value = "show all wishlist", response = WishListResponse.class)
     public ResponseEntity<BaseApiResponse<List<WishListResponse>>> getWishLists() {
@@ -84,7 +99,15 @@ public class WishListRestController {
     }
 
 
-    //delete a wishlist
+
+
+
+    /**
+     * Delete a wishlist
+     *
+     * @param wishlist_id - Id of a wishlist
+     * @return - Return response message
+     */
     @DeleteMapping("/wishlists/{wishlist_id}")
     @ApiOperation(value = "delete a wishlist", response = Void.class)
     public ResponseEntity<BaseApiResponse<Void>> deleteWishList(@PathVariable("wishlist_id") String wishlist_id) {
@@ -99,7 +122,15 @@ public class WishListRestController {
     }
 
 
-
+    /**
+     * Get wishlists
+     *
+     * @param page  - Page of pagination
+     * @param limit - Limit data of a pagination
+     * @param totalPages - Total pages of data limited in a page
+     * @param pagesToShow - Pages to show
+     * @return - Return response message
+     */
     @GetMapping("wishlists/{userId}")
     @ApiOperation(value = "show all wishlist by user id", response = Void.class)
     public ResponseEntity<BaseApiResponse<List<WishListResponse>>> getAllWishlistByUserId(@PathVariable("userId") int userId,
@@ -113,7 +144,6 @@ public class WishListRestController {
         pagination.setLimit(limit);
         pagination.nextPage();
         pagination.previousPage();
-
 
         pagination.setTotalCount(wishListServiceImp.countId());
         pagination.setTotalPages(pagination.getTotalPages());
@@ -135,11 +165,8 @@ public class WishListRestController {
         response.setStatus(HttpStatus.FOUND);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         response.setMessage(message.selected("WishLists"));
-
         System.out.println("Wishlist = " + response);
 
         return ResponseEntity.ok(response);
     }
-
-
 }

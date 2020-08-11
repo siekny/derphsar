@@ -5,7 +5,6 @@ import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
-import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.rest.shop.response.ShopResponseModel;
 import com.kshrd.derphsar_api.service.implement.ShopServiceImp;
@@ -37,15 +36,21 @@ public class ShopRestController {
         this.shopServiceImp = shopServiceImp;
     }
 
-//    create a shop
+
+    /**
+     * Post a shop
+     *
+     * @param shopRequestModel - Shop request model
+     * @return - Return response message
+     */
     @PostMapping("/shops")
     @ApiOperation(value = "create a shop", response = ShopResponseModel.class)
-    public ResponseEntity<BaseApiResponse<ShopResponseModel>> createShop(@RequestBody ShopRequestModel shop){
+    public ResponseEntity<BaseApiResponse<ShopResponseModel>> createShop(@RequestBody ShopRequestModel shopRequestModel){
 
         BaseApiResponse<ShopResponseModel> response = new BaseApiResponse<>();
 
         ModelMapper mapper = new ModelMapper();
-        ShopDto shopDto = mapper.map(shop, ShopDto.class);
+        ShopDto shopDto = mapper.map(shopRequestModel, ShopDto.class);
 
         UUID uuid = UUID.randomUUID();
         shopDto.setShopId("DP"+uuid.toString().substring(0,10));
@@ -62,29 +67,15 @@ public class ShopRestController {
     }
 
 
-    //get all shops
-//    @GetMapping("/shops")
-//    @ApiOperation(value = "show all shops", response = ShopRequestModel.class)
-//    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops() {
-//
-//        ModelMapper mapper = new ModelMapper();
-//        BaseApiResponse<List<ShopRequestModel>> response =
-//                new BaseApiResponse<>();
-//
-//        List<ShopDto> shopDtoList = shopServiceImp.getShops();
-//        List<ShopRequestModel> shops = new ArrayList<>();
-//        for (ShopDto shopDto : shopDtoList) {
-//            shops.add(mapper.map(shopDto, ShopRequestModel.class));
-//        }
-//        response.setMessage(message.selected("Shops"));
-//        response.setData(shops);
-//        response.setStatus(HttpStatus.OK);
-//        response.setTime(new Timestamp(System.currentTimeMillis()));
-//        return ResponseEntity.ok(response);
-//    }
-
-
-    //get all shops
+    /**
+     * Get shops
+     *
+     * @param page  - Page of pagination
+     * @param limit - Limit data of a pagination
+     * @param totalPages - Total pages of data limited in a page
+     * @param pagesToShow - Pages to show
+     * @return - Return response message
+     */
     @GetMapping("/shops")
     @ApiOperation(value = "show all shops", response = ShopRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops(@RequestParam(value = "page" , required = false , defaultValue = "1") int page,
@@ -120,7 +111,16 @@ public class ShopRestController {
         return ResponseEntity.ok(response);
     }
 
-    //delete a shop
+
+
+
+
+    /**
+     * Delete a shop
+     *
+     * @param shop_id - Id of a shop
+     * @return - Return response message
+     */
     @DeleteMapping("/shops/{shop_id}")
     @ApiOperation(value = "delete a shops", response = Void.class)
     public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("shop_id") String shop_id){
@@ -134,7 +134,13 @@ public class ShopRestController {
     }
 
 
-    //update a shop
+    /**
+     * Put a shop
+     *
+     * @param shop_id - Id of a shop
+     * @param shopRequestModel - Shop request model
+     * @return - Return response message
+     */
     @PutMapping("/shops/{shop_id}")
     @ApiOperation(value = "update a shops", response = ShopRequestModel.class)
     public ResponseEntity<BaseApiResponse<ShopRequestModel>> updateShop(
@@ -153,7 +159,12 @@ public class ShopRestController {
     }
 
 
-    //find by id
+    /**
+     * Get a shop
+     *
+     * @param id - Id of a shop
+     * @return - Return response message
+     */
     @GetMapping("/shops/{id}")
     @ApiOperation(value = "show a shop by shop id", response = ShopRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> findById(@PathVariable("id") String id){
@@ -173,6 +184,12 @@ public class ShopRestController {
     }
 
 
+    /**
+     * Get a shop
+     *
+     * @param userId - Id of a user
+     * @return - Return response message
+     */
     @GetMapping("shops/{userId}")
     @ApiOperation(value = "get all shops by user id", response = ShopRequestModel.class)
     public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getAllShopsByUserId(@PathVariable("userId") String userId) {
@@ -193,4 +210,28 @@ public class ShopRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
+
+
+
+
+    //get all shops
+//    @GetMapping("/shops")
+//    @ApiOperation(value = "show all shops", response = ShopRequestModel.class)
+//    public ResponseEntity<BaseApiResponse<List<ShopRequestModel>>> getShops() {
+//
+//        ModelMapper mapper = new ModelMapper();
+//        BaseApiResponse<List<ShopRequestModel>> response =
+//                new BaseApiResponse<>();
+//
+//        List<ShopDto> shopDtoList = shopServiceImp.getShops();
+//        List<ShopRequestModel> shops = new ArrayList<>();
+//        for (ShopDto shopDto : shopDtoList) {
+//            shops.add(mapper.map(shopDto, ShopRequestModel.class));
+//        }
+//        response.setMessage(message.selected("Shops"));
+//        response.setData(shops);
+//        response.setStatus(HttpStatus.OK);
+//        response.setTime(new Timestamp(System.currentTimeMillis()));
+//        return ResponseEntity.ok(response);
+//    }
 }
