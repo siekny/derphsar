@@ -8,4 +8,5 @@ import java.util.List;
 public interface OrderService {
 
     List<OrderDto> getAllOrderByShopId(int shopId);
+    List<OrderDto> getOrdersLatestFiveRecords();
 }

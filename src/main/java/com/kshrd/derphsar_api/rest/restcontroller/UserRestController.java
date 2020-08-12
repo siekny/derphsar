@@ -128,7 +128,7 @@ public class UserRestController {
             baseApiResponse.setData(userResponse);
             baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
         }catch (Exception ex){
-            baseApiResponse.setMessage(message.hasNoRecord("User"));
+            baseApiResponse.setMessage(message.hasNoRecords("User"));
             baseApiResponse.setStatus(HttpStatus.NOT_FOUND);
             baseApiResponse.setData(null);
             baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));

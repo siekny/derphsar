@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.service.implement;
 
 import com.kshrd.derphsar_api.repository.OrderRepository;
+import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
 import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,13 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public List<OrderDto> getAllOrderByShopId(int shopId) {
-        return orderRepository.getAllOrderByShopId(shopId);
+        //System.out.println( orderRepository.getSumQty(6));
+
+        return  orderRepository.getAllOrderByShopId(shopId);
+    }
+
+    @Override
+    public List<OrderDto> getOrdersLatestFiveRecords() {
+        return orderRepository.getOrdersLatestFiveRecords();
     }
 }

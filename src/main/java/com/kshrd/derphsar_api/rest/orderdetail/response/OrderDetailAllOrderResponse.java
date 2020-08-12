@@ -7,14 +7,17 @@ public class OrderDetailAllOrderResponse {
     private boolean checkoutStatus;
     private boolean status;
     private Date orderDate;
+    private double quatity;
 
 
     public OrderDetailAllOrderResponse(){}
 
-    public OrderDetailAllOrderResponse(boolean checkoutStatus, boolean status, Date orderDate) {
-        this.checkoutStatus = checkoutStatus;
-        this.status = status;
-        this.orderDate = orderDate;
+    public double getQuatity() {
+        return quatity;
+    }
+
+    public void setQuatity(double quatity) {
+        this.quatity = quatity;
     }
 
     @Override
@@ -23,7 +26,15 @@ public class OrderDetailAllOrderResponse {
                 "checkoutStatus=" + checkoutStatus +
                 ", status=" + status +
                 ", orderDate=" + orderDate +
+                ", quatity=" + quatity +
                 '}';
+    }
+
+    public OrderDetailAllOrderResponse(boolean checkoutStatus, boolean status, Date orderDate, double quatity) {
+        this.checkoutStatus = checkoutStatus;
+        this.status = status;
+        this.orderDate = orderDate;
+        this.quatity = quatity;
     }
 
 

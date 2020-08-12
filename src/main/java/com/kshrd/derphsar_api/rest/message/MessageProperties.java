@@ -84,7 +84,7 @@ public class MessageProperties {
 
 
 
-    public String hasNoRecord(String resourceName){
+    public String hasNoRecord9(String resourceName){
         return accessor.getMessage("message.has-no-record",
                 new Object[] {resourceName});
     }

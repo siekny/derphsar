@@ -14,7 +14,7 @@ import java.util.List;
 public interface OrderRepository {
 
     //@SelectProvider(type = OrderProvider.class, method = "getAllOrderByShopId")
-    @Select("SELECT DISTINCT( o.order_id),u.user_id, u.name AS userName, u.phone, sh.shop_id, sh.name AS shopName,ord.status,ord.is_checkout, ord.order_date\n" +
+    @Select("SELECT DISTINCT(o.order_id),u.user_id, u.name AS userName, u.phone, sh.shop_id, sh.name AS shopName,ord.status,ord.is_checkout, ord.order_date\n" +
             "            FROM dp_order AS o\n" +
             "            INNER JOIN dp_users AS u ON u.id = o.user_id\n" +
             "            INNER JOIN dp_shops AS sh ON sh.id = o.shop_id\n" +
@@ -42,7 +42,7 @@ public interface OrderRepository {
             @Result(property = "orderDetail.checkoutStatus", column = "is_checkout"),
             @Result(property = "orderDetail.status", column = "status"),
             @Result(property = "orderDetail.orderDate", column = "order_date"),
-
+           // @Result(property = "orderDetail.quatity", column = "quatity", many = @Many(select = "getSumQty")),
 
     })
     List<OrderDto> getAllOrderByShopId(int shopId);
@@ -55,4 +55,43 @@ public interface OrderRepository {
             @Result(property = "orderDate", column = "order_date"),
     })
     List<OrderDetailDto> getAllOrderDetailByOrderId(int orderId);
+
+
+    @Select("SELECT sum(quatity) AS QTY FROM dp_order_detail WHERE order_id = #{orderId}")
+    int getSumQty(int orderId);
+
+
+
+    @Select("\tSELECT DISTINCT( o.order_id), u.name AS userName, u.phone, ord.order_date\n" +
+            "            FROM dp_order AS o\n" +
+            "            INNER JOIN dp_users AS u ON u.id = o.user_id\n" +
+            "            INNER JOIN dp_shops AS sh ON sh.id = o.shop_id\n" +
+            "            INNER JOIN dp_order_detail AS ord ON ord.order_id = o.id\n" +
+            "\t\t\t\t\t\tWHERE ord.status = 'TRUE' AND ord.is_checkout = 'TRUE'\n" +
+            "\t\t\t\t\t\tORDER BY ord.order_date DESC\n" +
+            "\t\t\t\t\t\tLIMIT 5")
+
+    @Results({
+            @Result(property = "orderId", column = "order_id"),
+
+            @Result(property = "user.name", column = "userName"),
+            @Result(property = "user.userId", column = "user_id"),
+            @Result(property = "user.phone", column = "phone"),
+
+            @Result(property = "shop.shopId", column = "shop_id"),
+            @Result(property = "shop.name", column = "shopName"),
+
+            //@Result(property = "orderDetail.itemId", column = "item_id"),
+//            @Result(property = "orderDetail", column = "item_order_id", many = @Many(select = "getAllOrderDetailByOrderId")),
+            @Result(property = "orderDetail.checkoutStatus", column = "is_checkout"),
+            @Result(property = "orderDetail.status", column = "status"),
+            @Result(property = "orderDetail.orderDate", column = "order_date"),
+            // @Result(property = "orderDetail.quatity", column = "quatity", many = @Many(select = "getSumQty")),
+
+    })
+    List<OrderDto> getOrdersLatestFiveRecords();
+
+
+
+
 }

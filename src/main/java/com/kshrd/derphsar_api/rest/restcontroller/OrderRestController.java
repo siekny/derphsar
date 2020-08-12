@@ -56,7 +56,7 @@ public class OrderRestController {
      */
 
     @GetMapping("orders/{shopId}")
-    @ApiOperation(value = "show all order by shopId", response = Void.class)
+    @ApiOperation(value = "show all orders by shopId", response = Void.class)
     public ResponseEntity<BaseApiResponse<List<OrderResponse>>> getAllOrderByShopId(@PathVariable("shopId") int shopId) {
 
         BaseApiResponse<List<OrderResponse>> baseApiResponse = new BaseApiResponse<>();
@@ -75,7 +75,7 @@ public class OrderRestController {
                 baseApiResponse.setData(orderResponses);
                 baseApiResponse.setStatus(HttpStatus.FOUND);
             }else {
-                baseApiResponse.setMessage(message.hasNoRecords("Orders"));
+                baseApiResponse.setMessage(message.inserted("Orders"));
                 baseApiResponse.setStatus(HttpStatus.NOT_FOUND);
             }
 
@@ -86,5 +86,45 @@ public class OrderRestController {
         baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(baseApiResponse);
     }
+
+
+
+    /**
+     * show all latest 5 records of orders
+     *
+     * @return - list of orders
+     */
+    @GetMapping("orders")
+    @ApiOperation(value = "show all recent 5 records of orders", response = Void.class)
+    public ResponseEntity<BaseApiResponse<List<OrderResponse>>> getOrdersLatestFiveRecords() {
+
+        BaseApiResponse<List<OrderResponse>> baseApiResponse = new BaseApiResponse<>();
+        ModelMapper mapper = new ModelMapper();
+        List<OrderResponse> orderResponses = new ArrayList<>();
+
+        try{
+            List<OrderDto> orderDtos = orderServiceImp.getOrdersLatestFiveRecords();
+            for (OrderDto wishListDto : orderDtos) {
+                OrderResponse wishListResponse = mapper.map(wishListDto, OrderResponse.class);
+                orderResponses.add(wishListResponse);
+            }
+
+            if(!orderDtos.isEmpty()){
+                baseApiResponse.setMessage(message.selected("Orders"));
+                baseApiResponse.setData(orderResponses);
+                baseApiResponse.setStatus(HttpStatus.FOUND);
+            }else {
+                baseApiResponse.setMessage(message.inserted("Orders"));
+                baseApiResponse.setStatus(HttpStatus.NOT_FOUND);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(baseApiResponse);
+    }
+
 
 }
