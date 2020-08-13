@@ -310,7 +310,7 @@ public class ProductRestController {
 
 
     /**
-     * Get wishlists
+     * Get Products
      *
      * @param page  - Page of pagination
      * @param limit - Limit data of a pagination

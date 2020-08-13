@@ -39,7 +39,7 @@ public interface ShopRepository {
 
 
     //Delete a shop
-    @Delete("delete FROM dp_shops where shop_id = #{shop_id}")
+    @Delete("UPDATE dp_shops SET status = FALSE WHERE shop_id = #{shop_id}")
     void delete(String shop_id);
 
 

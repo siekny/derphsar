@@ -78,7 +78,7 @@ public interface ProductRepository {
 
 
     //delete product
-    @Delete("delete FROM dp_products WHERE pro_id =#{id}")
+    @Delete("UPDATE dp_products SET status = FALSE WHERE pro_id =#{id}")
     void deleteProduct(String id);
 
 

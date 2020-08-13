@@ -32,7 +32,7 @@ public interface WishListRepository {
 
 
     //Delete a wishlist
-    @Delete("delete FROM dp_wishlist where wishlist_id = #{wishlist_id}")
+    @Delete("UPDATE dp_wishlist SET status = FALSE WHERE wishlist_id = #{wishlist_id}")
     void delete(String wishlist_id);
 
 

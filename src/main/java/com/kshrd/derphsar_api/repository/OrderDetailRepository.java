@@ -112,7 +112,7 @@ public interface OrderDetailRepository {
 
 
     //delete order detail
-    @Update("UPDATE dp_order_detail SET status = 'FALSE' WHERE item_id = #{order_detail_id}")
+    @Delete("UPDATE dp_order_detail SET status = FALSE WHERE item_id = #{order_detail_id}")
     boolean deleteOrderDetail(String order_detail_id);
 
     //count all orders

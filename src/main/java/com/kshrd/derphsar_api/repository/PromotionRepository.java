@@ -55,12 +55,12 @@ public interface PromotionRepository {
 
 
     //delete promotions
-    @Delete("delete FROM dp_promotion WHERE promo_id =#{id}")
+    @Delete("UPDATE dp_promotion SET status = FALSE WHERE promo_id =#{id}")
     void deletePromotion(String id);
 
 
     //update a promotion
-    @Update("UPDATE dp_promotion set title = #{promotion.title}, is_apply = #{promotion.isApply}, start_date= #{promotion.startDate} ,end_date = #{promotion.endDate},start_rank = #{promotion.startRank}, end_rank= #{promotion.endRank},cover = #{promotion.cover}, status = #{promotion.status}  WHERE promo_id = #{id}")
+    @Update("UPDATE dp_promotion SET title = #{promotion.title}, is_apply = #{promotion.isApply}, start_date= #{promotion.startDate} ,end_date = #{promotion.endDate},start_rank = #{promotion.startRank}, end_rank= #{promotion.endRank},cover = #{promotion.cover}, status = #{promotion.status}  WHERE promo_id = #{id}")
     boolean updatePromotion(String id, PromotionDto promotion);
 
 

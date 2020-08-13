@@ -51,7 +51,7 @@ public class UserProvider {
     }
 
 
-    //
+    //delete a user
     public String deleteUserById(){
         return new SQL(){{
             UPDATE("dp_users");
