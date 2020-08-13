@@ -75,4 +75,9 @@ public class ProductServiceImp implements ProductService {
         return productRepository.countId();
     }
 
+    @Override
+    public List<ProductDto> getNewProducts() {
+        return productRepository.getNewProducts();
+    }
+
 }

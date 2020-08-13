@@ -1,5 +1,8 @@
 package com.kshrd.derphsar_api.repository.dto;
 
+
+import java.sql.Date;
+
 public class ProductDto {
     private int id;
     private String proId;
@@ -9,6 +12,7 @@ public class ProductDto {
     private boolean status;
     private boolean soldStatus;
     private int viewCount;
+    private Date postDate;
 
     private Object images;
     private Object details;
@@ -18,7 +22,7 @@ public class ProductDto {
 
     public ProductDto(){}
 
-    public ProductDto(int id, String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopDto shop) {
+    public ProductDto(int id, String proId, String name, Date postDate, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopDto shop) {
         this.id = id;
         this.proId = proId;
         this.name = name;
@@ -30,6 +34,33 @@ public class ProductDto {
         this.images = images;
         this.details = details;
         this.shop = shop;
+        this.postDate = postDate;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductDto{" +
+                "id=" + id +
+                ", proId='" + proId + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", soldStatus=" + soldStatus +
+                ", viewCount=" + viewCount +
+                ", postDate=" + postDate +
+                ", images=" + images +
+                ", details=" + details +
+                ", shop=" + shop +
+                '}';
+    }
+
+    public Date getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Date postDate) {
+        this.postDate = postDate;
     }
 
     public int getId() {
@@ -121,20 +152,4 @@ public class ProductDto {
     }
 
 
-    @Override
-    public String toString() {
-        return "ProductDto{" +
-                "id=" + id +
-                ", proId='" + proId + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", isSold=" + soldStatus +
-                ", viewCount=" + viewCount +
-                ", images=" + images +
-                ", details=" + details +
-                ", shop=" + shop +
-                '}';
-    }
 }

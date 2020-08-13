@@ -8,7 +8,7 @@ import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailResponse;
 import com.kshrd.derphsar_api.service.OrderDetailService;
-import io.swagger.v3.oas.annotations.servers.Server;
+//import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

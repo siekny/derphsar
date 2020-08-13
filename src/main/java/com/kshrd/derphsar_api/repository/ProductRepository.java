@@ -16,10 +16,11 @@ public interface ProductRepository {
     //get all products
     // @SelectProvider(value = ProductProvider.class, method = "getProducts")
     @Select("SELECT * FROM dp_products WHERE status = 'true' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
-    @Results({
+    @Results(id = "mapProduct", value = {
             @Result(column = "pro_id" ,property = "proId"),
             @Result(column = "is_sold" ,property = "soldStatus"),
             @Result(column = "view_count" ,property = "viewCount"),
+            @Result(column = "post_date", property = "postDate"),
             @Result(column = "details" ,property = "details", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
             @Result(column = "images" ,property = "images", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
             @Result(column = "shop_id", property = "shop", many = @Many(select = "getShop"))
@@ -68,11 +69,6 @@ public interface ProductRepository {
 
 
 
-
-
-
-
-
     //create product
     @Insert("INSERT INTO dp_products (pro_id, name, price, description, status, is_sold, view_count, images , details, shop_id)" +
             "VALUES ( #{proId}, #{name, jdbcType=VARCHAR}, #{price}, #{description}, #{status}, #{soldStatus}, #{viewCount},#{images, jdbcType=OTHER, typeHandler=com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg},#{details, jdbcType=OTHER, typeHandler=com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg}, #{shop.id})")
@@ -110,26 +106,16 @@ public interface ProductRepository {
     ProductDto findById(String proId);
 
 
-
-//    //find product by shop id
-//    @Select("SELECT * FROM dp_products WHERE shop_id = 1")
-//    @Results({
-//            @Result(column = "shop_id" ,property = "shop",many = @Many(select = "selectOneShop")),
-//    })
-//    List<ProductDto> findProductByShopId(@Param("shopId") String shopId);
-//
-//    //select on Shop
-//    @Select("SELECT * FROM dp_shops WHERE id=#{shopId}")
-//    @Results({
-//            @Result(column = "id" ,property = "id"),
-//            @Result(column = "shop_id" ,property = "shopId"),
-//            @Result(column = "name" ,property = "name"),
-//            @Result(column = "address" ,property = "address")
-//    })
-//    ShopDto selectOneShop(String shopId);
-
-
     @SelectProvider(type = ProductProvider.class, method = "countId")
     int countId();
+
+
+
+    @Select("SELECT * FROM dp_products AS pro\n" +
+            "WHERE status = 'true'\n" +
+            "ORDER BY pro.post_date DESC\n" +
+            "LIMIT 12 ")
+            @ResultMap("mapProduct")
+    List<ProductDto> getNewProducts();
 
 }

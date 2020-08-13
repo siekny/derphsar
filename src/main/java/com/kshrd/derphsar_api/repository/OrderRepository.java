@@ -27,7 +27,7 @@ public interface OrderRepository {
 //            "            INNER JOIN dp_shops AS sh ON sh.id = o.shop_id\n" +
 //            "            INNER JOIN dp_order_detail AS ord ON ord.order_id = o.id\n" +
 //            "\t\t\t\t\t\tWHERE o.shop_id = 2")
-    @Results({
+    @Results( id ="OrderMap", value = {
             @Result(property = "orderId", column = "order_id"),
 
             @Result(property = "user.name", column = "userName"),
@@ -70,25 +70,7 @@ public interface OrderRepository {
             "\t\t\t\t\t\tWHERE ord.status = 'TRUE' AND ord.is_checkout = 'TRUE'\n" +
             "\t\t\t\t\t\tORDER BY ord.order_date DESC\n" +
             "\t\t\t\t\t\tLIMIT 5")
-
-    @Results({
-            @Result(property = "orderId", column = "order_id"),
-
-            @Result(property = "user.name", column = "userName"),
-            @Result(property = "user.userId", column = "user_id"),
-            @Result(property = "user.phone", column = "phone"),
-
-            @Result(property = "shop.shopId", column = "shop_id"),
-            @Result(property = "shop.name", column = "shopName"),
-
-            //@Result(property = "orderDetail.itemId", column = "item_id"),
-//            @Result(property = "orderDetail", column = "item_order_id", many = @Many(select = "getAllOrderDetailByOrderId")),
-            @Result(property = "orderDetail.checkoutStatus", column = "is_checkout"),
-            @Result(property = "orderDetail.status", column = "status"),
-            @Result(property = "orderDetail.orderDate", column = "order_date"),
-            // @Result(property = "orderDetail.quatity", column = "quatity", many = @Many(select = "getSumQty")),
-
-    })
+            @ResultMap("OrderMap")
     List<OrderDto> getOrdersLatestFiveRecords();
 
 

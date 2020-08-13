@@ -81,7 +81,7 @@ public class ProductRestController {
      * @return - Return response message
      */
     @GetMapping("/products")
-    @ApiOperation(value = "show all products", response = ProductDto.class)
+    @ApiOperation(value = "show all products", response = ProductResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getProducts(
             //@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
             @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
@@ -126,6 +126,61 @@ public class ProductRestController {
 
         return ResponseEntity.ok(response);
     }
+
+
+
+
+    /**
+     * Get new products for 15 records to show homepage
+     *
+     * @return - Return response message
+     */
+    @GetMapping("/product")
+    @ApiOperation(value = "show all new product 15 records", response = ProductResponseModel.class)
+    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getNewProducts() {;
+
+        BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<ProductResponseModel> productResponseModels = new ArrayList<>();
+
+        try{
+            List<ProductDto> productDtos = productService.getNewProducts();
+            for(ProductDto productDto : productDtos){
+                try {
+                    Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
+                    Object images = mapper.readValue(productDto.getImages().toString(), Object.class);
+                    productDto.setDetails(details);
+                    productDto.setImages(images);
+
+                    ModelMapper modelMapper = new ModelMapper();
+                    ProductResponseModel productResponseModel = modelMapper .map(productDto, ProductResponseModel.class);
+                    productResponseModels.add(productResponseModel);
+                }catch (JsonProcessingException e){
+                    e.printStackTrace();
+                }
+            }
+
+            if(!productDtos.isEmpty()){
+                response.setMessage(message.selected("Products"));
+                response.setData(productResponseModels);
+                response.setStatus(HttpStatus.FOUND);
+            }else {
+                response.setMessage(message.inserted("Products"));
+                response.setStatus(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
 
 
     /**

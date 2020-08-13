@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.rest.shop.response.ShopResponseModel;
 
+import java.sql.Date;
+
 public class ProductResponseModel {
 
     private String proId;
@@ -13,6 +15,7 @@ public class ProductResponseModel {
     private boolean status;
     private boolean isSold;
     private int viewCount;
+    private Date postDate;
 
 
     private Object images;
@@ -23,7 +26,7 @@ public class ProductResponseModel {
 
     public ProductResponseModel(){}
 
-    public ProductResponseModel(String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopResponseModel shop) {
+    public ProductResponseModel(String proId,Date postDate, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopResponseModel shop) {
         this.proId = proId;
         this.name = name;
         this.price = price;
@@ -34,6 +37,15 @@ public class ProductResponseModel {
         this.images = images;
         this.details = details;
         this.shop = shop;
+        this.postDate = postDate;
+    }
+
+    public Date getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Date postDate) {
+        this.postDate = postDate;
     }
 
     @Override
@@ -46,6 +58,7 @@ public class ProductResponseModel {
                 ", status=" + status +
                 ", isSold=" + isSold +
                 ", viewCount=" + viewCount +
+                ", postDate=" + postDate +
                 ", images=" + images +
                 ", details=" + details +
                 ", shop=" + shop +

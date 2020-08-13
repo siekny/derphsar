@@ -26,6 +26,7 @@ public interface ProductService {
     ProductDto findById(String proId);
 
 
-    //
     int countId();
+
+    List<ProductDto> getNewProducts();
 }
