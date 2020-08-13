@@ -72,6 +72,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public List<UserDto> getAllCustomersByShopId(int shopId) {
+        return userRepository.getAllCustomersByShopId(shopId);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         UserDto user = this.userRepository.findByEmail(email);

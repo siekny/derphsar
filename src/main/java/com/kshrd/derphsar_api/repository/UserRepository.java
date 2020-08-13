@@ -9,6 +9,7 @@ import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -67,5 +68,20 @@ public interface UserRepository {
     //@UpdateProvider(type = UserProvider.class, method = "updateUserById")
     @Update("UPDATE dp_users SET name = #{user.name} , gender = #{user.gender}, age = #{user.age}, phone = #{user.phone}, email = #{user.email}, profile = #{user.profile} WHERE user_id = #{userId}")
     boolean updateUserById(String userId, UserDto user);
+
+
+
+
+    @Select("SELECT u.user_id, u.name, u.phone, u.email, u.status\n" +
+            "FROM dp_order\tAS o\n" +
+            "INNER JOIN dp_users AS u ON u.id = o.user_id\n" +
+            "WHERE o.shop_id = #{shopId} AND u.status = 'TRUE'")
+        @Results({
+                @Result(property = "userId", column = "user_id"),
+        })
+    List<UserDto> getAllCustomersByShopId(@Param("shopId") int shopId);
+
+
+
 
 }
