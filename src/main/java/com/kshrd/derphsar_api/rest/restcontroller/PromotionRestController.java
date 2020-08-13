@@ -46,25 +46,32 @@ public class PromotionRestController {
      * @return - Return response message
      */
     @GetMapping("/promotions")
-    @ApiOperation(value = "show all promotion", response = PromotionResponseModel.class)
+    @ApiOperation(value = "show all promotions by a shop id", response = PromotionResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> getPromotions(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
 
         ModelMapper mapper = new ModelMapper();
-        BaseApiResponse<List<PromotionResponseModel>> response =
-                new BaseApiResponse<>();
-
-        List<PromotionDto> promotionDtoList = promotionServiceImp.getPromotions(shopId);
+        BaseApiResponse<List<PromotionResponseModel>> response = new BaseApiResponse<>();
         List<PromotionResponseModel> promotions = new ArrayList<>();
 
-        for (PromotionDto promotionDto : promotionDtoList) {
-            promotions.add(mapper.map(promotionDto, PromotionResponseModel.class));
+        try {
+            List<PromotionDto> promotion = promotionServiceImp.getPromotions(shopId);
+            for (PromotionDto promotionDto : promotion) {
+                promotions.add(mapper.map(promotionDto, PromotionResponseModel.class));
+            }
+
+            if (!promotion.isEmpty()) {
+                response.setMessage(message.selected("Promotions"));
+                response.setData(promotions);
+                response.setStatus(HttpStatus.FOUND);
+            }else {
+                response.setMessage(message.hasNoRecords("Promotions"));
+                response.setStatus(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-        response.setMessage(message.selected("Promotions"));
-        response.setData(promotions);
-        response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
-
         return ResponseEntity.ok(response);
     }
 
@@ -72,17 +79,23 @@ public class PromotionRestController {
     /**
      * Delete a promotion
      *
-     * @param id - Id of a promotion
+     * @param promoId - Id of a promotion
      * @return - Return response message
      */
-    @DeleteMapping("/promotions/{id}")
-    @ApiOperation(value = "delete a promotion", response = Void.class)
-    public ResponseEntity<BaseApiResponse<Void>> deletePromotion(@PathVariable("id") String id) {
+    @DeleteMapping("/promotions/{promoId}")
+    @ApiOperation(value = "delete a promotion by a promotion id", response = Void.class)
+    public ResponseEntity<BaseApiResponse<Void>> deletePromotion(@PathVariable("promoId") String promoId) {
+
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
-        promotionServiceImp.deletePromotion(id);
-        response.setMessage(message.deleted("Promotion"));
-        response.setStatus(HttpStatus.OK);
+        try {
+            promotionServiceImp.deletePromotion(promoId);
+            response.setMessage(message.deleted("Promotion"));
+            response.setStatus(HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
@@ -91,25 +104,31 @@ public class PromotionRestController {
     /**
      * Put a promotion
      *
-     * @param id - Id of a promotion
+     * @param promoId - Id of a promotion
      * @param promotionRequestModel - Promotion request model
      * @return - Return response message
      */
-    @PutMapping("/promotions/{id}")
-    @ApiOperation(value = "update a promotion", response = PromotionRequestModel.class)
-    public ResponseEntity<BaseApiResponse<PromotionRequestModel>> updatePromotion(
-            @PathVariable("id") String id,
-            @RequestBody PromotionRequestModel promotionRequestModel) {
-        ModelMapper modelMapper = new ModelMapper();
-        PromotionDto dto = modelMapper.map(promotionRequestModel, PromotionDto.class);
-        PromotionRequestModel responeModel = modelMapper.map(promotionServiceImp.updatePromotion(id, dto), PromotionRequestModel.class);
+    @PutMapping("/promotions/{promoId}")
+    @ApiOperation(value = "update a promotion by a promotion id", response = PromotionResponseModel.class)
+    public ResponseEntity<BaseApiResponse<PromotionResponseModel>> updatePromotion(@PathVariable("promoId") String promoId,
+                                                                                  @RequestBody PromotionRequestModel promotionRequestModel) {
 
-        BaseApiResponse<PromotionRequestModel> respone = new BaseApiResponse<>();
-        respone.setMessage(message.updated("Promotion"));
-        respone.setStatus(HttpStatus.OK);
-        respone.setData(responeModel);
-        respone.setTime(new Timestamp(System.currentTimeMillis()));
-        return ResponseEntity.ok(respone);
+        ModelMapper modelMapper = new ModelMapper();
+        BaseApiResponse<PromotionResponseModel> response = new BaseApiResponse<>();
+
+        try {
+            PromotionDto promotionDto = modelMapper.map(promotionRequestModel, PromotionDto.class);
+            PromotionResponseModel responseModel = modelMapper.map(promotionServiceImp.updatePromotion(promoId, promotionDto), PromotionResponseModel.class);
+
+            response.setMessage(message.updated("Promotion"));
+            response.setStatus(HttpStatus.OK);
+            response.setData(responseModel);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
     }
 
 
@@ -119,52 +138,60 @@ public class PromotionRestController {
      * @param promotionRequestModel - Promotion request model
      * @return - Return response message
      */
-    @PostMapping("/promotion")
+    @PostMapping("/promotions")
     @ApiOperation(value = "create a promotion", response = PromotionResponseModel.class)
-    public ResponseEntity<BaseApiResponse<PromotionResponseModel>> createPromotion(
-            @RequestBody PromotionRequestModel promotionRequestModel) {
+    public ResponseEntity<BaseApiResponse<PromotionResponseModel>> createPromotion(@RequestBody PromotionRequestModel promotionRequestModel) {
 
         BaseApiResponse<PromotionResponseModel> response = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
-
-        PromotionDto promotionDto = mapper.map(promotionRequestModel, PromotionDto.class);
-
         UUID uuid = UUID.randomUUID();
-        promotionDto.setPromoId("DP"+uuid.toString().substring(0,10));
-        promotionDto.setStatus(true);
 
-        PromotionDto result = promotionServiceImp.createPromotion(promotionDto);
-        PromotionResponseModel responseModel = mapper.map(result, PromotionResponseModel.class);
-        response.setMessage(message.inserted("Promotion"));
-        response.setData(responseModel);
-        response.setStatus(HttpStatus.OK);
+        try {
+            PromotionDto promotionDto = mapper.map(promotionRequestModel, PromotionDto.class);
+            promotionDto.setPromoId("DP"+uuid.toString().substring(0,10));
+            promotionDto.setStatus(true);
+
+            PromotionDto result = promotionServiceImp.createPromotion(promotionDto);
+            PromotionResponseModel responseModel = mapper.map(result, PromotionResponseModel.class);
+
+            response.setMessage(message.inserted("Promotion"));
+            response.setData(responseModel);
+            response.setStatus(HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         response.setTime(new Timestamp(System.currentTimeMillis()));
-
         return ResponseEntity.ok(response);
-
     }
 
 
     /**
      * Get a promotion
      *
-     * @param id - Id of a promotion
+     * @param promoId - Id of a promotion
      * @return - Return response message
      */
-    @GetMapping("/promotions/{id}")
-    @ApiOperation(value = "show all promotions", response = PromotionRequestModel.class)
-    public ResponseEntity<BaseApiResponse<List<PromotionRequestModel>>> findById(@PathVariable("id") String id){
+    @GetMapping("/promotions/{promoId}")
+    @ApiOperation(value = "get a promotion by a promotion id", response = PromotionResponseModel.class)
+    public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> findById(@PathVariable("promoId") String promoId){
+
         ModelMapper mapper = new ModelMapper();
-        BaseApiResponse<List<PromotionRequestModel>> response =
+        BaseApiResponse<List<PromotionResponseModel>> response =
                 new BaseApiResponse<>();
+        List<PromotionResponseModel> promotionRequestModels = new ArrayList<>();
 
-        PromotionDto promotionDto = promotionServiceImp.findById(id);
-        List<PromotionRequestModel> promotionRequestModels = new ArrayList<>();
+        try {
+            PromotionDto promotionDto = promotionServiceImp.findById(promoId);
+            promotionRequestModels.add(mapper.map(promotionDto, PromotionResponseModel.class));
 
-        promotionRequestModels.add(mapper.map(promotionDto, PromotionRequestModel.class));
-        response.setMessage(message.selectedOne("Promotion"));
-        response.setData(promotionRequestModels);
-        response.setStatus(HttpStatus.OK);
+            response.setMessage(message.selectedOne("Promotion"));
+            response.setData(promotionRequestModels);
+            response.setStatus(HttpStatus.FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }

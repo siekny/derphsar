@@ -6,6 +6,7 @@ import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
 import com.kshrd.derphsar_api.rest.product.response.ProductResponseModel;
+import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.service.implement.ProductServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -285,19 +286,23 @@ public class ProductRestController {
      * @return - Return response message
      */
     @GetMapping("/products/{id}")
-    @ApiOperation(value = "find a product by id", response = ProductRequestModel.class)
-    public ResponseEntity<BaseApiResponse<List<ProductRequestModel>>> findById(@PathVariable("id") String id){
+    @ApiOperation(value = "find a product by id", response = ProductResponseModel.class)
+    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> findById(@PathVariable("id") String id){
         ModelMapper mapper = new ModelMapper();
-        BaseApiResponse<List<ProductRequestModel>> response =
-                new BaseApiResponse<>();
+        BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
+        List<ProductResponseModel> products = new ArrayList<>();
 
-        ProductDto productDto = productService.findById(id);
-        List<ProductRequestModel> productRequestModels = new ArrayList<>();
+        try {
+            ProductDto productDto = productService.findById(id);
+            products.add(mapper.map(productDto, ProductResponseModel.class));
 
-        productRequestModels.add(mapper.map(productDto, ProductRequestModel.class));
-        response.setMessage(message.selectedOne("Product"));
-        response.setData(productRequestModels);
-        response.setStatus(HttpStatus.OK);
+            response.setMessage(message.selectedOne("Product"));
+            response.setData(products);
+            response.setStatus(HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }

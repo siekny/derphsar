@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 import com.kshrd.derphsar_api.repository.dto.CategoryDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.category.request.CategoryRequestModel;
+import com.kshrd.derphsar_api.rest.category.response.CategoryResponseModel;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.service.implement.CategoryServiceImp;
 import io.swagger.annotations.ApiOperation;
@@ -40,25 +41,33 @@ public class CategoryRestController {
      * @return - Returns all categories
      */
     @GetMapping("/categories")
-    @ApiOperation(value = "Show all categories", response = CategoryRequestModel.class)
-    public ResponseEntity<BaseApiResponse<List<CategoryRequestModel>>> getCategories(){
+    @ApiOperation(value = "Show all categories", response = CategoryResponseModel.class)
+    public ResponseEntity<BaseApiResponse<List<CategoryResponseModel>>> getCategories(){
 
         ModelMapper mapper = new ModelMapper();
-        BaseApiResponse<List<CategoryRequestModel>> response =
+        BaseApiResponse<List<CategoryResponseModel>> response =
                 new BaseApiResponse<>();
+        List<CategoryResponseModel> categories = new ArrayList<>();
 
-        List<CategoryDto> categoryDtoList = categoryServiceImp.select();
-        List<CategoryRequestModel> articles = new ArrayList<>();
+        try{
+            List<CategoryDto> categoryDtoList = categoryServiceImp.select();
+            for (CategoryDto categoryDto : categoryDtoList) {
+                categories.add(mapper.map(categoryDto, CategoryResponseModel.class));
+            }
 
-        for (CategoryDto categoryDto : categoryDtoList) {
-            articles.add(mapper.map(categoryDto, CategoryRequestModel.class));
+            if(!categoryDtoList.isEmpty()){
+                response.setMessage(message.selected("Categories"));
+                response.setData(categories);
+                response.setStatus(HttpStatus.FOUND);
+            }else {
+                response.setMessage(message.hasNoRecords("Categories"));
+                response.setStatus(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-        response.setMessage(message.selected("Categories"));
-        response.setData(articles);
-        response.setStatus(HttpStatus.FOUND);
         response.setTime(new Timestamp(System.currentTimeMillis()));
-
         return ResponseEntity.ok(response);
     }
 }
