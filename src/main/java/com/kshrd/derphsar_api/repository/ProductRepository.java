@@ -4,6 +4,7 @@ import com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg;
 import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.*;
 import com.kshrd.derphsar_api.repository.provider.ProductProvider;
+import com.kshrd.derphsar_api.repository.provider.WishListProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
@@ -128,4 +129,17 @@ public interface ProductRepository {
         @ResultMap("mapProduct")
     List<ProductDto> getPopularProducts();
 
+
+
+    @SelectProvider(type = ProductProvider.class, method = "getAllProductsByUserId")
+    @Results({
+            @Result(property = "name", column = "proName"),
+            @Result(property = "price", column = "price"),
+            @Result(property = "images", column = "images"),
+            @Result(property = "viewCount", column = "view_count"),
+            @Result(property = "shop.name", column = "shopName"),
+            @Result(property = "shop.status", column = "status"),
+
+    })
+    List<ProductDto> getAllProductsByUserId(int uId, @Param("pagination") Pagination pagination);
 }

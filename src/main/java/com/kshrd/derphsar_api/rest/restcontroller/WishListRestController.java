@@ -185,7 +185,6 @@ public class WishListRestController {
             }
 
             response.setPagination(pagination);
-            System.out.println("Wishlist = " + response);
         }catch (Exception e){
             e.printStackTrace();
         }

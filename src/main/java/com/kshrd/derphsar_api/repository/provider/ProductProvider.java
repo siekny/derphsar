@@ -36,5 +36,15 @@ public class ProductProvider{
     }
 
 
-
+    public String getAllProductsByUserId(int uId, @Param("pagination") Pagination pagination){
+        return new SQL(){{
+            SELECT("pro.name AS proName, sh.name AS shopName, sh.status , pro.price, pro.view_count, pro.images AS images");
+            FROM ("dp_products AS pro");
+            INNER_JOIN ("dp_shops AS sh ON pro.shop_id = sh.id");
+            INNER_JOIN ("dp_users AS u ON u.id = sh.u_id");
+            WHERE ("u.id =  #{uId}");
+            LIMIT(pagination.getLimit());
+            OFFSET(pagination.getOffset());
+        }}.toString();
+    }
 }

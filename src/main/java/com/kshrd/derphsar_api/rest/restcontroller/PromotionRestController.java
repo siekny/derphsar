@@ -46,7 +46,7 @@ public class PromotionRestController {
      * @return - Return response message
      */
     @GetMapping("/promotions")
-    @ApiOperation(value = "show all promotions by a shop id", response = PromotionResponseModel.class)
+    @ApiOperation(value = "show all promotions or by a shop id", response = PromotionResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> getPromotions(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
 
         ModelMapper mapper = new ModelMapper();

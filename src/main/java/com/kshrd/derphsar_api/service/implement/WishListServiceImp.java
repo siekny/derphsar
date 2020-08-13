@@ -34,7 +34,7 @@ public class WishListServiceImp implements WishLishService{
             return null;
     }
 
-    //get all wishlists
+    //get all wishlist
     @Override
     public List<WishListDto> getWishLists(){
         return wishListRepository.select();
@@ -50,14 +50,6 @@ public class WishListServiceImp implements WishLishService{
     public List<WishListDto> getAllWishListByUserId(int userId, Pagination pagination) {
         return wishListRepository.getAllWishListByUserId(userId, pagination);
     }
-
-//    @Override
-//    public List<WishListDto> getAllWishListByUserId(int userId) {
-//        return wishListRepository.getAllShopsByUserId(userId);
-//    }
-
-
-
 
 
     @Override

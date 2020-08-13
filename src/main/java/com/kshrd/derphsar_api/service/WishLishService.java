@@ -8,19 +8,16 @@ import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 import java.util.List;
 
 public interface WishLishService {
-    //    create wishlist
+    //create wishlist
     WishListDto createWishList(WishListDto wishListDto);
 
-    //    get all wishlist
+    //get wishlist
     List<WishListDto> getWishLists();
 
-    //    delete wishlist
+    //delete wishlist
     void deleteWishList(String wishlist_id);
 
-
-    //List<WishListDto> getAllWishListByUserId (int userId);
-
-
+    //get wishlist by id
     List<WishListDto> getAllWishListByUserId(int userId, Pagination pagination);
 
     

@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.service.implement;
 import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.ProductRepository;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
+import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,4 +86,9 @@ public class ProductServiceImp implements ProductService {
         return productRepository.getPopularProducts();
     }
 
+
+    @Override
+    public List<ProductDto> getAllProductsByUserId(int userId, Pagination pagination) {
+        return productRepository.getAllProductsByUserId(userId, pagination);
+    }
 }

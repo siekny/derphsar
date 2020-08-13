@@ -5,8 +5,8 @@ import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
+import com.kshrd.derphsar_api.rest.product.response.ProductsOfAUserResponse;
 import com.kshrd.derphsar_api.rest.product.response.ProductResponseModel;
-import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.service.implement.ProductServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 public class ProductRestController {
-    private ProductServiceImp productService;
+    private ProductServiceImp productServiceImp;
     private MessageProperties message;
 
     @Autowired
@@ -33,8 +33,8 @@ public class ProductRestController {
     }
 
     @Autowired
-    public void setProductService(ProductServiceImp productService) {
-        this.productService = productService;
+    public void setProductServiceImp(ProductServiceImp productServiceImp) {
+        this.productServiceImp = productServiceImp;
     }
 
 
@@ -61,7 +61,7 @@ public class ProductRestController {
         productDto.setProId("DP"+uuid.toString().substring(0,10));
         productDto.setStatus(true);
 
-        ProductDto result = productService.insert(productDto);
+        ProductDto result = productServiceImp.insert(productDto);
         ProductResponseModel responseModel = mapper.map(result, ProductResponseModel.class);
         response.setMessage(message.inserted("Product"));
         response.setData(responseModel);
@@ -97,13 +97,13 @@ public class ProductRestController {
         pagination.previousPage();
 
 
-        pagination.setTotalCount(productService.countId());
+        pagination.setTotalCount(productServiceImp.countId());
         pagination.setTotalPages(pagination.getTotalPages());
 
         BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
-        List<ProductDto> productDtos = productService.getProducts(pagination);
+        List<ProductDto> productDtos = productServiceImp.getProducts(pagination);
         List<ProductResponseModel> productResponseModels = new ArrayList<>();
 
         for(ProductDto productDto : productDtos){
@@ -147,7 +147,7 @@ public class ProductRestController {
         List<ProductResponseModel> productResponseModels = new ArrayList<>();
 
         try{
-            List<ProductDto> productDtos = productService.getNewProducts();
+            List<ProductDto> productDtos = productServiceImp.getNewProducts();
             for(ProductDto productDto : productDtos){
                 try {
                     Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
@@ -198,7 +198,7 @@ public class ProductRestController {
         List<ProductResponseModel> productResponseModels = new ArrayList<>();
 
         try{
-            List<ProductDto> productDtos = productService.getPopularProducts();
+            List<ProductDto> productDtos = productServiceImp.getPopularProducts();
             for(ProductDto productDto : productDtos){
                 try {
                     Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
@@ -243,7 +243,7 @@ public class ProductRestController {
     public ResponseEntity<BaseApiResponse<Void>> deleteProduct(@PathVariable("id") String id){
         BaseApiResponse<Void> response = new BaseApiResponse<>();
 
-        productService.deleteProduct(id);
+        productServiceImp.deleteProduct(id);
         response.setMessage(message.deleted("Product"));
         response.setStatus(HttpStatus.OK);
         response.setTime(new Timestamp(System.currentTimeMillis()));
@@ -265,7 +265,7 @@ public class ProductRestController {
             @RequestBody ProductRequestModel productRequestModel){
         ModelMapper modelMapper=new ModelMapper();
         ProductDto dto=modelMapper.map(productRequestModel,ProductDto.class);
-        ProductRequestModel responeModel=modelMapper.map(productService.updateProduct(id,dto),ProductRequestModel.class);
+        ProductRequestModel responeModel=modelMapper.map(productServiceImp.updateProduct(id,dto),ProductRequestModel.class);
 
         BaseApiResponse<ProductRequestModel> respone=new BaseApiResponse <>();
         respone.setMessage(message.updated("Update"));
@@ -293,7 +293,7 @@ public class ProductRestController {
         List<ProductResponseModel> products = new ArrayList<>();
 
         try {
-            ProductDto productDto = productService.findById(id);
+            ProductDto productDto = productServiceImp.findById(id);
             products.add(mapper.map(productDto, ProductResponseModel.class));
 
             response.setMessage(message.selectedOne("Product"));
@@ -307,6 +307,66 @@ public class ProductRestController {
         return ResponseEntity.ok(response);
     }
 
+
+
+    /**
+     * Get wishlists
+     *
+     * @param page  - Page of pagination
+     * @param limit - Limit data of a pagination
+     * @param totalPages - Total pages of data limited in a page
+     * @param pagesToShow - Pages to show
+     * @return - Return response message
+     */
+    @GetMapping("all-products/{userId}")
+    @ApiOperation(value = "show all products by user id", response = Void.class)
+    public ResponseEntity<BaseApiResponse<List<ProductsOfAUserResponse>>> getAllProductsByUserId(@PathVariable("userId") int userId,
+                                                                                                 @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                                                 @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+                                                                                                 @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+                                                                                                 @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+        pagination.setTotalCount(productServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
+
+        BaseApiResponse<List<ProductsOfAUserResponse>> response = new BaseApiResponse<>();
+        ModelMapper mapper = new ModelMapper();
+        List<ProductsOfAUserResponse> productResponseModels = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            List<ProductDto> products = productServiceImp.getAllProductsByUserId(userId,pagination);
+            for (ProductDto productDto : products) {
+
+                Object images = objectMapper.readValue(productDto.getImages().toString(), Object.class);
+                productDto.setImages(images);
+
+                ProductsOfAUserResponse productResponseModel = mapper.map(productDto, ProductsOfAUserResponse.class);
+                productResponseModels.add(productResponseModel);
+            }
+
+            if (!products.isEmpty()) {
+                response.setData(productResponseModels);
+                response.setStatus(HttpStatus.FOUND);
+                response.setMessage(message.selected("Products"));
+            }else {
+                response.setStatus(HttpStatus.NOT_FOUND);
+                response.setMessage(message.hasNoRecords("Products"));
+            }
+
+            response.setPagination(pagination);
+            System.out.println("Product = " + response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 
 
     //get all products
