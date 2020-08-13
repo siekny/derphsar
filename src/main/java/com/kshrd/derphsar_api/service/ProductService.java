@@ -29,4 +29,6 @@ public interface ProductService {
     int countId();
 
     List<ProductDto> getNewProducts();
+
+    List<ProductDto> getPopularProducts();
 }

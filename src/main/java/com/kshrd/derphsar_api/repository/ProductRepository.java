@@ -111,11 +111,21 @@ public interface ProductRepository {
 
 
 
+
     @Select("SELECT * FROM dp_products AS pro\n" +
             "WHERE status = 'true'\n" +
             "ORDER BY pro.post_date DESC\n" +
             "LIMIT 12 ")
-            @ResultMap("mapProduct")
+        @ResultMap("mapProduct")
     List<ProductDto> getNewProducts();
+
+
+
+    @Select("SELECT * FROM dp_products AS pro\n" +
+            "WHERE status = 'true'\n" +
+            "ORDER BY pro.view_count DESC\n" +
+            "LIMIT 12")
+        @ResultMap("mapProduct")
+    List<ProductDto> getPopularProducts();
 
 }

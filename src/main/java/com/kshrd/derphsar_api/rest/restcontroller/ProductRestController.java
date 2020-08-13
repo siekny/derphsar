@@ -131,12 +131,12 @@ public class ProductRestController {
 
 
     /**
-     * Get new products for 15 records to show homepage
+     * Get new products for 12 records to show homepage
      *
-     * @return - Return response message
+     * @return - list of new products response
      */
-    @GetMapping("/product")
-    @ApiOperation(value = "show all new product 15 records", response = ProductResponseModel.class)
+    @GetMapping("/new-products")
+    @ApiOperation(value = "show all new products 15 records", response = ProductResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getNewProducts() {;
 
         BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
@@ -167,7 +167,7 @@ public class ProductRestController {
                 response.setData(productResponseModels);
                 response.setStatus(HttpStatus.FOUND);
             }else {
-                response.setMessage(message.inserted("Products"));
+                response.setMessage(message.hasNoRecords("Products"));
                 response.setStatus(HttpStatus.NOT_FOUND);
             }
         }catch (Exception e){
@@ -181,6 +181,54 @@ public class ProductRestController {
 
 
 
+    /**
+     * Get new products for 12 records to show homepage
+     *
+     * @return - list of popular products response
+     */
+    @GetMapping("/popular-products")
+    @ApiOperation(value = "show all popular products 15 records", response = ProductResponseModel.class)
+    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getPopularProducts() {;
+
+        BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<ProductResponseModel> productResponseModels = new ArrayList<>();
+
+        try{
+            List<ProductDto> productDtos = productService.getPopularProducts();
+            for(ProductDto productDto : productDtos){
+                try {
+                    Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
+                    Object images = mapper.readValue(productDto.getImages().toString(), Object.class);
+                    productDto.setDetails(details);
+                    productDto.setImages(images);
+
+                    ModelMapper modelMapper = new ModelMapper();
+                    ProductResponseModel productResponseModel = modelMapper .map(productDto, ProductResponseModel.class);
+                    productResponseModels.add(productResponseModel);
+                }catch (JsonProcessingException e){
+                    e.printStackTrace();
+                }
+            }
+
+            if(!productDtos.isEmpty()){
+                response.setMessage(message.selected("Products"));
+                response.setData(productResponseModels);
+                response.setStatus(HttpStatus.FOUND);
+            }else {
+                response.setMessage(message.hasNoRecords("Products"));
+                response.setStatus(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+
+        return ResponseEntity.ok(response);
+    }
 
 
     /**

@@ -80,4 +80,9 @@ public class ProductServiceImp implements ProductService {
         return productRepository.getNewProducts();
     }
 
+    @Override
+    public List<ProductDto> getPopularProducts() {
+        return productRepository.getPopularProducts();
+    }
+
 }
