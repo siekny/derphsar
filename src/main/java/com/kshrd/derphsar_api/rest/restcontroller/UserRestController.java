@@ -1,13 +1,20 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
+import com.kshrd.derphsar_api.rest.product.response.ProductResponseModel;
+import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
+import com.kshrd.derphsar_api.rest.user.response.UserByShopResponse;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.service.implement.UserServiceImp;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Param;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -118,7 +126,7 @@ public class UserRestController {
      * @return - Return response message
      */
     @GetMapping("/users/{userId}")
-    @ApiOperation(value = "show all users", response = UserResponseModel.class)
+    @ApiOperation(value = "show all users by userId", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<UserResponseModel>> getOneUserById(@PathVariable String userId){
         BaseApiResponse<UserResponseModel> baseApiResponse = new BaseApiResponse<>();
         try {
@@ -138,6 +146,41 @@ public class UserRestController {
 
 
 
+    /**
+     * Get all Customer by shop id
+     *
+     * @return - list of customers response
+     */
+    @GetMapping("/customers")
+    @ApiOperation(value = "show all customers of a shop", response = UserByShopResponse.class)
+    public ResponseEntity<BaseApiResponse<List<UserByShopResponse>>> getAllCustomersByShopId(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {;
+
+        BaseApiResponse<List<UserByShopResponse>> response = new BaseApiResponse<>();
+        ModelMapper mapper = new ModelMapper();
+        List<UserByShopResponse> userResponseModelist = new ArrayList<>();
+
+        try{
+            List<UserDto> userDtos = userServiceImp.getAllCustomersByShopId(shopId);
+            for(UserDto userDto : userDtos){
+                userResponseModelist.add(mapper.map(userDto, UserByShopResponse.class));
+            }
+
+            if(!userDtos.isEmpty()){
+                response.setMessage(message.selected("Users"));
+                response.setData(userResponseModelist);
+                response.setStatus(HttpStatus.FOUND);
+            }else {
+                response.setMessage(message.hasNoRecord("User"));
+                response.setStatus(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+
+        return ResponseEntity.ok(response);
+    }
 
 
     /**

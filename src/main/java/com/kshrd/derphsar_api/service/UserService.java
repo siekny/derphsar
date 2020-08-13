@@ -20,4 +20,6 @@ public interface UserService extends UserDetailsService {
     void deleteUserById(String userId);
 
     UserDto updateUserById(String userId, UserDto userDto);
+
+    List<UserDto> getAllCustomersByShopId (int shopId);
 }
