@@ -88,7 +88,6 @@ public class UserRestController {
             response.setData(null);
         }
         return ResponseEntity.ok(response);
-
     }
 
 
@@ -130,20 +129,20 @@ public class UserRestController {
     @GetMapping("/users/{userId}")
     @ApiOperation(value = "show all users by userId", response = UserResponseModel.class)
     public ResponseEntity<BaseApiResponse<UserResponseModel>> getOneUserById(@PathVariable String userId){
-        BaseApiResponse<UserResponseModel> baseApiResponse = new BaseApiResponse<>();
+        BaseApiResponse<UserResponseModel> response = new BaseApiResponse<>();
         try {
             UserResponseModel userResponse = userServiceImp.getOneUserById(userId);
-            baseApiResponse.setMessage(message.selectedOne("User"));
-            baseApiResponse.setStatus(HttpStatus.FOUND);
-            baseApiResponse.setData(userResponse);
-            baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
+            response.setMessage(message.selectedOne("User"));
+            response.setStatus(HttpStatus.FOUND);
+            response.setData(userResponse);
+            response.setTime(new Timestamp(System.currentTimeMillis()));
         }catch (Exception ex){
-            baseApiResponse.setMessage(message.hasNoRecords("User"));
-            baseApiResponse.setStatus(HttpStatus.NOT_FOUND);
-            baseApiResponse.setData(null);
-            baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
+            response.setMessage(message.hasNoRecords("User"));
+            response.setStatus(HttpStatus.NOT_FOUND);
+            response.setData(null);
+            response.setTime(new Timestamp(System.currentTimeMillis()));
         }
-        return ResponseEntity.ok(baseApiResponse);
+        return ResponseEntity.ok(response);
     }
 
 
@@ -221,7 +220,7 @@ public class UserRestController {
         }catch (Exception e){
             response.setMessage(message.deleteError("User"));
             response.setData(null);
-            response.setStatus(HttpStatus.NOT_FOUND);
+            response.setStatus(HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(response);
     }
@@ -243,14 +242,20 @@ public class UserRestController {
             @PathVariable("userId") String userId,
             @RequestBody UserRequestModel userRequestModel){
 
-        ModelMapper modelMapper = new ModelMapper();
-        UserDto dto = modelMapper.map(userRequestModel, UserDto.class);
-        UserResponseModel responseModel = modelMapper.map(userServiceImp.updateUserById(userId,dto),UserResponseModel.class);
-
         BaseApiResponse<UserResponseModel> response = new BaseApiResponse <>();
-        response.setMessage(message.updated("User"));
-        response.setStatus(HttpStatus.OK);
-        response.setData(responseModel);
+        ModelMapper modelMapper = new ModelMapper();
+
+        try {
+            UserDto dto = modelMapper.map(userRequestModel, UserDto.class);
+            UserResponseModel responseModel = modelMapper.map(userServiceImp.updateUserById(userId,dto),UserResponseModel.class);
+
+            response.setMessage(message.updated("User"));
+            response.setStatus(HttpStatus.OK);
+            response.setData(responseModel);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
