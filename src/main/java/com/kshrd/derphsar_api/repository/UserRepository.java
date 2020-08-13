@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.repository;
 
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.provider.UserProvider;
@@ -83,5 +84,24 @@ public interface UserRepository {
 
 
 
+
+    @Select("SELECT u.user_id, u.name AS userName, u.phone, u.email, r.name AS roleName, u.status\n" +
+            "FROM dp_users AS u\n" +
+            "INNER JOIN dp_user_role AS ur ON ur.user_id = u.id\n" +
+            "INNER JOIN dp_role AS r ON r.id = ur.role_id\n" +
+            "WHERE r.name = #{roleName} AND u.status = 'TRUE'")
+
+        @Results({
+                @Result(property = "userId", column = "user_id"),
+                @Result(property = "name", column = "userName"),
+                @Result(property = "name", column = "userName"),
+        })
+
+    List<UserDto> getAllCustomersByRoleName(@Param("roleName") String roleName,@Param("pagination") Pagination pagination);
+
+
+    //count all users
+    @Select("SELECT COUNT(id) FROM dp_users WHERE status = 'TRUE'")
+    int countId();
 
 }

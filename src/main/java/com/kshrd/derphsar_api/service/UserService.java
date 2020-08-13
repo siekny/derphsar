@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.service;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
@@ -21,5 +22,7 @@ public interface UserService extends UserDetailsService {
 
     UserDto updateUserById(String userId, UserDto userDto);
 
-    List<UserDto> getAllCustomersByShopId (int shopId);
+    List<UserDto> getAllCustomersByShopIdOrRoleName (int shopId, String roleName, Pagination pagination);
+
+    int countId();
 }

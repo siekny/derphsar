@@ -79,6 +79,8 @@ public interface PromotionRepository {
     })
     List<PromotionDto> findPromotionByShopId(@Param("shopId") int shopId);
 
+
+
     //select on shop
     @Select("SELECT * FROM dp_shops WHERE id = #{shop_id}")
     ShopDto selectOneShop(int shop_id);

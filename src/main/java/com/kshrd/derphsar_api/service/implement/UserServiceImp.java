@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.service.implement;
 
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.UserRepository;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
@@ -72,9 +73,21 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllCustomersByShopId(int shopId) {
-        return userRepository.getAllCustomersByShopId(shopId);
+    public List<UserDto> getAllCustomersByShopIdOrRoleName(int shopId, String roleName, Pagination pagination) {
+//            if(shopId != 0 && !roleName.isEmpty())
+//                return null;
+           if(shopId == 0)
+                return userRepository.getAllCustomersByRoleName(roleName,pagination);
+           else
+                return userRepository.getAllCustomersByShopId(shopId);
+
     }
+
+    @Override
+    public int countId() {
+        return userRepository.countId();
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

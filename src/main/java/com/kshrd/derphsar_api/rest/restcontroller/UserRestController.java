@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
@@ -29,6 +30,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1")
 public class UserRestController {
+
     private UserServiceImp userServiceImp;
     private BCryptPasswordEncoder encoder;
     private MessageProperties message;
@@ -152,15 +154,32 @@ public class UserRestController {
      * @return - list of customers response
      */
     @GetMapping("/customers")
-    @ApiOperation(value = "show all customers of a shop", response = UserByShopResponse.class)
-    public ResponseEntity<BaseApiResponse<List<UserByShopResponse>>> getAllCustomersByShopId(@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {;
+    @ApiOperation(value = "show all customers by shopId or roleName", response = UserByShopResponse.class)
+    public ResponseEntity<BaseApiResponse<List<UserByShopResponse>>> getAllCustomersByShopIdOrRoleName(
+            @RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
+            @RequestParam(value="roleName",required = false,defaultValue = " ") String roleName,
+            @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+            @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+            @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+            @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+
+
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+        pagination.setTotalCount(userServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
+
 
         BaseApiResponse<List<UserByShopResponse>> response = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
         List<UserByShopResponse> userResponseModelist = new ArrayList<>();
 
         try{
-            List<UserDto> userDtos = userServiceImp.getAllCustomersByShopId(shopId);
+            List<UserDto> userDtos = userServiceImp.getAllCustomersByShopIdOrRoleName(shopId,roleName,pagination);
             for(UserDto userDto : userDtos){
                 userResponseModelist.add(mapper.map(userDto, UserByShopResponse.class));
             }
