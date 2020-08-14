@@ -1,13 +1,12 @@
 package com.kshrd.derphsar_api.rest.shop.response;
 
-import com.kshrd.derphsar_api.repository.dto.CategoryDto;
-import com.kshrd.derphsar_api.repository.dto.UserDto;
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.rest.category.response.CategoryResponseModel;
-import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 
 import java.util.Date;
+import java.util.List;
 
 public class ShopResponseModel {
 
@@ -17,31 +16,33 @@ public class ShopResponseModel {
     private String description;
     private String profile;
     private String cover;
-    private boolean isOpen;
+    private boolean openStatus;
     private boolean status;
     private Date workingTime;
 
     private UserResponseModel user;
     private CategoryResponseModel category;
-    private PromotionResponseModel promotion;
+    private List<PromotionResponseModel> promotion;
 
     public ShopResponseModel() {
     }
 
-    public ShopResponseModel(String shopId, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, UserResponseModel user, CategoryResponseModel category, PromotionResponseModel promotion) {
+
+    public ShopResponseModel(String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, UserResponseModel user, CategoryResponseModel category, List<PromotionResponseModel> promotion) {
         this.shopId = shopId;
         this.name = name;
         this.address = address;
         this.description = description;
         this.profile = profile;
         this.cover = cover;
-        this.isOpen = isOpen;
+        this.openStatus = openStatus;
         this.status = status;
         this.workingTime = workingTime;
         this.user = user;
         this.category = category;
         this.promotion = promotion;
     }
+
 
     @Override
     public String toString() {
@@ -52,7 +53,7 @@ public class ShopResponseModel {
                 ", description='" + description + '\'' +
                 ", profile='" + profile + '\'' +
                 ", cover='" + cover + '\'' +
-                ", isOpen=" + isOpen +
+                ", openStatus=" + openStatus +
                 ", status=" + status +
                 ", workingTime=" + workingTime +
                 ", user=" + user +
@@ -110,12 +111,12 @@ public class ShopResponseModel {
         this.cover = cover;
     }
 
-    public boolean isOpen() {
-        return isOpen;
+    public boolean isOpenStatus() {
+        return openStatus;
     }
 
-    public void setOpen(boolean open) {
-        isOpen = open;
+    public void setOpenStatus(boolean openStatus) {
+        this.openStatus = openStatus;
     }
 
     public boolean isStatus() {
@@ -150,11 +151,11 @@ public class ShopResponseModel {
         this.category = category;
     }
 
-    public PromotionResponseModel getPromotion() {
+    public List<PromotionResponseModel> getPromotion() {
         return promotion;
     }
 
-    public void setPromotion(PromotionResponseModel promotion) {
+    public void setPromotion(List<PromotionResponseModel> promotion) {
         this.promotion = promotion;
     }
 }

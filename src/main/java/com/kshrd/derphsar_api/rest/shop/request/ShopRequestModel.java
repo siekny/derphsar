@@ -4,30 +4,26 @@ import java.util.Date;
 
 public class ShopRequestModel {
 
-    private String shopId;
     private String name;
     private String address;
     private String description;
     private String profile;
     private String cover;
-    private boolean isOpen;
-    private boolean status;
+    private boolean openStatus;
     private Date workingTime;
     private int u_id;
     private int cat_id;
 
     public ShopRequestModel() {}
 
-    public ShopRequestModel( String shopId, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, int u_id, int cat_id) {
 
-        this.shopId = shopId;
+    public ShopRequestModel(String name, String address, String description, String profile, String cover, boolean openStatus, Date workingTime, int u_id, int cat_id) {
         this.name = name;
         this.address = address;
         this.description = description;
         this.profile = profile;
         this.cover = cover;
-        this.isOpen = isOpen;
-        this.status = status;
+        this.openStatus = openStatus;
         this.workingTime = workingTime;
         this.u_id = u_id;
         this.cat_id = cat_id;
@@ -37,27 +33,18 @@ public class ShopRequestModel {
     @Override
     public String toString() {
         return "ShopRequestModel{" +
-                " shopId='" + shopId + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +
                 ", profile='" + profile + '\'' +
                 ", cover='" + cover + '\'' +
-                ", isOpen=" + isOpen +
-                ", status=" + status +
+                ", openStatus=" + openStatus +
                 ", workingTime=" + workingTime +
                 ", u_id=" + u_id +
                 ", cat_id=" + cat_id +
                 '}';
     }
 
-    public String getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
-    }
 
     public String getName() {
         return name;
@@ -99,20 +86,12 @@ public class ShopRequestModel {
         this.cover = cover;
     }
 
-    public boolean isOpen() {
-        return isOpen;
+    public boolean isOpenStatus() {
+        return openStatus;
     }
 
-    public void setOpen(boolean isOpen) {
-        this.isOpen = isOpen;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setOpenStatus(boolean openStatus) {
+        this.openStatus = openStatus;
     }
 
     public Date getWorkingTime() {

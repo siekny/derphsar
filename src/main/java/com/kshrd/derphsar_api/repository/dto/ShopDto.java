@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.repository.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class ShopDto {
 
@@ -11,7 +12,7 @@ public class ShopDto {
     private String description;
     private String profile;
     private String cover;
-    private boolean isOpen;
+    private boolean openStatus;
     private boolean status;
     private Date workingTime;
     private int u_id;
@@ -19,13 +20,13 @@ public class ShopDto {
 
     private UserDto user;
     private CategoryDto category;
-    private PromotionDto promotion;
+    private List<PromotionDto> promotion;
 
 
     public ShopDto() {
     }
 
-    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean isOpen, boolean status, Date workingTime, int u_id, int cat_id, UserDto user, CategoryDto category, PromotionDto promotion) {
+    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, int u_id, int cat_id, UserDto user, CategoryDto category, List<PromotionDto> promotion) {
         this.id = id;
         this.shopId = shopId;
         this.name = name;
@@ -33,7 +34,7 @@ public class ShopDto {
         this.description = description;
         this.profile = profile;
         this.cover = cover;
-        this.isOpen = isOpen;
+        this.openStatus = openStatus;
         this.status = status;
         this.workingTime = workingTime;
         this.u_id = u_id;
@@ -42,28 +43,6 @@ public class ShopDto {
         this.category = category;
         this.promotion = promotion;
     }
-
-    @Override
-    public String toString() {
-        return "ShopDto{" +
-                "id=" + id +
-                ", shopId='" + shopId + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", description='" + description + '\'' +
-                ", profile='" + profile + '\'' +
-                ", cover='" + cover + '\'' +
-                ", isOpen=" + isOpen +
-                ", status=" + status +
-                ", workingTime=" + workingTime +
-                ", u_id=" + u_id +
-                ", cat_id=" + cat_id +
-                ", user=" + user +
-                ", category=" + category +
-                ", promotion=" + promotion +
-                '}';
-    }
-
 
     public int getId() {
         return id;
@@ -121,12 +100,12 @@ public class ShopDto {
         this.cover = cover;
     }
 
-    public boolean isOpen() {
-        return isOpen;
+    public boolean isOpenStatus() {
+        return openStatus;
     }
 
-    public void setOpen(boolean open) {
-        isOpen = open;
+    public void setOpenStatus(boolean openStatus) {
+        this.openStatus = openStatus;
     }
 
     public boolean isStatus() {
@@ -177,11 +156,32 @@ public class ShopDto {
         this.category = category;
     }
 
-    public PromotionDto getPromotion() {
+    public List<PromotionDto> getPromotion() {
         return promotion;
     }
 
-    public void setPromotion(PromotionDto promotion) {
+    public void setPromotion(List<PromotionDto> promotion) {
         this.promotion = promotion;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopDto{" +
+                "id=" + id +
+                ", shopId='" + shopId + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", description='" + description + '\'' +
+                ", profile='" + profile + '\'' +
+                ", cover='" + cover + '\'' +
+                ", openStatus=" + openStatus +
+                ", status=" + status +
+                ", workingTime=" + workingTime +
+                ", u_id=" + u_id +
+                ", cat_id=" + cat_id +
+                ", user=" + user +
+                ", category=" + category +
+                ", promotion=" + promotion +
+                '}';
     }
 }

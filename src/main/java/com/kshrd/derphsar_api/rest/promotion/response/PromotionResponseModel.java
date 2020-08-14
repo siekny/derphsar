@@ -14,16 +14,18 @@ public class PromotionResponseModel {
     private Date startDate;
     private Date endDate;
     private boolean status;
+
     private String cover;
     private double startRank;
     private double endRank;
+
+    private int shop_id;
 
     private ShopPromotionResponse shop;
 
     public PromotionResponseModel(){}
 
-
-    public PromotionResponseModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ShopPromotionResponse shop) {
+    public PromotionResponseModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, int shop_id, ShopPromotionResponse shop) {
         this.promoId = promoId;
         this.title = title;
         this.isApply = isApply;
@@ -33,24 +35,8 @@ public class PromotionResponseModel {
         this.cover = cover;
         this.startRank = startRank;
         this.endRank = endRank;
+        this.shop_id = shop_id;
         this.shop = shop;
-    }
-
-
-    @Override
-    public String toString() {
-        return "PromotionResponseModel{" +
-                "promoId='" + promoId + '\'' +
-                ", title='" + title + '\'' +
-                ", isApply=" + isApply +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", status=" + status +
-                ", cover='" + cover + '\'' +
-                ", startRank=" + startRank +
-                ", endRank=" + endRank +
-                ", shop=" + shop +
-                '}';
     }
 
 
@@ -126,11 +112,37 @@ public class PromotionResponseModel {
         this.endRank = endRank;
     }
 
+    public int getShop_id() {
+        return shop_id;
+    }
+
+    public void setShop_id(int shop_id) {
+        this.shop_id = shop_id;
+    }
+
     public ShopPromotionResponse getShop() {
         return shop;
     }
 
     public void setShop(ShopPromotionResponse shop) {
         this.shop = shop;
+    }
+
+
+    @Override
+    public String toString() {
+        return "PromotionResponseModel{" +
+                "promoId='" + promoId + '\'' +
+                ", title='" + title + '\'' +
+                ", isApply=" + isApply +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status=" + status +
+                ", cover='" + cover + '\'' +
+                ", startRank=" + startRank +
+                ", endRank=" + endRank +
+                ", shop_id=" + shop_id +
+                ", shop=" + shop +
+                '}';
     }
 }
