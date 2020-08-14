@@ -194,7 +194,7 @@ public class UserRestController {
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        response.setPagination(pagination);
         response.setTime(new Timestamp(System.currentTimeMillis()));
 
         return ResponseEntity.ok(response);
