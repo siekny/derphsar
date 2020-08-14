@@ -1,10 +1,9 @@
 package com.kshrd.derphsar_api.repository;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
 import com.kshrd.derphsar_api.repository.dto.OrderDto;
-import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.repository.provider.OrderProvider;
-import com.kshrd.derphsar_api.repository.provider.WishListProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -73,7 +72,23 @@ public interface OrderRepository {
             @ResultMap("OrderMap")
     List<OrderDto> getOrdersLatestFiveRecords();
 
+    @SelectProvider(type = OrderProvider.class, method = "getAllOrdersHistoryByUserId")
+    @Results({
+            @Result(property = "orderDetail.product.name", column = "proName"),
+            @Result(property = "orderDetail.product.price", column = "proPrice"),
 
+            @Result(property = "orderDetail.product.images", column = "proImage"),
 
+            @Result(property = "shop.name", column = "shopName"),
 
+            @Result(property = "orderDetail.quatity", column = "orderQuantity"),
+            @Result(property = "orderDetail.orderDate", column = "orderDate"),
+            @Result(property = "shop.status", column = "status"),
+            @Result(property = "orderDetail.checkoutStatus", column = "is_checkout"),
+
+    })
+    List<OrderDto> getAllOrdersHistoryByUserId(int uId, @Param("pagination") Pagination pagination);
+
+    @SelectProvider(type = OrderProvider.class, method = "countId")
+    int countId();
 }

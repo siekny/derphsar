@@ -89,7 +89,7 @@ public interface UserRepository {
             "FROM dp_users AS u\n" +
             "INNER JOIN dp_user_role AS ur ON ur.user_id = u.id\n" +
             "INNER JOIN dp_role AS r ON r.id = ur.role_id\n" +
-            "WHERE r.name = #{roleName} AND u.status = 'TRUE'")
+            "WHERE r.name = #{roleName} AND u.status = 'TRUE' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
 
         @Results({
                 @Result(property = "userId", column = "user_id"),
@@ -101,7 +101,11 @@ public interface UserRepository {
 
 
     //count all users
-    @Select("SELECT COUNT(id) FROM dp_users WHERE status = 'TRUE'")
+    @Select("SELECT COUNT(u.id)\n" +
+            "FROM dp_users AS u\n" +
+            "INNER JOIN dp_user_role AS ur ON ur.user_id = u.id\n" +
+            "INNER JOIN dp_role AS r ON r.id = ur.role_id\n" +
+            "WHERE status = 'TRUE' AND r.name = 'ROLE_BUYER'")
     int countId();
 
 }
