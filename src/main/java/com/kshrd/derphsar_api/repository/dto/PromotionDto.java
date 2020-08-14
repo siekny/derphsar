@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.repository.dto;
 import java.sql.Date;
 
 public class PromotionDto {
+
     private int id;
     private String promoId;
     private String title;
