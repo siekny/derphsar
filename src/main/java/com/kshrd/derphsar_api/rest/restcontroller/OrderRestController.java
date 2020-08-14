@@ -1,26 +1,23 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
 
-import com.kshrd.derphsar_api.repository.OrderRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
 import com.kshrd.derphsar_api.repository.dto.OrderDto;
-import com.kshrd.derphsar_api.repository.dto.WishListDto;
+import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
+import com.kshrd.derphsar_api.rest.order.response.OrderHistoryOfAUserResponse;
 import com.kshrd.derphsar_api.rest.order.response.OrderResponse;
-import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
+import com.kshrd.derphsar_api.rest.product.response.ProductsOfAUserResponse;
 import com.kshrd.derphsar_api.service.implement.OrderServiceImp;
-import com.kshrd.derphsar_api.service.implement.WishListServiceImp;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -127,4 +124,64 @@ public class OrderRestController {
     }
 
 
+
+
+
+    /**
+     * Get Order History
+     *
+     * @param page  - Page of pagination
+     * @param limit - Limit data of a pagination
+     * @param totalPages - Total pages of data limited in a page
+     * @param pagesToShow - Pages to show
+     * @return - Return response message
+     */
+    @GetMapping("order-history/{userId}")
+    @ApiOperation(value = "show all order history by user id", response = Void.class)
+    public ResponseEntity<BaseApiResponse<List<OrderHistoryOfAUserResponse>>> getAllOrdersHistoryByUserId(@PathVariable("userId") int userId,
+                                                                                                          @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                                                          @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+                                                                                                          @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+                                                                                                          @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+        pagination.setTotalCount(orderServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
+
+        BaseApiResponse<List<OrderHistoryOfAUserResponse>> response = new BaseApiResponse<>();
+        ModelMapper mapper = new ModelMapper();
+        List<OrderHistoryOfAUserResponse> productResponseModels = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            List<OrderDto> orders = orderServiceImp.getAllOrdersHistoryByUserId(userId,pagination);
+            for (OrderDto orderDto : orders) {
+
+//                Object images = objectMapper.readValue(orderDto.getImage().toString(), Object.class);
+//                orderDto.setImage(images);
+
+                OrderHistoryOfAUserResponse productResponseModel = mapper.map(orderDto, OrderHistoryOfAUserResponse.class);
+                productResponseModels.add(productResponseModel);
+            }
+
+            if (!orders.isEmpty()) {
+                response.setData(productResponseModels);
+                response.setStatus(HttpStatus.FOUND);
+                response.setMessage(message.selected("Orders"));
+            }else {
+                response.setStatus(HttpStatus.NOT_FOUND);
+                response.setMessage(message.hasNoRecords("Orders"));
+            }
+
+            response.setPagination(pagination);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 }

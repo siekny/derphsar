@@ -1,7 +1,7 @@
 package com.kshrd.derphsar_api.service.implement;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.OrderRepository;
-import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
 import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +31,16 @@ public class OrderServiceImp implements OrderService {
     @Override
     public List<OrderDto> getOrdersLatestFiveRecords() {
         return orderRepository.getOrdersLatestFiveRecords();
+    }
+
+
+    @Override
+    public int countId() {
+        return orderRepository.countId();
+    }
+
+    @Override
+    public List<OrderDto> getAllOrdersHistoryByUserId(int userId, Pagination pagination) {
+        return orderRepository.getAllOrdersHistoryByUserId(userId, pagination);
     }
 }
