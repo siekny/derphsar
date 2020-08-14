@@ -142,4 +142,14 @@ public interface ProductRepository {
 
     })
     List<ProductDto> getAllProductsByUserId(int uId, @Param("pagination") Pagination pagination);
+
+
+    @Select("SELECT * FROM dp_products AS pro\n" +
+            "INNER JOIN dp_shops AS sh ON pro.shop_id = sh.id\n" +
+            "INNER JOIN dp_category AS c ON sh.cat_id = c.id\n" +
+            "WHERE pro.status = 'TRUE' AND c.id = #{c.id}\n" +
+            "ORDER BY pro.post_date DESC\n" +
+            "LIMIT 12")
+    @ResultMap("mapProduct")
+    List<ProductDto> getRelatedProducts(int categoryId);
 }

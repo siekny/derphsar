@@ -91,4 +91,9 @@ public class ProductServiceImp implements ProductService {
     public List<ProductDto> getAllProductsByUserId(int userId, Pagination pagination) {
         return productRepository.getAllProductsByUserId(userId, pagination);
     }
+
+    @Override
+    public List<ProductDto> getRelatedProducts(int categoryId) {
+        return productRepository.getRelatedProducts(categoryId);
+    }
 }

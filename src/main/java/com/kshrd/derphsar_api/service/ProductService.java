@@ -37,4 +37,8 @@ public interface ProductService {
 
     //get products by user id
     List<ProductDto> getAllProductsByUserId(int userId, Pagination pagination);
+
+    //get related products
+    List<ProductDto> getRelatedProducts(int categoryId);
+
 }

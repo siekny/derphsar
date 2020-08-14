@@ -137,8 +137,8 @@ public class ProductRestController {
      * @return - list of new products response
      */
     @GetMapping("/new-products")
-    @ApiOperation(value = "show all new products 15 records", response = ProductResponseModel.class)
-    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getNewProducts() {;
+    @ApiOperation(value = "show all new products 12 records", response = ProductResponseModel.class)
+    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getNewProducts() {
 
         BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
 
@@ -176,9 +176,60 @@ public class ProductRestController {
         }
 
         response.setTime(new Timestamp(System.currentTimeMillis()));
-
         return ResponseEntity.ok(response);
     }
+
+
+
+
+
+    /**
+     * Get related products for 12 records to show homepage
+     *
+     * @return - list of related products response
+     */
+    @GetMapping("/related-products")
+    @ApiOperation(value = "show all related products 12 records", response = ProductResponseModel.class)
+    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getRelatedProducts(@RequestParam(value = "categoryId" , required = false , defaultValue = "1") int categoryId) {
+
+        BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
+        ObjectMapper mapper = new ObjectMapper();
+        List<ProductResponseModel> productResponseModels = new ArrayList<>();
+
+        try{
+            List<ProductDto> productDtos = productServiceImp.getRelatedProducts(categoryId);
+            for(ProductDto productDto : productDtos){
+                try {
+                    Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
+                    Object images = mapper.readValue(productDto.getImages().toString(), Object.class);
+                    productDto.setDetails(details);
+                    productDto.setImages(images);
+
+                    ModelMapper modelMapper = new ModelMapper();
+                    ProductResponseModel productResponseModel = modelMapper .map(productDto, ProductResponseModel.class);
+                    productResponseModels.add(productResponseModel);
+                }catch (JsonProcessingException e){
+                    e.printStackTrace();
+                }
+            }
+
+            if(!productDtos.isEmpty()){
+                response.setMessage(message.selected("Products"));
+                response.setData(productResponseModels);
+                response.setStatus(HttpStatus.FOUND);
+            }else {
+                response.setMessage(message.hasNoRecords("Products"));
+                response.setStatus(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
+
+
 
 
 
@@ -188,7 +239,7 @@ public class ProductRestController {
      * @return - list of popular products response
      */
     @GetMapping("/popular-products")
-    @ApiOperation(value = "show all popular products 15 records", response = ProductResponseModel.class)
+    @ApiOperation(value = "show all popular products 12 records", response = ProductResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getPopularProducts() {;
 
         BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
