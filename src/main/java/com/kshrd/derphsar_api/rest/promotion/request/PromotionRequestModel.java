@@ -1,19 +1,13 @@
 package com.kshrd.derphsar_api.rest.promotion.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.sql.Date;
 
 public class PromotionRequestModel {
 
-    @JsonIgnore
-    private String promoId;
     private String title;
     private boolean isApply;
     private Date startDate;
     private Date endDate;
-    @JsonIgnore
-    private boolean status;
     private String cover;
     private double startRank;
     private double endRank;
@@ -21,13 +15,11 @@ public class PromotionRequestModel {
 
     public PromotionRequestModel(){}
 
-    public PromotionRequestModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, int shop_id) {
-        this.promoId = promoId;
+    public PromotionRequestModel(String title, boolean isApply, Date startDate, Date endDate, String cover, double startRank, double endRank, int shop_id) {
         this.title = title;
         this.isApply = isApply;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.status = status;
         this.cover = cover;
         this.startRank = startRank;
         this.endRank = endRank;
@@ -37,12 +29,10 @@ public class PromotionRequestModel {
     @Override
     public String toString() {
         return "PromotionRequestModel{" +
-                "promoId='" + promoId + '\'' +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", isApply=" + isApply +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", status=" + status +
                 ", cover='" + cover + '\'' +
                 ", startRank=" + startRank +
                 ", endRank=" + endRank +
@@ -50,13 +40,6 @@ public class PromotionRequestModel {
                 '}';
     }
 
-    public String getPromoId() {
-        return promoId;
-    }
-
-    public void setPromoId(String promoId) {
-        this.promoId = promoId;
-    }
 
     public String getTitle() {
         return title;
@@ -78,24 +61,18 @@ public class PromotionRequestModel {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
     public Date getEndDate() {
         return endDate;
     }
 
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+
+
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
     }
 
     public String getCover() {

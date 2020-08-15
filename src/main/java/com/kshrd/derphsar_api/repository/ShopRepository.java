@@ -48,7 +48,6 @@ public interface ShopRepository {
                 @Result(column = "cat_id" ,property = "category.catId"),
                 @Result(column = "catName" ,property = "category.name"),
 
-
                 //@Result(column = "id" ,property = "promotion.shop_id",many = @Many(select = "findPromotionByShopId")),
         })
     List<ShopDto> select(@Param("pagination") Pagination pagination);

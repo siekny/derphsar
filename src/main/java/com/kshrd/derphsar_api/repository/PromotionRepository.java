@@ -16,8 +16,8 @@ public interface PromotionRepository {
 
     //get all promotions
 //    @SelectProvider(value = PromotionProvider.class, method = "getPromotions")
-    @Select("SELECT * FROM dp_promotion WHERE status = 'true'")
-    @Results({
+    @Select("SELECT * FROM dp_promotion WHERE status = 'TRUE'")
+    @Results(id = "mapPromotion", value = {
             @Result(column = "promo_id" ,property = "promoId"),
             @Result(column = "is_apply" ,property = "isApply"),
             @Result(column = "start_date" ,property = "startDate"),
@@ -30,10 +30,10 @@ public interface PromotionRepository {
     List<PromotionDto> getPromotions();
 
 
-    @Select("SELECT * FROM dp_shops WHERE promo_id = #{shop_id} AND status = 'true'")
-    @Results({
+    @Select("SELECT * FROM dp_shops WHERE id = #{shop_id} AND status = 'true'")
+    @Results(id = "mapShop", value = {
             @Result(column = "shop_id", property = "shopId"),
-            @Result(column = "is_open", property = "isOpen"),
+            @Result(column = "is_open", property = "openStatus"),
             @Result(column = "working_time", property = "workingTime"),
             @Result(column = "u_id", property = "u_id"),
             @Result(column = "cat_id", property = "cat_id")
@@ -44,7 +44,7 @@ public interface PromotionRepository {
 
 
     //select all product
-    @Select("SELECT * FROM dp_products WHERE id=#{pro_id}")
+    @Select("SELECT * FROM dp_products WHERE id=#{pro_id} AND status = 'TRUE'")
     @Results({
             @Result(column = "id" ,property = "id"),
             @Result(column = "pro_id" ,property = "proId"),
@@ -66,37 +66,28 @@ public interface PromotionRepository {
 
 
     //create a promotion
-    @Insert("INSERT INTO dp_promotion (promo_id, title, is_apply, start_rank, start_date, end_date, status, shop_id , end_rank)" +
-            "VALUES (  #{promoId, jdbcType=VARCHAR}, #{title}, #{isApply}, #{startRank}, #{startDate}, #{endDate}, TRUE,#{shop.id}, #{endRank})")
+    @Insert("INSERT INTO dp_promotion (promo_id, title, is_apply, start_rank, start_date, end_date, status, shop_id , end_rank, shop_id, cover)" +
+            "VALUES (  #{promoId, jdbcType=VARCHAR}, #{title}, #{isApply}, #{startRank}, #{startDate}, #{endDate}, TRUE,#{shop.id}, #{endRank}, #{shop_id}), #{cover}")
     boolean createPromotion(PromotionDto promotionDto);
 
 
 
     //Search promotion by shop id
-    @Select("SELECT * FROM dp_promotion WHERE shop_id=#{shopId}")
-    @Results({
-            @Result(column = "shop_id" ,property = "shop",many = @Many(select = "selectOneShop")),
-    })
+    @Select("SELECT * FROM dp_promotion WHERE shop_id=#{shopId} AND status = 'TRUE'")
+        @ResultMap("mapPromotion")
     List<PromotionDto> findPromotionByShopId(@Param("shopId") int shopId);
 
 
 
     //select on shop
     @Select("SELECT * FROM dp_shops WHERE id = #{shop_id}")
+        @ResultMap("mapShop")
     ShopDto selectOneShop(int shop_id);
 
 
 
     //find product by id
-    @Select("SELECT * FROM dp_promotion WHERE promo_id = #{promoId}")
-    @Results({
-            @Result(column = "promo_id" ,property = "promoId"),
-            @Result(column = "is_apply" ,property = "isApply"),
-            @Result(column = "start_date" ,property = "startDate"),
-            @Result(column = "end_date" ,property = "endDate"),
-            @Result(column = "start_rank" ,property = "startRank"),
-            @Result(column = "end_rank" ,property = "endRank"),
-            @Result(column = "shop_id" ,property = "shop_id")
-    })
+    @Select("SELECT * FROM dp_promotion WHERE promo_id = #{promoId} AND status = 'TRUE'")
+        @ResultMap("mapPromotion")
     PromotionDto findById(String promoId);
 }

@@ -20,13 +20,13 @@ public class ShopDto {
 
     private UserDto user;
     private CategoryDto category;
-    private List<PromotionDto> promotion;
+//    private List<PromotionDto> promotion;
 
 
     public ShopDto() {
     }
 
-    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, int u_id, int cat_id, UserDto user, CategoryDto category, List<PromotionDto> promotion) {
+    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, int u_id, int cat_id, UserDto user, CategoryDto category) {
         this.id = id;
         this.shopId = shopId;
         this.name = name;
@@ -41,7 +41,6 @@ public class ShopDto {
         this.cat_id = cat_id;
         this.user = user;
         this.category = category;
-        this.promotion = promotion;
     }
 
     public int getId() {
@@ -156,14 +155,6 @@ public class ShopDto {
         this.category = category;
     }
 
-    public List<PromotionDto> getPromotion() {
-        return promotion;
-    }
-
-    public void setPromotion(List<PromotionDto> promotion) {
-        this.promotion = promotion;
-    }
-
     @Override
     public String toString() {
         return "ShopDto{" +
@@ -181,7 +172,6 @@ public class ShopDto {
                 ", cat_id=" + cat_id +
                 ", user=" + user +
                 ", category=" + category +
-                ", promotion=" + promotion +
                 '}';
     }
 }

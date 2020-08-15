@@ -1,13 +1,10 @@
 package com.kshrd.derphsar_api.rest.promotion.response;
 
-import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.rest.shop.response.ShopPromotionResponse;
-import com.kshrd.derphsar_api.rest.shop.response.ShopResponseModel;
 
 import java.sql.Date;
 
-public class PromotionResponseModel {
-
+public class PromotionCreateFirstResponse {
     private String promoId;
     private String title;
     private boolean isApply;
@@ -17,11 +14,11 @@ public class PromotionResponseModel {
     private String cover;
     private double startRank;
     private double endRank;
-    private ShopPromotionResponse shop;
+    private int shop_id;
 
-    public PromotionResponseModel(){}
+    public PromotionCreateFirstResponse(){}
 
-    public PromotionResponseModel(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, ShopPromotionResponse shop) {
+    public PromotionCreateFirstResponse(String promoId, String title, boolean isApply, Date startDate, Date endDate, boolean status, String cover, double startRank, double endRank, int shop_id) {
         this.promoId = promoId;
         this.title = title;
         this.isApply = isApply;
@@ -31,7 +28,24 @@ public class PromotionResponseModel {
         this.cover = cover;
         this.startRank = startRank;
         this.endRank = endRank;
-        this.shop = shop;
+        this.shop_id = shop_id;
+    }
+
+
+    @Override
+    public String toString() {
+        return "PromotionCreateFirstResponse{" +
+                "promoId='" + promoId + '\'' +
+                ", title='" + title + '\'' +
+                ", isApply=" + isApply +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status=" + status +
+                ", cover='" + cover + '\'' +
+                ", startRank=" + startRank +
+                ", endRank=" + endRank +
+                ", shop_id=" + shop_id +
+                '}';
     }
 
 
@@ -107,28 +121,11 @@ public class PromotionResponseModel {
         this.endRank = endRank;
     }
 
-    public ShopPromotionResponse getShop() {
-        return shop;
+    public int getShop_id() {
+        return shop_id;
     }
 
-    public void setShop(ShopPromotionResponse shop) {
-        this.shop = shop;
-    }
-
-
-    @Override
-    public String toString() {
-        return "PromotionResponseModel{" +
-                "promoId='" + promoId + '\'' +
-                ", title='" + title + '\'' +
-                ", isApply=" + isApply +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", status=" + status +
-                ", cover='" + cover + '\'' +
-                ", startRank=" + startRank +
-                ", endRank=" + endRank +
-                ", shop=" + shop +
-                '}';
+    public void setShop_id(int shop_id) {
+        this.shop_id = shop_id;
     }
 }

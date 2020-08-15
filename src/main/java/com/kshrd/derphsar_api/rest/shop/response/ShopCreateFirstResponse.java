@@ -2,8 +2,9 @@ package com.kshrd.derphsar_api.rest.shop.response;
 
 import java.util.Date;
 
-public class ShopPromotionResponse {
-    private String shopid;
+public class ShopCreateFirstResponse {
+
+    private String shopId;
     private String name;
     private String address;
     private String description;
@@ -12,13 +13,13 @@ public class ShopPromotionResponse {
     private boolean openStatus;
     private boolean status;
     private Date workingTime;
-    private int cat_id;
     private int u_id;
+    private int cat_id;
 
-    public ShopPromotionResponse(){}
+    public ShopCreateFirstResponse(){}
 
-    public ShopPromotionResponse(String shopid, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, int cat_id, int u_id) {
-        this.shopid = shopid;
+    public ShopCreateFirstResponse(String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, int u_id, int cat_id) {
+        this.shopId = shopId;
         this.name = name;
         this.address = address;
         this.description = description;
@@ -27,14 +28,14 @@ public class ShopPromotionResponse {
         this.openStatus = openStatus;
         this.status = status;
         this.workingTime = workingTime;
-        this.cat_id = cat_id;
         this.u_id = u_id;
+        this.cat_id = cat_id;
     }
 
     @Override
     public String toString() {
-        return "ShopPromotionResponse{" +
-                "shopid='" + shopid + '\'' +
+        return "ShopCreateFirstResponse{" +
+                "shopId='" + shopId + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +
@@ -43,18 +44,17 @@ public class ShopPromotionResponse {
                 ", openStatus=" + openStatus +
                 ", status=" + status +
                 ", workingTime=" + workingTime +
-                ", cat_id=" + cat_id +
                 ", u_id=" + u_id +
+                ", cat_id=" + cat_id +
                 '}';
     }
 
-
-    public String getShopid() {
-        return shopid;
+    public String getShopId() {
+        return shopId;
     }
 
-    public void setShopid(String shopid) {
-        this.shopid = shopid;
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
     }
 
     public String getName() {
@@ -71,14 +71,6 @@ public class ShopPromotionResponse {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public boolean isOpenStatus() {
-        return openStatus;
-    }
-
-    public void setOpenStatus(boolean openStatus) {
-        this.openStatus = openStatus;
     }
 
     public String getDescription() {
@@ -105,6 +97,13 @@ public class ShopPromotionResponse {
         this.cover = cover;
     }
 
+    public boolean isOpenStatus() {
+        return openStatus;
+    }
+
+    public void setOpenStatus(boolean openStatus) {
+        this.openStatus = openStatus;
+    }
 
     public boolean isStatus() {
         return status;
@@ -122,19 +121,19 @@ public class ShopPromotionResponse {
         this.workingTime = workingTime;
     }
 
-    public int getCat_id() {
-        return cat_id;
-    }
-
-    public void setCat_id(int cat_id) {
-        this.cat_id = cat_id;
-    }
-
     public int getU_id() {
         return u_id;
     }
 
     public void setU_id(int u_id) {
         this.u_id = u_id;
+    }
+
+    public int getCat_id() {
+        return cat_id;
+    }
+
+    public void setCat_id(int cat_id) {
+        this.cat_id = cat_id;
     }
 }

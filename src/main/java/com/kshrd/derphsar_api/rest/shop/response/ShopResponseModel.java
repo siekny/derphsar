@@ -22,13 +22,13 @@ public class ShopResponseModel {
 
     private UserResponseModel user;
     private CategoryResponseModel category;
-    private List<PromotionResponseModel> promotion;
+    //private List<PromotionResponseModel> promotion;
 
     public ShopResponseModel() {
     }
 
 
-    public ShopResponseModel(String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, UserResponseModel user, CategoryResponseModel category, List<PromotionResponseModel> promotion) {
+    public ShopResponseModel(String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, UserResponseModel user, CategoryResponseModel category) {
         this.shopId = shopId;
         this.name = name;
         this.address = address;
@@ -40,7 +40,6 @@ public class ShopResponseModel {
         this.workingTime = workingTime;
         this.user = user;
         this.category = category;
-        this.promotion = promotion;
     }
 
 
@@ -58,7 +57,6 @@ public class ShopResponseModel {
                 ", workingTime=" + workingTime +
                 ", user=" + user +
                 ", category=" + category +
-                ", promotion=" + promotion +
                 '}';
     }
 
@@ -149,13 +147,5 @@ public class ShopResponseModel {
 
     public void setCategory(CategoryResponseModel category) {
         this.category = category;
-    }
-
-    public List<PromotionResponseModel> getPromotion() {
-        return promotion;
-    }
-
-    public void setPromotion(List<PromotionResponseModel> promotion) {
-        this.promotion = promotion;
     }
 }
