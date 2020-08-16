@@ -9,7 +9,15 @@ public class CategoryProvider {
         return new SQL(){{
             SELECT("*");
             FROM("dp_category");
+            LIMIT("#{pagination.limit}  OFFSET #{pagination.offset}");
         }}.toString();
     }
 
+
+    public String countId(){
+        return new SQL(){{
+            SELECT("COUNT(id)");
+            FROM("dp_category");
+        }}.toString();
+    }
 }

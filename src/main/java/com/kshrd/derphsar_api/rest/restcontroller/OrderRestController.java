@@ -11,6 +11,7 @@ import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.order.response.OrderHistoryOfAUserResponse;
 import com.kshrd.derphsar_api.rest.order.response.OrderResponse;
 import com.kshrd.derphsar_api.rest.product.response.ProductsOfAUserResponse;
+import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.OrderServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
@@ -93,9 +94,9 @@ public class OrderRestController {
      */
     @GetMapping("orders")
     @ApiOperation(value = "show all recent 5 records of orders", response = Void.class)
-    public ResponseEntity<BaseApiResponse<List<OrderResponse>>> getOrdersLatestFiveRecords() {
+    public ResponseEntity<BaseApiNoPaginationResponse<List<OrderResponse>>> getOrdersLatestFiveRecords() {
 
-        BaseApiResponse<List<OrderResponse>> baseApiResponse = new BaseApiResponse<>();
+        BaseApiNoPaginationResponse<List<OrderResponse>> baseApiResponse = new BaseApiNoPaginationResponse<>();
         ModelMapper mapper = new ModelMapper();
         List<OrderResponse> orderResponses = new ArrayList<>();
 

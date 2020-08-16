@@ -10,6 +10,7 @@ import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailFilterResponse;
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailResponse;
+import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.OrderDetailServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
@@ -144,19 +145,19 @@ public class OrderDetailRestController {
      * @return - Return response message
      */
     @DeleteMapping("/orderdetails/{orderDetailId}")
-    public ResponseEntity<BaseApiResponse<String>> delete(@PathVariable String orderDetailId)
+    public ResponseEntity<BaseApiNoPaginationResponse<String>> delete(@PathVariable String orderDetailId)
     {
-        BaseApiResponse<String> response = new BaseApiResponse<>();
+        BaseApiNoPaginationResponse<String> response = new BaseApiNoPaginationResponse<>();
         try{
             Boolean isDeleted = orderDetailServiceImp.deleteOrderdetail(orderDetailId);
             if(isDeleted)
             {
-                response.setMessage(message.deleted("OrderDetails"));
+                response.setMessage(message.deleted("OrderDetail"));
                 response.setStatus(HttpStatus.OK);
             }
             else
             {
-                response.setMessage(message.deleteError("OrderDetails"));
+                response.setMessage(message.deleteError("OrderDetail"));
                 response.setStatus(HttpStatus.BAD_REQUEST);
             }
         }catch (Exception e)

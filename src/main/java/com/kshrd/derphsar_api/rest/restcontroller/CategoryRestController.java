@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.CategoryDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.category.request.CategoryRequestModel;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -42,15 +44,28 @@ public class CategoryRestController {
      */
     @GetMapping("/categories")
     @ApiOperation(value = "Show all categories", response = CategoryResponseModel.class)
-    public ResponseEntity<BaseApiResponse<List<CategoryResponseModel>>> getCategories(){
+    public ResponseEntity<BaseApiResponse<List<CategoryResponseModel>>> getCategories( @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                                       @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+                                                                                       @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+                                                                                       @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow){
 
+
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+
+        pagination.setTotalCount(categoryServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<CategoryResponseModel>> response =
                 new BaseApiResponse<>();
         List<CategoryResponseModel> categories = new ArrayList<>();
 
         try{
-            List<CategoryDto> categoryDtoList = categoryServiceImp.select();
+            List<CategoryDto> categoryDtoList = categoryServiceImp.select(pagination);
             for (CategoryDto categoryDto : categoryDtoList) {
                 categories.add(mapper.map(categoryDto, CategoryResponseModel.class));
             }
@@ -63,10 +78,12 @@ public class CategoryRestController {
                 response.setMessage(message.hasNoRecords("Categories"));
                 response.setStatus(HttpStatus.NOT_FOUND);
             }
+
         }catch (Exception e){
             e.printStackTrace();
         }
 
+        response.setPagination(pagination);
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }

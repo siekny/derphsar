@@ -13,6 +13,7 @@ import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserByShopResponse;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
+import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.UserServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Param;
@@ -128,8 +129,8 @@ public class UserRestController {
      */
     @GetMapping("/users/{userId}")
     @ApiOperation(value = "show all users by userId", response = UserResponseModel.class)
-    public ResponseEntity<BaseApiResponse<UserResponseModel>> getOneUserById(@PathVariable String userId){
-        BaseApiResponse<UserResponseModel> response = new BaseApiResponse<>();
+    public ResponseEntity<BaseApiNoPaginationResponse<UserResponseModel>> getOneUserById(@PathVariable String userId){
+        BaseApiNoPaginationResponse<UserResponseModel> response = new BaseApiNoPaginationResponse<>();
         try {
             UserResponseModel userResponse = userServiceImp.getOneUserById(userId);
             response.setMessage(message.selectedOne("User"));
@@ -209,8 +210,9 @@ public class UserRestController {
      */
     @DeleteMapping("/users/{userId}")
     @ApiOperation(value = "delete a user", response = UserResponseModel.class)
-    public ResponseEntity<BaseApiResponse<Void>> deleteUser(@PathVariable("userId") String userId){
-        BaseApiResponse<Void> response = new BaseApiResponse<>();
+    public ResponseEntity<BaseApiNoPaginationResponse<Void>> deleteUser(@PathVariable("userId") String userId){
+
+        BaseApiNoPaginationResponse<Void> response = new BaseApiNoPaginationResponse<>();
 
         try{
             userServiceImp.deleteUserById(userId);
@@ -238,11 +240,11 @@ public class UserRestController {
      */
     @PutMapping("/users/{userId}")
     @ApiOperation(value = "update a user by Id", response = UserResponseModel.class)
-    public ResponseEntity<BaseApiResponse<UserResponseModel>> updateUserById(
+    public ResponseEntity<BaseApiNoPaginationResponse<UserResponseModel>> updateUserById(
             @PathVariable("userId") String userId,
             @RequestBody UserRequestModel userRequestModel){
 
-        BaseApiResponse<UserResponseModel> response = new BaseApiResponse <>();
+        BaseApiNoPaginationResponse<UserResponseModel> response = new BaseApiNoPaginationResponse <>();
         ModelMapper modelMapper = new ModelMapper();
 
         try {

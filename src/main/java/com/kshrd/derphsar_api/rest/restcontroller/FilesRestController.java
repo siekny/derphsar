@@ -2,32 +2,24 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.repository.dto.FileInfo;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
-import com.kshrd.derphsar_api.service.FilesStorageService;
 import com.kshrd.derphsar_api.service.implement.FilesStorageServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import com.kshrd.derphsar_api.rest.message.ResponseMessage;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
-import java.util.function.ToDoubleBiFunction;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin("http://localhost:8080")
-public class FilesController {
+public class FilesRestController {
 
     private FilesStorageServiceImp filesStorageServiceImp;
     private MessageProperties message;
@@ -84,7 +76,7 @@ public class FilesController {
     public ResponseEntity<List<FileInfo>> getListFiles() {
         List<FileInfo> fileInfos = filesStorageServiceImp.loadAll().map(path -> {
             String filename = path.getFileName().toString();
-            String url = MvcUriComponentsBuilder.fromMethodName(FilesController.class, "getFile", path.getFileName().toString()).build().toString();
+            String url = MvcUriComponentsBuilder.fromMethodName(FilesRestController.class, "getFile", path.getFileName().toString()).build().toString();
 
             return new FileInfo(filename, url);
         }).collect(Collectors.toList());

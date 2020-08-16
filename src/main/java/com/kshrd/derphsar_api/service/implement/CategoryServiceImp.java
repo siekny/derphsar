@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.service.implement;
 
+import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.CategoryRepository;
 import com.kshrd.derphsar_api.repository.dto.CategoryDto;
 import com.kshrd.derphsar_api.service.CategoryService;
@@ -21,8 +22,14 @@ public class CategoryServiceImp  implements CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+
     @Override
-    public List<CategoryDto> select() {
-        return categoryRepository.select();
+    public List<CategoryDto> select(Pagination pagination) {
+        return categoryRepository.select(pagination);
+    }
+
+    @Override
+    public int countId() {
+        return categoryRepository.countId();
     }
 }

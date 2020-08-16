@@ -88,4 +88,9 @@ public class MessageProperties {
         return accessor.getMessage("message.has-no-record",
                 new Object[] {resourceName});
     }
+
+    public String loginSuccess(String resourceName){
+        return accessor.getMessage("message.login-success",
+                new Object[] {resourceName});
+    }
 }

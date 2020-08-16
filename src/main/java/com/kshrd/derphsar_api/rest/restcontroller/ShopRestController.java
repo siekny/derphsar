@@ -142,9 +142,9 @@ public class ShopRestController {
      */
     @DeleteMapping("/shops/{shopId}")
     @ApiOperation(value = "delete a shop", response = Void.class)
-    public ResponseEntity<BaseApiResponse<Void>> deleteShop(@PathVariable("shopId") String shopId){
+    public ResponseEntity<BaseApiNoPaginationResponse<Void>> deleteShop(@PathVariable("shopId") String shopId){
 
-        BaseApiResponse<Void> response = new BaseApiResponse<>();
+        BaseApiNoPaginationResponse<Void> response = new BaseApiNoPaginationResponse<>();
         ShopDto shopDto = shopServiceImp.findById(shopId);
         if(shopDto != null)
         {

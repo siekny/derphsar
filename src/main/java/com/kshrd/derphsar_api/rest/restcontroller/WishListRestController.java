@@ -4,6 +4,7 @@ import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
+import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.rest.wishlist.request.WishListRequestModel;
 import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 import com.kshrd.derphsar_api.service.implement.WishListServiceImp;
@@ -48,9 +49,9 @@ public class WishListRestController {
      */
     @PostMapping("/wishlists")
     @ApiOperation(value = "create a wishlist", response = WishListResponse.class)
-    public ResponseEntity<BaseApiResponse<WishListResponse>> createWishList(@RequestBody WishListRequestModel wishListRequestModel) {
+    public ResponseEntity<BaseApiNoPaginationResponse<WishListResponse>> createWishList(@RequestBody WishListRequestModel wishListRequestModel) {
 
-        BaseApiResponse<WishListResponse> response = new BaseApiResponse<>();
+        BaseApiNoPaginationResponse<WishListResponse> response = new BaseApiNoPaginationResponse<>();
         ModelMapper mapper = new ModelMapper();
         UUID uuid = UUID.randomUUID();
         WishListDto wishListDto = mapper.map(wishListRequestModel, WishListDto.class);
@@ -123,8 +124,8 @@ public class WishListRestController {
      */
     @DeleteMapping("/wishlists/{wishlist_id}")
     @ApiOperation(value = "delete a wishlist", response = Void.class)
-    public ResponseEntity<BaseApiResponse<Void>> deleteWishList(@PathVariable("wishlist_id") String wishlist_id) {
-        BaseApiResponse<Void> response = new BaseApiResponse<>();
+    public ResponseEntity<BaseApiNoPaginationResponse<Void>> deleteWishList(@PathVariable("wishlist_id") String wishlist_id) {
+        BaseApiNoPaginationResponse<Void> response = new BaseApiNoPaginationResponse<>();
 
         try {
             wishListServiceImp.deleteWishList(wishlist_id);
