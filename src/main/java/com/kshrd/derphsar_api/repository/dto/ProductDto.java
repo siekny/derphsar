@@ -14,6 +14,7 @@ public class ProductDto {
     private boolean soldStatus;
     private int viewCount;
     private Date postDate;
+    private Double discount;
 
     private Object images;
     private Object details;
@@ -23,7 +24,7 @@ public class ProductDto {
 
     public ProductDto(){}
 
-    public ProductDto(int id, String proId, String name, Date postDate, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopDto shop, PromotionDto promotion) {
+    public ProductDto(int id, String proId, String name, Date postDate, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopDto shop, PromotionDto promotion, Double discount) {
         this.id = id;
         this.proId = proId;
         this.name = name;
@@ -36,6 +37,7 @@ public class ProductDto {
         this.details = details;
         this.shop = shop;
         this.postDate = postDate;
+        this.promotion = promotion;
         this.promotion = promotion;
     }
 
@@ -51,19 +53,12 @@ public class ProductDto {
                 ", soldStatus=" + soldStatus +
                 ", viewCount=" + viewCount +
                 ", postDate=" + postDate +
+                ", discount=" + discount +
                 ", images=" + images +
                 ", details=" + details +
                 ", shop=" + shop +
                 ", promotion=" + promotion +
                 '}';
-    }
-
-    public Date getPostDate() {
-        return postDate;
-    }
-
-    public void setPostDate(Date postDate) {
-        this.postDate = postDate;
     }
 
     public int getId() {
@@ -84,14 +79,6 @@ public class ProductDto {
 
     public String getName() {
         return name;
-    }
-
-    public PromotionDto getPromotion() {
-        return promotion;
-    }
-
-    public void setPromotion(PromotionDto promotion) {
-        this.promotion = promotion;
     }
 
     public void setName(String name) {
@@ -138,6 +125,22 @@ public class ProductDto {
         this.viewCount = viewCount;
     }
 
+    public Date getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Date postDate) {
+        this.postDate = postDate;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
     public Object getImages() {
         return images;
     }
@@ -162,5 +165,11 @@ public class ProductDto {
         this.shop = shop;
     }
 
+    public PromotionDto getPromotion() {
+        return promotion;
+    }
 
+    public void setPromotion(PromotionDto promotion) {
+        this.promotion = promotion;
+    }
 }

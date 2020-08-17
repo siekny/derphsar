@@ -209,7 +209,7 @@ public class UserRestController {
      * @param userId - Id of a user
      * @return - Return response message
      */
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("admin/users/{userId}")
     @ApiOperation(value = "delete a user", response = UserResponseModel.class)
     public ResponseEntity<BaseApiNoPaginationResponse<Void>> deleteUser(@PathVariable("userId") String userId){
 

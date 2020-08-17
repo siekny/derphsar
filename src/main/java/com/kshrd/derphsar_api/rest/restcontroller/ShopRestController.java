@@ -91,7 +91,7 @@ public class ShopRestController {
      * @param pagesToShow - Pages to show
      * @return - Return response message
      */
-    @GetMapping("/shops")
+    @GetMapping("shops")
     @ApiOperation(value = "show all shops", response = ShopResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<ShopResponseModel>>> getShops(@RequestParam(value = "page" , required = false , defaultValue = "1") int page,
                                                                             @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,

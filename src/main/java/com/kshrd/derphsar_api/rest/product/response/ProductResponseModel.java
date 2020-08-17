@@ -18,6 +18,7 @@ public class ProductResponseModel {
     private boolean isSold;
     private int viewCount;
     private Date postDate;
+    private Double discount;
 
 
     private Object images;
@@ -29,7 +30,7 @@ public class ProductResponseModel {
 
     public ProductResponseModel(){}
 
-    public ProductResponseModel(String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Date postDate, Object images, Object details, ShopResponseModel shop, PromotionProductResponse promotion) {
+    public ProductResponseModel(String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Date postDate, Double discount, Object images, Object details, ShopResponseModel shop, PromotionProductResponse promotion) {
         this.proId = proId;
         this.name = name;
         this.price = price;
@@ -38,12 +39,12 @@ public class ProductResponseModel {
         this.isSold = isSold;
         this.viewCount = viewCount;
         this.postDate = postDate;
+        this.discount = discount;
         this.images = images;
         this.details = details;
         this.shop = shop;
         this.promotion = promotion;
     }
-
 
     @Override
     public String toString() {
@@ -56,6 +57,7 @@ public class ProductResponseModel {
                 ", isSold=" + isSold +
                 ", viewCount=" + viewCount +
                 ", postDate=" + postDate +
+                ", discount=" + discount +
                 ", images=" + images +
                 ", details=" + details +
                 ", shop=" + shop +
@@ -125,6 +127,14 @@ public class ProductResponseModel {
 
     public void setPostDate(Date postDate) {
         this.postDate = postDate;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 
     public Object getImages() {

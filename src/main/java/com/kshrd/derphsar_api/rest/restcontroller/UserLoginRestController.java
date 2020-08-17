@@ -74,7 +74,7 @@ public class UserLoginRestController {
             result.put("token",jwtTokenUtil.generateToken(userDetails));
             result.put("role", userDetails.getAuthorities());
 //            result.put("userId", user1.getUserId());
-            result.put("userId", user1.getId());
+            result.put("userId", user1.getUserId());
             result.put("username", user1.getName());
             result.put("status", HttpStatus.OK);
         }else {

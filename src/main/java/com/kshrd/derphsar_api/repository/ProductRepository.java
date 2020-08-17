@@ -22,6 +22,7 @@ public interface ProductRepository {
             @Result(column = "is_sold" ,property = "soldStatus"),
             @Result(column = "view_count" ,property = "viewCount"),
             @Result(column = "post_date", property = "postDate"),
+            @Result(column = "discount", property = "discount"),
             @Result(column = "details" ,property = "details", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
             @Result(column = "images" ,property = "images", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
             @Result(column = "shop_id", property = "shop", many = @Many(select = "getShop")),
@@ -101,7 +102,7 @@ public interface ProductRepository {
 
 
     //update a product
-    @Update("UPDATE dp_products set name = #{product.name}, price = #{product.price}, description= #{product.description} ,status = #{product.status}, is_sold = #{product.soldStatus}, view_count= #{product.viewCount} WHERE pro_id = #{id}")
+    @Update("UPDATE dp_products set name = #{product.name}, price = #{product.price}, description= #{product.description} ,status = #{product.status}, is_sold = #{product.soldStatus}, view_count= #{product.viewCount}, promo_id = #{product.promotion.id}, discount = #{product.discount} WHERE pro_id = #{id}")
     boolean updateProduct(String id, ProductDto product);
 
 

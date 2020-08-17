@@ -20,6 +20,7 @@ public interface UserRepository {
     @SelectProvider(type = UserProvider.class, method = "findByEmail")
     @Results({
             @Result(property = "id",column = "id"),
+            @Result(property = "userId",column = "user_id"),
             @Result(property = "role.name", column = "role_name"),
             @Result(property = "role.id", column = "id"),
             @Result(property = "role.roleId", column = "role_id"),

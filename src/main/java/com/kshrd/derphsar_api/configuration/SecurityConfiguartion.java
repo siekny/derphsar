@@ -36,13 +36,22 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().
-                authorizeRequests()
-                .antMatchers("/api/v1/login").permitAll()
-                .antMatchers(HttpMethod.POST,"/api/v1/register").permitAll()
-               // .antMatchers(HttpMethod.GET,"api/v1/shops").access("hasRole('ADMIN','SHOPKEEPER','BUYER')")
-                .antMatchers(HttpMethod.GET ,"api/v1/**").hasAnyRole("ADMIN","SHOPKEEPER", "BUYER")
-                .antMatchers("/**").hasRole("ADMIN")
+        http.csrf().disable()
+
+//                .requestMatchers()
+//                    .antMatchers(HttpMethod.GET,"/api/v1/**")
+//                    .and()
+
+                .authorizeRequests()
+                    .antMatchers("/api/v1/login").permitAll()
+                    .antMatchers(HttpMethod.POST,"/api/v1/register").permitAll()
+                    .antMatchers(HttpMethod.GET,"/api/v1/products").permitAll()
+                    .antMatchers(HttpMethod.GET,"/api/v1/new-products").permitAll()
+                    .antMatchers(HttpMethod.GET,"/api/v1/related-products").permitAll()
+                    .antMatchers(HttpMethod.GET,"/api/v1/popular-products").permitAll()
+                    .antMatchers(HttpMethod.GET,"/api/v1/shops").permitAll()
+                   // .antMatchers(HttpMethod.GET ,"api/v1/**").hasAnyRole("ADMIN","SHOPKEEPER", "BUYER")
+                   .antMatchers(HttpMethod.DELETE,"api/v1/admin/users/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -50,40 +59,6 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
-
-//    @Autowired
-//    private Http403ForbiddenEntryPoint forbiddenEntryPoint;
-//
-//    @Bean
-//    public Http403ForbiddenEntryPoint forbiddenEntryPoint() {
-//        return new Http403ForbiddenEntryPoint();
-//    }
-
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.
-//                authorizeRequests()
-//                .antMatchers("/api/v1/login").permitAll()
-//                .antMatchers(HttpMethod.POST,"/api/v1/register").permitAll()
-//                .antMatchers(HttpMethod.GET ,"/**").hasAnyRole("ADMIN","SHOPKEEPER", "BUYER")
-//                .antMatchers("/**").hasRole("ADMIN")
-//                .anyRequest().authenticated()
-//                .and()
-//                .httpBasic()
-//                .authenticationEntryPoint(forbiddenEntryPoint)
-//
-//                .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//
-//        .and()
-//                .csrf().disable();
-//
-//                http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-//    }
-
-
-
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/v2/api-docs",
