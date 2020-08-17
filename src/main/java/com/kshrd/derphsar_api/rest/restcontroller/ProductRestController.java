@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1")
 public class ProductRestController {
@@ -122,7 +124,7 @@ public class ProductRestController {
                 if(!productDtos.isEmpty()){
                     response.setData(productResponseModels);
                     response.setMessage(message.selected("Products"));
-                    response.setStatus(HttpStatus.FOUND);
+                    response.setStatus(HttpStatus.OK);
                 }else {
                     response.setMessage(message.hasNoRecord("Products"));
                     response.setStatus(HttpStatus.BAD_REQUEST);

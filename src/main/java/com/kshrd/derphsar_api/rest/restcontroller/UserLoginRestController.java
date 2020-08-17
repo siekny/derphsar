@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @CrossOrigin
 @RequestMapping("api/v1")
@@ -68,7 +70,8 @@ public class UserLoginRestController {
             UserDto user1 = userServiceImp.findByEmail(user.getEmail());
 
             result.put("message", message.loginSuccess("User") );
-            result.put("token",new JwtResponse(token));
+           // result.put("token",new JwtResponse(token));
+            result.put("token",jwtTokenUtil.generateToken(userDetails));
             result.put("role", userDetails.getAuthorities());
 //            result.put("userId", user1.getUserId());
             result.put("userId", user1.getId());
