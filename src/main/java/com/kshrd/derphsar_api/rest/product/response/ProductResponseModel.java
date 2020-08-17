@@ -2,6 +2,8 @@ package com.kshrd.derphsar_api.rest.product.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.rest.promotion.response.PromotionProductResponse;
+import com.kshrd.derphsar_api.rest.shop.response.ShopProductResponse;
 import com.kshrd.derphsar_api.rest.shop.response.ShopResponseModel;
 
 import java.sql.Date;
@@ -22,11 +24,12 @@ public class ProductResponseModel {
     private Object details;
 
     private ShopResponseModel shop;
+    private PromotionProductResponse promotion;
 
 
     public ProductResponseModel(){}
 
-    public ProductResponseModel(String proId,Date postDate, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopResponseModel shop) {
+    public ProductResponseModel(String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Date postDate, Object images, Object details, ShopResponseModel shop, PromotionProductResponse promotion) {
         this.proId = proId;
         this.name = name;
         this.price = price;
@@ -34,19 +37,13 @@ public class ProductResponseModel {
         this.status = status;
         this.isSold = isSold;
         this.viewCount = viewCount;
+        this.postDate = postDate;
         this.images = images;
         this.details = details;
         this.shop = shop;
-        this.postDate = postDate;
+        this.promotion = promotion;
     }
 
-    public Date getPostDate() {
-        return postDate;
-    }
-
-    public void setPostDate(Date postDate) {
-        this.postDate = postDate;
-    }
 
     @Override
     public String toString() {
@@ -62,6 +59,7 @@ public class ProductResponseModel {
                 ", images=" + images +
                 ", details=" + details +
                 ", shop=" + shop +
+                ", promotion=" + promotion +
                 '}';
     }
 
@@ -121,6 +119,14 @@ public class ProductResponseModel {
         this.viewCount = viewCount;
     }
 
+    public Date getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Date postDate) {
+        this.postDate = postDate;
+    }
+
     public Object getImages() {
         return images;
     }
@@ -143,5 +149,13 @@ public class ProductResponseModel {
 
     public void setShop(ShopResponseModel shop) {
         this.shop = shop;
+    }
+
+    public PromotionProductResponse getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(PromotionProductResponse promotion) {
+        this.promotion = promotion;
     }
 }

@@ -87,7 +87,7 @@ public class ProductRestController {
     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getProducts(
             //@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
             @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
-            @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+            @RequestParam(value = "limit" , required = false , defaultValue = "10") int limit,
             @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
             @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
 

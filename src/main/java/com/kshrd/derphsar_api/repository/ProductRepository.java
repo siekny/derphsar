@@ -24,7 +24,9 @@ public interface ProductRepository {
             @Result(column = "post_date", property = "postDate"),
             @Result(column = "details" ,property = "details", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
             @Result(column = "images" ,property = "images", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
-            @Result(column = "shop_id", property = "shop", many = @Many(select = "getShop"))
+            @Result(column = "shop_id", property = "shop", many = @Many(select = "getShop")),
+            @Result(column = "promo_id", property = "promotion", many = @Many(select = "getPromotion"))
+
     })
     List<ProductDto> getProducts(@Param("pagination") Pagination pagination);
 
@@ -38,7 +40,7 @@ public interface ProductRepository {
             @Result(column = "address" ,property = "address"),
             @Result(column = "u_id", property = "user", many = @Many(select = "getUser")),
             @Result(column = "cat_id", property = "category", many = @Many(select = "getCategory")),
-            @Result(column = "promo_id", property = "promotion", many = @Many(select = "getPromotion"))
+            //@Result(column = "promo_id", property = "promotion", many = @Many(select = "getPromotion"))
     })
     ShopDto getShop(int shop_id);
 
@@ -57,6 +59,18 @@ public interface ProductRepository {
     CategoryDto getCategory(int cate_id);
 
 
+//    @Select("SELECT * FROM dp_promotion WHERE id= #{promo_id}  AND status = 'true'")
+//    @Results({
+//            @Result(column = "promo_id", property = "promoId"),
+//            @Result(column = "is_apply", property = "isApply"),
+//            @Result(column = "end_date", property = "endDate"),
+//            @Result(column = "start_date", property = "startDate"),
+//            @Result(column = "start_rank", property = "startRank"),
+//            @Result(column = "end_rank", property = "endRank"),
+//    })
+//    PromotionDto getPromotion(int promo_id);
+
+
     @Select("SELECT * FROM dp_promotion WHERE id= #{promo_id}  AND status = 'true'")
     @Results({
             @Result(column = "promo_id", property = "promoId"),
@@ -67,6 +81,10 @@ public interface ProductRepository {
             @Result(column = "end_rank", property = "endRank"),
     })
     PromotionDto getPromotion(int promo_id);
+
+
+
+
 
 
 

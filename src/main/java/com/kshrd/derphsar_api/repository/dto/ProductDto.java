@@ -4,6 +4,7 @@ package com.kshrd.derphsar_api.repository.dto;
 import java.sql.Date;
 
 public class ProductDto {
+
     private int id;
     private String proId;
     private String name;
@@ -18,11 +19,11 @@ public class ProductDto {
     private Object details;
 
     private ShopDto shop;
-
+    private PromotionDto promotion;
 
     public ProductDto(){}
 
-    public ProductDto(int id, String proId, String name, Date postDate, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopDto shop) {
+    public ProductDto(int id, String proId, String name, Date postDate, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopDto shop, PromotionDto promotion) {
         this.id = id;
         this.proId = proId;
         this.name = name;
@@ -35,6 +36,7 @@ public class ProductDto {
         this.details = details;
         this.shop = shop;
         this.postDate = postDate;
+        this.promotion = promotion;
     }
 
     @Override
@@ -52,6 +54,7 @@ public class ProductDto {
                 ", images=" + images +
                 ", details=" + details +
                 ", shop=" + shop +
+                ", promotion=" + promotion +
                 '}';
     }
 
@@ -81,6 +84,14 @@ public class ProductDto {
 
     public String getName() {
         return name;
+    }
+
+    public PromotionDto getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(PromotionDto promotion) {
+        this.promotion = promotion;
     }
 
     public void setName(String name) {
