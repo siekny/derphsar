@@ -2,7 +2,7 @@ package com.kshrd.derphsar_api.repository.provider;
 
 import org.apache.ibatis.jdbc.SQL;
 
-public class ShopProvider {
+public class  ShopProvider {
 
     //get all shops
     public String getShops() {

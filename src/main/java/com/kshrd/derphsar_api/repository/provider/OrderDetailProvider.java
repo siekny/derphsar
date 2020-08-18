@@ -1,6 +1,8 @@
 package com.kshrd.derphsar_api.repository.provider;
 
 import com.kshrd.derphsar_api.page.Pagination;
+import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
+import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
@@ -15,7 +17,7 @@ public class OrderDetailProvider {
             INNER_JOIN("dp_products as pro ON od.pro_id = pro.id");
             INNER_JOIN("dp_users as u ON u.id = o.user_id");
             INNER_JOIN("dp_shops as sh ON sh.id = o.shop_id");
-            INNER_JOIN("dp_promotion as promo ON promo.id = sh.promo_id");
+            INNER_JOIN("dp_promotion as promo ON promo.shop_id = sh.id");
             if (orderDetailFilter.getOrderId() != null && orderDetailFilter.getUserId() != null)
                 WHERE("o.user_id =  #{filter.userId} AND  o.id = #{filter.orderId}");
              LIMIT(pagination.getLimit());

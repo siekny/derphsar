@@ -120,4 +120,10 @@ public interface OrderDetailRepository {
     int countId();
 
     //List<OrderDetailDto> findAllWithFilter(OrderDetailFilter orderDetailFilter);
+
+
+    @Insert("INSERT INTO dp_order_detail (item_id , quatity, status, order_date, is_checkout, order_id, pro_id, image, detail)"+
+    "VALUES (#{itemId}, #{quatity}, TRUE, #{orderDate}, FALSE, #{order_id}, #{pro_id}, #{image, jdbcType=OTHER, typeHandler=com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg}, #{detail, jdbcType=OTHER, typeHandler=com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg})")
+    boolean insertOrderDetail(OrderDetailDto orderDetailDto);
+
 }

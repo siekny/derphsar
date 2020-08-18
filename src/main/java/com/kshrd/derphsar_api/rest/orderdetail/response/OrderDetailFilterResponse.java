@@ -11,6 +11,10 @@ public class OrderDetailFilterResponse {
     private double quatity;
     private Object detail;
     private Object image;
+    private int order_id;
+    private int pro_id;
+
+
     private boolean status;
     private Date orderDate;
 
@@ -19,11 +23,13 @@ public class OrderDetailFilterResponse {
 
     public OrderDetailFilterResponse(){}
 
-    public OrderDetailFilterResponse(String itemId, double quatity, Object detail, Object image, boolean status, Date orderDate, ProductOrderDetailResponse product, OrderResponse order) {
+    public OrderDetailFilterResponse(String itemId, double quatity, Object detail, Object image, int order_id, int pro_id, boolean status, Date orderDate, ProductOrderDetailResponse product, OrderResponse order) {
         this.itemId = itemId;
         this.quatity = quatity;
         this.detail = detail;
         this.image = image;
+        this.order_id = order_id;
+        this.pro_id = pro_id;
         this.status = status;
         this.orderDate = orderDate;
         this.product = product;
@@ -38,12 +44,15 @@ public class OrderDetailFilterResponse {
                 ", quatity=" + quatity +
                 ", detail=" + detail +
                 ", image=" + image +
+                ", order_id=" + order_id +
+                ", pro_id=" + pro_id +
                 ", status=" + status +
                 ", orderDate=" + orderDate +
                 ", product=" + product +
                 ", order=" + order +
                 '}';
     }
+
 
     public String getItemId() {
         return itemId;
@@ -75,6 +84,22 @@ public class OrderDetailFilterResponse {
 
     public void setImage(Object image) {
         this.image = image;
+    }
+
+    public int getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
+    }
+
+    public int getPro_id() {
+        return pro_id;
+    }
+
+    public void setPro_id(int pro_id) {
+        this.pro_id = pro_id;
     }
 
     public boolean isStatus() {

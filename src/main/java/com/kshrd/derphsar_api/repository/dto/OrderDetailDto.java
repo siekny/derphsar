@@ -13,31 +13,27 @@ public class OrderDetailDto {
     private boolean status;
     private Date orderDate;
     private boolean checkoutStatus;
+    private int order_id;
+    private int pro_id;
 
     private ProductDto product;
     private OrderDto order;
 
     public OrderDetailDto(){}
 
-    public OrderDetailDto(int id, String itemId, double quality, Object detail, Object image, boolean status, boolean checkoutStatus, Date orderDate, ProductDto product, OrderDto order) {
+    public OrderDetailDto(int id, String itemId, double quatity, Object detail, Object image, boolean status, Date orderDate, boolean checkoutStatus, int order_id, int pro_id, ProductDto product, OrderDto order) {
         this.id = id;
         this.itemId = itemId;
-        this.quatity = quality;
+        this.quatity = quatity;
         this.detail = detail;
         this.image = image;
         this.status = status;
         this.orderDate = orderDate;
+        this.checkoutStatus = checkoutStatus;
+        this.order_id = order_id;
+        this.pro_id = pro_id;
         this.product = product;
         this.order = order;
-        this.checkoutStatus = checkoutStatus;
-    }
-
-    public boolean isCheckoutStatus() {
-        return checkoutStatus;
-    }
-
-    public void setCheckoutStatus(boolean checkoutStatus) {
-        this.checkoutStatus = checkoutStatus;
     }
 
     @Override
@@ -51,6 +47,8 @@ public class OrderDetailDto {
                 ", status=" + status +
                 ", orderDate=" + orderDate +
                 ", checkoutStatus=" + checkoutStatus +
+                ", order_id=" + order_id +
+                ", pro_id=" + pro_id +
                 ", product=" + product +
                 ", order=" + order +
                 '}';
@@ -111,6 +109,30 @@ public class OrderDetailDto {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public boolean isCheckoutStatus() {
+        return checkoutStatus;
+    }
+
+    public void setCheckoutStatus(boolean checkoutStatus) {
+        this.checkoutStatus = checkoutStatus;
+    }
+
+    public int getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
+    }
+
+    public int getPro_id() {
+        return pro_id;
+    }
+
+    public void setPro_id(int pro_id) {
+        this.pro_id = pro_id;
     }
 
     public ProductDto getProduct() {

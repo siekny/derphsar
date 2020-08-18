@@ -36,12 +36,12 @@ public class WishListProvider {
 
     public String getAllWishListByUserId(int uId, @Param("pagination") Pagination pagination){
         return new SQL(){{
-            SELECT("w.wishlist_id, w.fav_date, w.status, u.name, u.user_id, pro.name AS proName, pro.pro_id, pro.price, pro.images, sh.name AS shopName, sh.shop_id, promo.title, promo.promo_id, promo.start_rank, promo.end_rank");
+            SELECT("w.wishlist_id, w.fav_date, w.status, u.name, u.user_id, pro.name AS proName, pro.pro_id, pro.price, pro.images, sh.name AS shopName, sh.shop_id, promo.title AS proTitle, promo.promo_id, promo.start_rank, promo.end_rank");
             FROM("dp_wishlist as w");
             INNER_JOIN("dp_users as u ON w.u_id = u.id");
             INNER_JOIN("dp_products as pro ON w.pro_id = pro.id");
             INNER_JOIN("dp_shops as sh ON pro.shop_id = sh.id");
-            INNER_JOIN("dp_promotion as promo ON promo.id = sh.promo_id");
+            INNER_JOIN("dp_promotion as promo ON promo.shop_id = sh.id");
             WHERE("w.u_id = #{uId} AND w.status = TRUE");
             LIMIT(pagination.getLimit());
             OFFSET(pagination.getOffset());

@@ -13,19 +13,21 @@ public class OrderDetailResponse {
     private Object image;
     private boolean status;
     private Date orderDate;
+    private boolean checkoutStatus;
 
     private ProductOrderDetailResponse product;
     private OrderResponse order;
 
     public OrderDetailResponse(){}
 
-    public OrderDetailResponse(String itemId, double quality, Object detail, Object image, boolean status, Date orderDate, ProductOrderDetailResponse product, OrderResponse order) {
+    public OrderDetailResponse(String itemId, double quatity, Object detail, Object image, boolean status, Date orderDate, boolean checkoutStatus, ProductOrderDetailResponse product, OrderResponse order) {
         this.itemId = itemId;
-        this.quatity = quality;
+        this.quatity = quatity;
         this.detail = detail;
         this.image = image;
         this.status = status;
         this.orderDate = orderDate;
+        this.checkoutStatus = checkoutStatus;
         this.product = product;
         this.order = order;
     }
@@ -35,11 +37,12 @@ public class OrderDetailResponse {
     public String toString() {
         return "OrderDetailResponse{" +
                 "itemId='" + itemId + '\'' +
-                ", quality=" + quatity +
+                ", quatity=" + quatity +
                 ", detail=" + detail +
                 ", image=" + image +
                 ", status=" + status +
                 ", orderDate=" + orderDate +
+                ", checkoutStatus=" + checkoutStatus +
                 ", product=" + product +
                 ", order=" + order +
                 '}';
@@ -92,6 +95,14 @@ public class OrderDetailResponse {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public boolean isCheckoutStatus() {
+        return checkoutStatus;
+    }
+
+    public void setCheckoutStatus(boolean checkoutStatus) {
+        this.checkoutStatus = checkoutStatus;
     }
 
     public ProductOrderDetailResponse getProduct() {

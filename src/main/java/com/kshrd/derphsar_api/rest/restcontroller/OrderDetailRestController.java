@@ -5,11 +5,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
+import com.kshrd.derphsar_api.repository.dto.OrderDto;
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
+import com.kshrd.derphsar_api.rest.order.request.OrderRequest;
+import com.kshrd.derphsar_api.rest.order.response.OrderResponse;
+import com.kshrd.derphsar_api.rest.orderdetail.OrderDetailFirstRequest;
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailFilterResponse;
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailResponse;
+import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
+import com.kshrd.derphsar_api.rest.shop.response.ShopCreateFirstResponse;
 import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.OrderDetailServiceImp;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -165,6 +173,43 @@ public class OrderDetailRestController {
         }catch (Exception e)
         {
             response.setMessage(message.deleteError("OrderDetails"));
+            response.setStatus(HttpStatus.BAD_REQUEST);
+        }
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
+
+
+
+
+    /**
+     * Post a shop
+     *
+     * @param orderDetailFirstRequest - Shop request model
+     * @return - Return response message
+     */
+    @PostMapping("/orderdetails")
+    @ApiOperation(value = "create a shop", response = OrderDetailFilterResponse.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<OrderDetailFilterResponse>> addProductToCart(@RequestBody OrderDetailFirstRequest orderDetailFirstRequest){
+
+        ModelMapper mapper = new ModelMapper();
+        UUID uuid = UUID.randomUUID();
+        BaseApiNoPaginationResponse<OrderDetailFilterResponse> response = new BaseApiNoPaginationResponse<>();
+
+        OrderDetailDto orderDetailDto = mapper.map(orderDetailFirstRequest,OrderDetailDto.class);
+
+        if(orderDetailFirstRequest.getQuatity() != 0 ){
+            orderDetailDto.setItemId("DP"+uuid.toString().substring(0,10));
+            orderDetailDto.setStatus(true);
+            OrderDetailDto orderDetailDto1 = orderDetailServiceImp.addProductToCart(orderDetailDto);
+
+            OrderDetailFilterResponse orderDetailFilterResponse = mapper.map(orderDetailDto1, OrderDetailFilterResponse.class);
+            response.setMessage(message.inserted("OrderDetail"));
+            response.setData(orderDetailFilterResponse);
+            response.setStatus(HttpStatus.CREATED);
+
+        }else {
+            response.setMessage(message.insertError("OrderDetail"));
             response.setStatus(HttpStatus.BAD_REQUEST);
         }
         response.setTime(new Timestamp(System.currentTimeMillis()));

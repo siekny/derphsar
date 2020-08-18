@@ -103,6 +103,7 @@ public interface WishListRepository {
 
 
             @Result(property = "product.shop.promotion.promoId", column = "promo_id"),
+            @Result(property = "product.shop.promotion.title", column = "proTitle"),
             @Result(property = "product.shop.promotion.startRank", column = "start_rank"),
             @Result(property = "product.shop.promotion.endRank", column = "end_rank"),
             //@Result(column = "u_id", property = "user", many = @Many(select = "getUserById"))

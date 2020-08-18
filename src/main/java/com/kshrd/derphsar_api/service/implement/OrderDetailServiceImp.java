@@ -4,6 +4,7 @@ package com.kshrd.derphsar_api.service.implement;
 import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.OrderDetailRepository;
 import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
+import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailResponse;
@@ -62,5 +63,14 @@ public class OrderDetailServiceImp implements OrderDetailService {
     @Override
     public int countId() {
         return orderDetailRepository.countId();
+    }
+
+    @Override
+    public OrderDetailDto addProductToCart(OrderDetailDto orderDetailDto) {
+        boolean isInsertOrderDetail = orderDetailRepository.insertOrderDetail(orderDetailDto);
+        if(isInsertOrderDetail)
+            return orderDetailDto;
+        else
+            return null;
     }
 }
