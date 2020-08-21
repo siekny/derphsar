@@ -62,10 +62,10 @@ public class UserRestController {
      */
     @PostMapping("/register")
     @ApiOperation(value = "user register", response = UserResponseModel.class)
-    public ResponseEntity<BaseApiResponse<UserResponseModel>> createUser(
+    public ResponseEntity<BaseApiNoPaginationResponse<UserResponseModel>> createUser(
             @RequestBody UserRequestModel userRequestModel) {
 
-        BaseApiResponse<UserResponseModel> response = new BaseApiResponse<>();
+        BaseApiNoPaginationResponse<UserResponseModel> response = new BaseApiNoPaginationResponse<>();
         ModelMapper mapper = new ModelMapper();
 
         UserDto userDto = mapper.map(userRequestModel, UserDto.class);
@@ -129,7 +129,7 @@ public class UserRestController {
      * @return - Return response message
      */
     @GetMapping("/users/{userId}")
-    @ApiOperation(value = "show all users by userId", response = UserResponseModel.class)
+    @ApiOperation(value = "show a user by userId", response = UserResponseModel.class)
     public ResponseEntity<BaseApiNoPaginationResponse<UserResponseModel>> getOneUserById(@PathVariable String userId){
         BaseApiNoPaginationResponse<UserResponseModel> response = new BaseApiNoPaginationResponse<>();
         try {

@@ -4,22 +4,16 @@ import java.sql.Date;
 
 public class OrderDetailFirstRequest {
 
-//    private String itemId;
     private double quatity;
     private Object detail;
     private Object image;
-//    private boolean status;
-    private Date orderDate;
     private int order_id;
     private int pro_id;
-//    private boolean checkoutStatus;
 
-
-    public OrderDetailFirstRequest(double quatity, Object detail, Object image, Date orderDate, int order_id, int pro_id) {
+    public OrderDetailFirstRequest(double quatity, Object detail, Object image, int order_id, int pro_id) {
         this.quatity = quatity;
         this.detail = detail;
         this.image = image;
-        this.orderDate = orderDate;
         this.order_id = order_id;
         this.pro_id = pro_id;
     }
@@ -31,7 +25,6 @@ public class OrderDetailFirstRequest {
                 "quatity=" + quatity +
                 ", detail=" + detail +
                 ", image=" + image +
-                ", orderDate=" + orderDate +
                 ", order_id=" + order_id +
                 ", pro_id=" + pro_id +
                 '}';
@@ -62,13 +55,6 @@ public class OrderDetailFirstRequest {
         this.image = image;
     }
 
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
 
     public int getOrder_id() {
         return order_id;

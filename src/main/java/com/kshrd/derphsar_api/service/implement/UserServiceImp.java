@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.service.implement;
 
 import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.UserRepository;
+import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -33,8 +35,15 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDto insertUser(UserDto userDto) {
+
+        OrderDto orderDto = new OrderDto();
+        UUID uuid = UUID.randomUUID();
+        orderDto.setOrderId("DP"+uuid.toString().substring(0,10));
+
+        //boolean isInsertUser = userRepository.insertUser(userDto);
         userRepository.insertUser(userDto);
         userRepository.insertUserRole(userDto);
+        userRepository.insertOrder(orderDto.getOrderId(), userDto);
         return userDto;
     }
 

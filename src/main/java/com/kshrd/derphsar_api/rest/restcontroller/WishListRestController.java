@@ -6,6 +6,7 @@ import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.rest.wishlist.request.WishListRequestModel;
+import com.kshrd.derphsar_api.rest.wishlist.response.WishListFirstCreateResponse;
 import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
 import com.kshrd.derphsar_api.service.implement.WishListServiceImp;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,20 +53,26 @@ public class WishListRestController {
      * @return - Return response message
      */
     @PostMapping("/wishlists")
-    @ApiOperation(value = "create a wishlist", response = WishListResponse.class)
-    public ResponseEntity<BaseApiNoPaginationResponse<WishListResponse>> createWishList(@RequestBody WishListRequestModel wishListRequestModel) {
+    @ApiOperation(value = "create a wishlist", response = WishListFirstCreateResponse.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<WishListFirstCreateResponse>> createWishList(@RequestBody WishListRequestModel wishListRequestModel) {
 
-        BaseApiNoPaginationResponse<WishListResponse> response = new BaseApiNoPaginationResponse<>();
+        BaseApiNoPaginationResponse<WishListFirstCreateResponse> response = new BaseApiNoPaginationResponse<>();
         ModelMapper mapper = new ModelMapper();
         UUID uuid = UUID.randomUUID();
         WishListDto wishListDto = mapper.map(wishListRequestModel, WishListDto.class);
         wishListDto.setWishlistId("DP" + uuid.toString().substring(0, 10));
-        wishListDto.setFavDate(new Timestamp(System.currentTimeMillis()));
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Date date = new Date(timestamp.getTime());
+
+
+        wishListDto.setFavDate(date);
+        //wishListDto.setFavDate(new Timestamp(System.currentTimeMillis()));
         wishListDto.setStatus(true);
 
         try {
             WishListDto result = wishListServiceImp.createWishList(wishListDto);
-            WishListResponse wishListResponse = mapper.map(result, WishListResponse.class);
+            WishListFirstCreateResponse wishListResponse = mapper.map(result, WishListFirstCreateResponse.class);
 
             response.setMessage(message.inserted("Wishlist"));
             response.setData(wishListResponse);

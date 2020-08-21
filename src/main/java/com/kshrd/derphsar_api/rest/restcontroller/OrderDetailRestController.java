@@ -25,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -189,7 +191,7 @@ public class OrderDetailRestController {
      * @return - Return response message
      */
     @PostMapping("/orderdetails")
-    @ApiOperation(value = "create a shop", response = OrderDetailFilterResponse.class)
+    @ApiOperation(value = "add products to cart", response = OrderDetailFilterResponse.class)
     public ResponseEntity<BaseApiNoPaginationResponse<OrderDetailFilterResponse>> addProductToCart(@RequestBody OrderDetailFirstRequest orderDetailFirstRequest){
 
         ModelMapper mapper = new ModelMapper();
@@ -201,6 +203,12 @@ public class OrderDetailRestController {
         if(orderDetailFirstRequest.getQuatity() != 0 ){
             orderDetailDto.setItemId("DP"+uuid.toString().substring(0,10));
             orderDetailDto.setStatus(true);
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Date date = new Date(timestamp.getTime());
+           // System.out.println(date);
+
+            orderDetailDto.setOrderDate(date);
             OrderDetailDto orderDetailDto1 = orderDetailServiceImp.addProductToCart(orderDetailDto);
 
             OrderDetailFilterResponse orderDetailFilterResponse = mapper.map(orderDetailDto1, OrderDetailFilterResponse.class);

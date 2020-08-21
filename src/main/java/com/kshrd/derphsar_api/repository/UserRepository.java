@@ -2,6 +2,7 @@ package com.kshrd.derphsar_api.repository;
 
 
 import com.kshrd.derphsar_api.page.Pagination;
+import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.provider.UserProvider;
@@ -9,6 +10,7 @@ import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import org.apache.ibatis.annotations.*;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,6 +38,10 @@ public interface UserRepository {
     boolean insertUserRole(UserDto user);
 
 
+    @InsertProvider(type = UserProvider.class, method = "insertOrder")
+    boolean insertOrder(String orderId, UserDto user);
+
+
     @SelectProvider(type = UserProvider.class, method = "getAllUsers")
     @Results({
             @Result(property = "userId", column = "user_id")
@@ -56,8 +62,10 @@ public interface UserRepository {
 
 
     @SelectProvider(type = UserProvider.class, method = "getOneUserById")
-    @Results(
+    @Results({
+            @Result(column = "id", property = "id"),
             @Result(column = "user_id", property = "userId")
+    }
     )
     UserResponseModel getOneUserById(String userId);
 

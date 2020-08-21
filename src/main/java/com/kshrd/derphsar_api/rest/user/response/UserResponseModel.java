@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserResponseModel {
 
-    @JsonIgnore
+    //@JsonIgnore
     private int id;
     private String userId;
     private String name;
@@ -22,7 +22,7 @@ public class UserResponseModel {
     @JsonIgnore
     private List<RoleResponse> role;
 
-    public UserResponseModel(){}
+    public  UserResponseModel(){}
 
     public UserResponseModel(int id, String userId, String name, String gender, int age, String phone, String email, String password, boolean status, String profile, List<RoleResponse> role) {
         this.id = id;

@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.repository.provider;
 
+import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -29,6 +30,13 @@ public class UserProvider {
         return new SQL(){{
             INSERT_INTO("dp_user_role");
             VALUES("user_id, role_id", "(SELECT id FROM dp_users WHERE email LIKE #{email}), (SELECT id FROM dp_role WHERE name LIKE 'ROLE_BUYER')");
+        }}.toString();
+    }
+
+    public String insertOrder(String orderId, UserDto user){
+        return new SQL(){{
+            INSERT_INTO("dp_order");
+            VALUES("order_id, user_id","#{orderId}, null");
         }}.toString();
     }
 
@@ -69,6 +77,8 @@ public class UserProvider {
             WHERE("user_id = #{userId}");
         }}.toString();
     }
+
+
 
 
 
