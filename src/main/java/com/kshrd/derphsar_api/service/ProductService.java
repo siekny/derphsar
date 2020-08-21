@@ -10,7 +10,7 @@ import java.util.List;
 public interface ProductService {
 
     //getProducts
-    List<ProductDto> getProducts(Pagination pagination);
+    List<ProductDto> getProducts(int shopId,Pagination pagination);
 
 
     //create product

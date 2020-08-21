@@ -34,11 +34,12 @@ public interface ProductRepository {
 
     //select all shops
     @Select("SELECT * FROM dp_shops WHERE id=#{shop_id} AND status = 'true'")
-    @Results({
+    @Results(id="shopMap", value = {
             @Result(column = "id" ,property = "id"),
             @Result(column = "shop_id" ,property = "shopId"),
             @Result(column = "name" ,property = "name"),
             @Result(column = "address" ,property = "address"),
+            @Result(column = "working_time", property = "workingTime"),
             @Result(column = "u_id", property = "user", many = @Many(select = "getUser")),
             @Result(column = "cat_id", property = "category", many = @Many(select = "getCategory")),
             //@Result(column = "promo_id", property = "promotion", many = @Many(select = "getPromotion"))
@@ -109,6 +110,14 @@ public interface ProductRepository {
     //Search product by shop
     @Select("SELECT * FROM dp_products WHERE shop_id=#{shopId} AND status = 'true' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
     @Results({
+            @Result(column = "pro_id" ,property = "proId"),
+            @Result(column = "is_sold" ,property = "soldStatus"),
+            @Result(column = "view_count" ,property = "viewCount"),
+            @Result(column = "post_date", property = "postDate"),
+            @Result(column = "discount", property = "discount"),
+            @Result(column = "details" ,property = "details", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
+            @Result(column = "images" ,property = "images", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
+
             @Result(column = "shop_id" ,property = "shop",many = @Many(select = "selectOneShop")),
     })
     List<ProductDto> findProductByShopId(@Param("shopId") int shopId, @Param("pagination") Pagination pagination);
@@ -117,6 +126,7 @@ public interface ProductRepository {
 
     //select on shop
     @Select("SELECT * FROM dp_shops WHERE id = #{shop_id}")
+       @ResultMap("shopMap")
     ShopDto selectOneShop(int shop_id);
 
 

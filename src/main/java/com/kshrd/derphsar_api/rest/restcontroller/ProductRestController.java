@@ -87,7 +87,7 @@ public class ProductRestController {
     @GetMapping("/products")
     @ApiOperation(value = "show all products", response = ProductResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getProducts(
-            //@RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
+            @RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
             @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
             @RequestParam(value = "limit" , required = false , defaultValue = "10") int limit,
             @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
@@ -106,7 +106,7 @@ public class ProductRestController {
         BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
-        List<ProductDto> productDtos = productServiceImp.getProducts(pagination);
+        List<ProductDto> productDtos = productServiceImp.getProducts(shopId,pagination);
 
         List<ProductResponseModel> productResponseModels = new ArrayList<>();
 
