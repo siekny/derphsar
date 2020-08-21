@@ -143,7 +143,7 @@ public interface ProductRepository {
 
 
     @Select("SELECT * FROM dp_products AS pro\n" +
-            "WHERE status = 'true'\n" +
+            "WHERE status = 'true' AND is_sold = TRUE\n" +
             "ORDER BY pro.post_date DESC\n" +
             "LIMIT 12 ")
         @ResultMap("mapProduct")
@@ -181,4 +181,13 @@ public interface ProductRepository {
             "LIMIT 12")
     @ResultMap("mapProduct")
     List<ProductDto> getRelatedProducts(int categoryId);
+
+
+    @Select("SELECT * FROM dp_category WHERE cat_id = #{catId}")
+    CategoryDto getCategoryByCatId(String catId);
+
+
+
+    @Select("SELECT * FROM dp_shops WHERE shop_id = #{shopId}")
+    ShopDto getShopByShopId(String shopId);
 }

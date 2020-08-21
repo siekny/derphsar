@@ -2,7 +2,9 @@ package com.kshrd.derphsar_api.service;
 
 
 import com.kshrd.derphsar_api.page.Pagination;
+import com.kshrd.derphsar_api.repository.dto.CategoryDto;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 
 import java.util.List;
@@ -40,5 +42,9 @@ public interface ProductService {
 
     //get related products
     List<ProductDto> getRelatedProducts(int categoryId);
+
+    ShopDto getShopByShopId(String shopId);
+
+    CategoryDto getCategoryByCatId(String catId);
 
 }

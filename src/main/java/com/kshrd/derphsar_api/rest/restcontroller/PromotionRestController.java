@@ -11,6 +11,7 @@ import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.rest.shop.response.ShopCreateFirstResponse;
 import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.PromotionServiceImp;
+import com.kshrd.derphsar_api.service.implement.ShopServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,13 @@ public class PromotionRestController {
 
     private PromotionServiceImp promotionServiceImp;
     private MessageProperties message;
+    private ShopServiceImp shopServiceImp;
+
+
+    @Autowired
+    public void setShopServiceImp(ShopServiceImp shopServiceImp) {
+        this.shopServiceImp = shopServiceImp;
+    }
 
     @Autowired
     public void setMessage(MessageProperties message) {
@@ -58,14 +66,15 @@ public class PromotionRestController {
     @GetMapping("/promotions")
     @ApiOperation(value = "show all promotions or by a shop id", response = PromotionResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> getPromotions(
-            @RequestParam(value="shopId",required = false,defaultValue = "0") int shopId) {
+            @RequestParam(value="shopId",required = false,defaultValue = "0") String shopId) {
 
         ModelMapper mapper = new ModelMapper();
         BaseApiResponse<List<PromotionResponseModel>> response = new BaseApiResponse<>();
         List<PromotionResponseModel> promotions = new ArrayList<>();
 
         try {
-            List<PromotionDto> promotion = promotionServiceImp.getPromotions(shopId);
+            ShopDto shopDto = shopServiceImp.findById(shopId);
+            List<PromotionDto> promotion = promotionServiceImp.getPromotions(shopDto.getId());
             for (PromotionDto promotionDto : promotion) {
                 promotions.add(mapper.map(promotionDto, PromotionResponseModel.class));
             }

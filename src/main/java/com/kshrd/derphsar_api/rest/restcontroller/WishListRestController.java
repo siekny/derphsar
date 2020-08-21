@@ -4,10 +4,12 @@ import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
+import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.rest.wishlist.request.WishListRequestModel;
 import com.kshrd.derphsar_api.rest.wishlist.response.WishListFirstCreateResponse;
 import com.kshrd.derphsar_api.rest.wishlist.response.WishListResponse;
+import com.kshrd.derphsar_api.service.implement.UserServiceImp;
 import com.kshrd.derphsar_api.service.implement.WishListServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
@@ -30,6 +32,12 @@ public class WishListRestController {
 
     private WishListServiceImp wishListServiceImp;
     private MessageProperties message;
+    private UserServiceImp userServiceImp;
+
+    @Autowired
+    public void setUserServiceImp(UserServiceImp userServiceImp) {
+        this.userServiceImp = userServiceImp;
+    }
 
     @Autowired
     public void setMessage(MessageProperties message) {
@@ -162,7 +170,7 @@ public class WishListRestController {
      */
     @GetMapping("wishlists/{userId}")
     @ApiOperation(value = "show all wishlist by user id", response = Void.class)
-    public ResponseEntity<BaseApiResponse<List<WishListResponse>>> getAllWishlistByUserId(@PathVariable("userId") int userId,
+    public ResponseEntity<BaseApiResponse<List<WishListResponse>>> getAllWishlistByUserId(@PathVariable("userId") String userId,
                                                                                           @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
                                                                                           @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
                                                                                           @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
@@ -181,7 +189,8 @@ public class WishListRestController {
         List<WishListResponse> wishListResponses = new ArrayList<>();
 
         try {
-            List<WishListDto> wishList = wishListServiceImp.getAllWishListByUserId(userId,pagination);
+            UserResponseModel userDto = userServiceImp.getOneUserById(userId);
+            List<WishListDto> wishList = wishListServiceImp.getAllWishListByUserId(userDto.getId(),pagination);
             for (WishListDto wishListDto : wishList) {
                 WishListResponse wishListResponse = mapper.map(wishListDto, WishListResponse.class);
                 wishListResponses.add(wishListResponse);

@@ -1,16 +1,21 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.page.Pagination;
+import com.kshrd.derphsar_api.repository.dto.CategoryDto;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
 import com.kshrd.derphsar_api.rest.product.response.ProductsOfAUserResponse;
 import com.kshrd.derphsar_api.rest.product.response.ProductResponseModel;
+import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.ProductServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kshrd.derphsar_api.service.implement.UserServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +32,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 public class ProductRestController {
+    private UserServiceImp userServiceImp;
     private ProductServiceImp productServiceImp;
     private MessageProperties message;
 
@@ -40,9 +46,10 @@ public class ProductRestController {
         this.productServiceImp = productServiceImp;
     }
 
-
-
-
+    @Autowired
+    public void setUserServiceImp(UserServiceImp userServiceImp) {
+        this.userServiceImp = userServiceImp;
+    }
 
     /**
      * Post a product
@@ -85,9 +92,9 @@ public class ProductRestController {
      * @return - Return response message
      */
     @GetMapping("/products")
-    @ApiOperation(value = "show all products", response = ProductResponseModel.class)
+    @ApiOperation(value = "show all products or by shop id", response = ProductResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getProducts(
-            @RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
+            @RequestParam(value="shopId",required = false,defaultValue = "0") String shopId,
             @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
             @RequestParam(value = "limit" , required = false , defaultValue = "10") int limit,
             @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
@@ -106,7 +113,8 @@ public class ProductRestController {
         BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
-        List<ProductDto> productDtos = productServiceImp.getProducts(shopId,pagination);
+        ShopDto shopDto = productServiceImp.getShopByShopId(shopId);
+        List<ProductDto> productDtos = productServiceImp.getProducts(shopDto.getId(),pagination);
 
         List<ProductResponseModel> productResponseModels = new ArrayList<>();
 
@@ -203,14 +211,15 @@ public class ProductRestController {
      */
     @GetMapping("/related-products")
     @ApiOperation(value = "show all related products 12 records", response = ProductResponseModel.class)
-    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getRelatedProducts(@RequestParam(value = "categoryId" , required = false , defaultValue = "1") int categoryId) {
+    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getRelatedProducts(@RequestParam(value = "categoryId" , required = false , defaultValue = "1") String categoryId) {
 
         BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
         ObjectMapper mapper = new ObjectMapper();
         List<ProductResponseModel> productResponseModels = new ArrayList<>();
 
         try{
-            List<ProductDto> productDtos = productServiceImp.getRelatedProducts(categoryId);
+            CategoryDto categoryDto = productServiceImp.getCategoryByCatId(categoryId);
+            List<ProductDto> productDtos = productServiceImp.getRelatedProducts(categoryDto.getId());
             for(ProductDto productDto : productDtos){
                 try {
                     Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
@@ -299,17 +308,17 @@ public class ProductRestController {
     /**
      * Delete a product
      *
-     * @param id - id of a product
+     * @param proId - UUID of a product
      * @return - Return response message
      */
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/products/{proId}")
     @ApiOperation(value = "delete a product", response = Void.class)
-    public ResponseEntity<BaseApiNoPaginationResponse<Void>> deleteProduct(@PathVariable("id") String id){
+    public ResponseEntity<BaseApiNoPaginationResponse<Void>> deleteProduct(@PathVariable("proId") String proId){
 
         BaseApiNoPaginationResponse<Void> response = new BaseApiNoPaginationResponse<>();
-        ProductDto productDto = productServiceImp.findById(id);
+        ProductDto productDto = productServiceImp.findById(proId);
         if(productDto != null){
-            productServiceImp.deleteProduct(id);
+            productServiceImp.deleteProduct(proId);
             response.setMessage(message.deleted("Product"));
             response.setStatus(HttpStatus.OK);
         }else {
@@ -325,18 +334,18 @@ public class ProductRestController {
     /**
      * Put a product
      *
-     * @param id - Id of a product
+     * @param proId - Id of a product UUID
      * @param productRequestModel - Product request model
      * @return - Return response message
      */
-    @PutMapping("/products/{id}")
+    @PutMapping("/products/{proId}")
     @ApiOperation(value = "update a product", response = ProductRequestModel.class)
     public ResponseEntity<BaseApiResponse<ProductRequestModel>> updateProduct(
-            @PathVariable("id") String id,
+            @PathVariable("proId") String proId,
             @RequestBody ProductRequestModel productRequestModel){
         ModelMapper modelMapper=new ModelMapper();
         ProductDto dto=modelMapper.map(productRequestModel,ProductDto.class);
-        ProductRequestModel responeModel=modelMapper.map(productServiceImp.updateProduct(id,dto),ProductRequestModel.class);
+        ProductRequestModel responeModel=modelMapper.map(productServiceImp.updateProduct(proId,dto),ProductRequestModel.class);
 
         BaseApiResponse<ProductRequestModel> respone=new BaseApiResponse <>();
         respone.setMessage(message.updated("Update"));
@@ -353,18 +362,18 @@ public class ProductRestController {
     /**
      * Get a product
      *
-     * @param id - Id of a product
+     * @param proId - UUID of a product
      * @return - Return response message
      */
-    @GetMapping("/products/{id}")
-    @ApiOperation(value = "find a product by id", response = ProductResponseModel.class)
-    public ResponseEntity<BaseApiNoPaginationResponse<List<ProductResponseModel>>> findById(@PathVariable("id") String id){
+    @GetMapping("/products/{proId}")
+    @ApiOperation(value = "find a product by proid", response = ProductResponseModel.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<List<ProductResponseModel>>> findById(@PathVariable("proId") String proId){
         ModelMapper mapper = new ModelMapper();
         BaseApiNoPaginationResponse<List<ProductResponseModel>> response = new BaseApiNoPaginationResponse<>();
         List<ProductResponseModel> products = new ArrayList<>();
 
         try {
-            ProductDto productDto = productServiceImp.findById(id);
+            ProductDto productDto = productServiceImp.findById(proId);
             products.add(mapper.map(productDto, ProductResponseModel.class));
 
             response.setMessage(message.selectedOne("Product"));
@@ -391,7 +400,7 @@ public class ProductRestController {
      */
     @GetMapping("all-products/{userId}")
     @ApiOperation(value = "show all products by user id", response = Void.class)
-    public ResponseEntity<BaseApiResponse<List<ProductsOfAUserResponse>>> getAllProductsByUserId(@PathVariable("userId") int userId,
+    public ResponseEntity<BaseApiResponse<List<ProductsOfAUserResponse>>> getAllProductsByUserId(@PathVariable("userId") String userId,
                                                                                                  @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
                                                                                                  @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
                                                                                                  @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
@@ -410,7 +419,8 @@ public class ProductRestController {
         List<ProductsOfAUserResponse> productResponseModels = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            List<ProductDto> products = productServiceImp.getAllProductsByUserId(userId,pagination);
+            UserResponseModel userDto = userServiceImp.getOneUserById(userId);
+            List<ProductDto> products = productServiceImp.getAllProductsByUserId(userDto.getId(),pagination);
             for (ProductDto productDto : products) {
 
                 Object images = objectMapper.readValue(productDto.getImages().toString(), Object.class);

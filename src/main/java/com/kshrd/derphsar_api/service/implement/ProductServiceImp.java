@@ -2,7 +2,9 @@ package com.kshrd.derphsar_api.service.implement;
 
 import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.ProductRepository;
+import com.kshrd.derphsar_api.repository.dto.CategoryDto;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,5 +100,15 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<ProductDto> getRelatedProducts(int categoryId) {
         return productRepository.getRelatedProducts(categoryId);
+    }
+
+    @Override
+    public ShopDto getShopByShopId(String shopId) {
+        return productRepository.getShopByShopId(shopId);
+    }
+
+    @Override
+    public CategoryDto getCategoryByCatId(String catId) {
+        return productRepository.getCategoryByCatId(catId);
     }
 }

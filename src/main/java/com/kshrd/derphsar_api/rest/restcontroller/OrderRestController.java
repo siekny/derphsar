@@ -3,16 +3,17 @@ package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kshrd.derphsar_api.page.Pagination;
-import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
-import com.kshrd.derphsar_api.repository.dto.OrderDto;
-import com.kshrd.derphsar_api.repository.dto.ProductDto;
+import com.kshrd.derphsar_api.repository.dto.*;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.order.response.OrderHistoryOfAUserResponse;
 import com.kshrd.derphsar_api.rest.order.response.OrderResponse;
 import com.kshrd.derphsar_api.rest.product.response.ProductsOfAUserResponse;
+import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.OrderServiceImp;
+import com.kshrd.derphsar_api.service.implement.ShopServiceImp;
+import com.kshrd.derphsar_api.service.implement.UserServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,18 @@ public class OrderRestController {
 
     private OrderServiceImp orderServiceImp;
     private MessageProperties message;
+    private ShopServiceImp shopServiceImp;
+    private UserServiceImp userServiceImp;
+
+    @Autowired
+    public void setUserServiceImp(UserServiceImp userServiceImp) {
+        this.userServiceImp = userServiceImp;
+    }
+
+    @Autowired
+    public void setShopServiceImp(ShopServiceImp shopServiceImp) {
+        this.shopServiceImp = shopServiceImp;
+    }
 
     @Autowired
     public void setMessage(MessageProperties message) {
@@ -57,14 +70,15 @@ public class OrderRestController {
 
     @GetMapping("orders/{shopId}")
     @ApiOperation(value = "show all orders by shopId", response = Void.class)
-    public ResponseEntity<BaseApiResponse<List<OrderResponse>>> getAllOrderByShopId(@PathVariable("shopId") int shopId) {
+    public ResponseEntity<BaseApiResponse<List<OrderResponse>>> getAllOrderByShopId(@PathVariable("shopId") String shopId) {
 
         BaseApiResponse<List<OrderResponse>> baseApiResponse = new BaseApiResponse<>();
         ModelMapper mapper = new ModelMapper();
         List<OrderResponse> orderResponses = new ArrayList<>();
 
         try{
-            List<OrderDto> orderDtos = orderServiceImp.getAllOrderByShopId(shopId);
+            ShopDto shopDto = shopServiceImp.findById(shopId);
+            List<OrderDto> orderDtos = orderServiceImp.getAllOrderByShopId(shopDto.getId());
             for (OrderDto wishListDto : orderDtos) {
                 OrderResponse wishListResponse = mapper.map(wishListDto, OrderResponse.class);
                 orderResponses.add(wishListResponse);
@@ -141,7 +155,7 @@ public class OrderRestController {
      */
     @GetMapping("order-history/{userId}")
     @ApiOperation(value = "show all order history by user id", response = Void.class)
-    public ResponseEntity<BaseApiResponse<List<OrderHistoryOfAUserResponse>>> getAllOrdersHistoryByUserId(@PathVariable("userId") int userId,
+    public ResponseEntity<BaseApiResponse<List<OrderHistoryOfAUserResponse>>> getAllOrdersHistoryByUserId(@PathVariable("userId") String userId,
                                                                                                           @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
                                                                                                           @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
                                                                                                           @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
@@ -160,7 +174,8 @@ public class OrderRestController {
         List<OrderHistoryOfAUserResponse> productResponseModels = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            List<OrderDto> orders = orderServiceImp.getAllOrdersHistoryByUserId(userId,pagination);
+            UserResponseModel userDto = userServiceImp.getOneUserById(userId);
+            List<OrderDto> orders = orderServiceImp.getAllOrdersHistoryByUserId(userDto.getId(),pagination);
             for (OrderDto orderDto : orders) {
 
 //                Object images = objectMapper.readValue(orderDto.getImage().toString(), Object.class);

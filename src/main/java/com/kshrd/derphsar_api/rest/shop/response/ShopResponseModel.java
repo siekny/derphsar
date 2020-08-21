@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ShopResponseModel {
 
+    private int id;
     private String shopId;
     private String name;
     private String address;
@@ -28,7 +29,8 @@ public class ShopResponseModel {
     }
 
 
-    public ShopResponseModel(String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, UserResponseModel user, CategoryResponseModel category) {
+    public ShopResponseModel(int id,String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, UserResponseModel user, CategoryResponseModel category) {
+        this.id = id;
         this.shopId = shopId;
         this.name = name;
         this.address = address;
@@ -42,11 +44,11 @@ public class ShopResponseModel {
         this.category = category;
     }
 
-
     @Override
     public String toString() {
         return "ShopResponseModel{" +
-                "shopId='" + shopId + '\'' +
+                "id=" + id +
+                ", shopId='" + shopId + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +
@@ -60,6 +62,13 @@ public class ShopResponseModel {
                 '}';
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getShopId() {
         return shopId;

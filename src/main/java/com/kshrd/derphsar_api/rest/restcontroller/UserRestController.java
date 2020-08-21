@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
+import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
@@ -14,6 +15,7 @@ import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserByShopResponse;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
+import com.kshrd.derphsar_api.service.implement.ShopServiceImp;
 import com.kshrd.derphsar_api.service.implement.UserServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Param;
@@ -36,7 +38,12 @@ public class UserRestController {
     private UserServiceImp userServiceImp;
     private BCryptPasswordEncoder encoder;
     private MessageProperties message;
+    private ShopServiceImp shopServiceImp;
 
+    @Autowired
+    public void setShopServiceImp(ShopServiceImp shopServiceImp) {
+        this.shopServiceImp = shopServiceImp;
+    }
 
     @Autowired
     public void setMessage(MessageProperties message) {
@@ -157,7 +164,7 @@ public class UserRestController {
     @GetMapping("/customers")
     @ApiOperation(value = "show all customers by shopId or roleName", response = UserByShopResponse.class)
     public ResponseEntity<BaseApiResponse<List<UserByShopResponse>>> getAllCustomersByShopIdOrRoleName(
-            @RequestParam(value="shopId",required = false,defaultValue = "0") int shopId,
+            @RequestParam(value="shopId",required = false,defaultValue = "0") String shopId,
             @RequestParam(value="roleName",required = false,defaultValue = " ") String roleName,
             @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
             @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
@@ -180,7 +187,8 @@ public class UserRestController {
         List<UserByShopResponse> userResponseModelist = new ArrayList<>();
 
         try{
-            List<UserDto> userDtos = userServiceImp.getAllCustomersByShopIdOrRoleName(shopId,roleName,pagination);
+            ShopDto shopDto = shopServiceImp.findById(shopId);
+            List<UserDto> userDtos = userServiceImp.getAllCustomersByShopIdOrRoleName(shopDto.getId(),roleName,pagination);
             for(UserDto userDto : userDtos){
                 userResponseModelist.add(mapper.map(userDto, UserByShopResponse.class));
             }
