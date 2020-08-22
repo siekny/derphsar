@@ -5,10 +5,14 @@ import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.UserRepository;
 import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
+import com.kshrd.derphsar_api.repository.dto.UserRoleDto;
+import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
+import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +25,14 @@ import java.util.UUID;
 @Service
 public class UserServiceImp implements UserService {
     private UserRepository userRepository;
+    private MessageProperties message;
 
+
+
+    @Autowired
+    public void setMessage(MessageProperties message) {
+        this.message = message;
+    }
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -35,15 +46,27 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDto insertUser(UserDto userDto) {
+//        ModelMapper mapper = new ModelMapper();
+//        UserDto userDto1 = mapper.map(userRequest, UserDao.class);
 
+        //BaseApiNoPaginationResponse<UserResponseModel> response = new BaseApiNoPaginationResponse<>();
         OrderDto orderDto = new OrderDto();
         UUID uuid = UUID.randomUUID();
         orderDto.setOrderId("DP"+uuid.toString().substring(0,10));
 
         //boolean isInsertUser = userRepository.insertUser(userDto);
+
+//        List<UserResponseModel> userDtoList = userRepository.getAllUsers();
+//        for(UserResponseModel temp : userDtoList){
+//            if(userDto.getEmail().equals(temp.getEmail())){
+//                response.setMessage(message.inserted("Faile"));
+//            }
+//        }
+//
+
         userRepository.insertUser(userDto);
         userRepository.insertUserRole(userDto);
-        userRepository.insertOrder(orderDto.getOrderId(), userDto);
+        //userRepository.insertOrder(orderDto.getOrderId(), userDto);
         return userDto;
     }
 
@@ -96,6 +119,8 @@ public class UserServiceImp implements UserService {
     public int countId() {
         return userRepository.countId();
     }
+
+
 
 
     @Override

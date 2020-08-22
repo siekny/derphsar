@@ -100,9 +100,9 @@ public class ProductRestController {
      * @return - Return response message
      */
     @GetMapping("/products")
-    @ApiOperation(value = "show all products or by shop id", response = ProductResponseModel.class)
+    @ApiOperation(value = "show all products", response = ProductResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getProducts(
-            @RequestParam(value="shopId",required = false,defaultValue = "0") String shopId,
+            //@RequestParam(value="shopId",required = false,defaultValue = " ") String shopId,
             @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
             @RequestParam(value = "limit" , required = false , defaultValue = "10") int limit,
             @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
@@ -121,8 +121,8 @@ public class ProductRestController {
         BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
-        ShopDto shopDto = productServiceImp.getShopByShopId(shopId);
-        List<ProductDto> productDtos = productServiceImp.getProducts(shopDto.getId(),pagination);
+        //ShopDto shopDto = productServiceImp.getShopByShopId(shopId);
+        List<ProductDto> productDtos = productServiceImp.getProducts(pagination);
 
         List<ProductResponseModel> productResponseModels = new ArrayList<>();
 
@@ -152,11 +152,71 @@ public class ProductRestController {
 
         response.setPagination(pagination);
         response.setTime(new Timestamp(System.currentTimeMillis()));
-
-
         return ResponseEntity.ok(response);
     }
 
+
+
+
+    /**
+     * Get Products
+     * @param shopId - UUID of shop
+     * @param page  - Page of pagination
+     * @param limit - Limit data of a pagination
+     * @param totalPages - Total pages of data limited in a page
+     * @param pagesToShow - Pages to show
+     * @return - Return response message
+     */
+    @GetMapping("products-in-shop/{shopId}")
+    @ApiOperation(value = "show all products by shop id", response = ProductResponseModel.class)
+    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getAllProductsByShopId(@PathVariable("shopId") String shopId,
+                                                                                              @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                                              @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+                                                                                              @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+                                                                                              @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+        pagination.setTotalCount(productServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
+
+        BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
+        ModelMapper mapper = new ModelMapper();
+        List<ProductResponseModel> productResponseModels = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            ShopDto shopDto = shopServiceImp.findById(shopId);
+            List<ProductDto> products = productServiceImp.findProductByShopId(shopDto.getId(),pagination);
+            for (ProductDto productDto : products) {
+
+                Object images = objectMapper.readValue(productDto.getImages().toString(), Object.class);
+                productDto.setImages(images);
+
+                ProductResponseModel productResponseModel = mapper.map(productDto, ProductResponseModel.class);
+                productResponseModels.add(productResponseModel);
+            }
+
+            if (!products.isEmpty()) {
+                response.setData(productResponseModels);
+                response.setStatus(HttpStatus.FOUND);
+                response.setMessage(message.selected("Products"));
+            }else {
+                response.setStatus(HttpStatus.NOT_FOUND);
+                response.setMessage(message.hasNoRecords("Products"));
+            }
+
+            response.setPagination(pagination);
+            System.out.println("Product = " + response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 
 
 

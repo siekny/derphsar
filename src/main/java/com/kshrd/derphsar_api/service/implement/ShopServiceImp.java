@@ -4,6 +4,7 @@ import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.ShopRepository;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
+import com.kshrd.derphsar_api.repository.dto.UserRoleDto;
 import com.kshrd.derphsar_api.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,18 +15,39 @@ import java.util.List;
 public class ShopServiceImp implements ShopService {
 
     private ShopRepository shopRepository;
+    private UserServiceImp userServiceImp;
+    private UserRoleServiceImp userRoleServiceImp;
+
+
+    @Autowired
+    public void setUserRoleServiceImp(UserRoleServiceImp userRoleServiceImp) {
+        this.userRoleServiceImp = userRoleServiceImp;
+    }
+
+    @Autowired
+    public void setUserServiceImp(UserServiceImp userServiceImp) {
+        this.userServiceImp = userServiceImp;
+    }
 
     @Autowired
     public void setShopRepository(ShopRepository shopRepository) {
         this.shopRepository = shopRepository;
     }
 
+
+
     //create a shop
     @Override
     public ShopDto createShop(ShopDto shop) {
         boolean isInserted = shopRepository.insert(shop);
-        if (isInserted)
+        if (isInserted){
+//            System.out.println(shop.getAddress());
+            UserRoleDto userRoleDto = userRoleServiceImp.findUserRoleById(shop.getU_id());
+            if(userRoleDto.getRoleId() == 1){
+                userRoleServiceImp.updateRoleToShopkeeper(shop.getU_id(), userRoleDto);
+            }
             return shop;
+        }
         else
             return null;
     }

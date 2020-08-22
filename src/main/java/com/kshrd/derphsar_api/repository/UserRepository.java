@@ -5,6 +5,7 @@ import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
+import com.kshrd.derphsar_api.repository.dto.UserRoleDto;
 import com.kshrd.derphsar_api.repository.provider.UserProvider;
 import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;

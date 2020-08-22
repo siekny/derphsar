@@ -36,11 +36,16 @@ public class ProductServiceImp implements ProductService {
 ////    }
 
     @Override
-    public List<ProductDto> getProducts(int shopId, Pagination pagination) {
-        if(shopId == 0)
+    public List<ProductDto> getProducts(Pagination pagination) {
+        //if(shopId == 0)
             return productRepository.getProducts(pagination);
-        else
-            return productRepository.findProductByShopId(shopId,pagination);
+//        else
+//            return productRepository.findProductByShopId(shopId,pagination);
+    }
+
+    @Override
+    public List<ProductDto> findProductByShopId(int shopId, Pagination pagination) {
+        return productRepository.findProductByShopId(shopId, pagination);
     }
 
     //insert a product

@@ -12,8 +12,10 @@ import java.util.List;
 public interface ProductService {
 
     //getProducts
-    List<ProductDto> getProducts(int shopId,Pagination pagination);
+    List<ProductDto> getProducts(Pagination pagination);
 
+
+    List<ProductDto> findProductByShopId(int shopId, Pagination pagination);
 
     //create product
     ProductDto insert(ProductDto productDto);

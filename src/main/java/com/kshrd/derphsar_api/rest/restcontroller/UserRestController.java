@@ -78,19 +78,25 @@ public class UserRestController {
         UserDto userDto = mapper.map(userRequestModel, UserDto.class);
 
         try{
-            userDto.setPassword(encoder.encode(userDto.getPassword()));
-            userDto.setStatus(true);
+            if(!userRequestModel.getName().isEmpty() && !userRequestModel.getEmail().isEmpty() && userRequestModel.getAge() != 0 && !userRequestModel.getPassword().isEmpty()  && !userRequestModel.getPhone().isEmpty()){
+                userDto.setPassword(encoder.encode(userDto.getPassword()));
+                userDto.setStatus(true);
 
-            UUID uuid = UUID.randomUUID();
-            userDto.setUserId("DP"+uuid.toString().substring(0,10));
-            userDto.setStatus(true);
+                UUID uuid = UUID.randomUUID();
+                userDto.setUserId("DP"+uuid.toString().substring(0,10));
+                userDto.setStatus(true);
 
-            UserDto result = userServiceImp.insertUser(userDto);
-            UserResponseModel result2 = mapper.map(result, UserResponseModel.class);
-            response.setMessage(message.inserted("User"));
-            response.setData(result2);
-            response.setStatus(HttpStatus.OK);
-            response.setTime(new Timestamp(System.currentTimeMillis()));
+                UserDto result = userServiceImp.insertUser(userDto);
+                UserResponseModel result2 = mapper.map(result, UserResponseModel.class);
+                response.setMessage(message.inserted("User"));
+                response.setData(result2);
+                response.setStatus(HttpStatus.OK);
+                response.setTime(new Timestamp(System.currentTimeMillis()));
+            }else {
+                response.setMessage(message.insertError("User"));
+                response.setStatus(HttpStatus.BAD_REQUEST);
+            }
+
         }catch (Exception e){
             response.setMessage(e.getCause().getMessage());
             response.setStatus(HttpStatus.BAD_REQUEST);
@@ -112,16 +118,21 @@ public class UserRestController {
 
         try{
             List<UserResponseModel> users = userServiceImp.getAllUsers();
-            response.setMessage(message.selected("Users"));
-            response.setStatus(HttpStatus.OK);
-            response.setData(users);
+            if(!users.isEmpty()){
+                response.setMessage(message.selected("Users"));
+                response.setStatus(HttpStatus.FOUND);
+                response.setData(users);
+            }else {
+                response.setMessage(message.hasNoRecord("Users"));
+                response.setStatus(HttpStatus.NOT_FOUND);
+                response.setData(null);
+            }
+
             response.setTime(new Timestamp(System.currentTimeMillis()));
         }catch (Exception e){
             response.setMessage(e.getCause().getMessage());
-            response.setStatus(HttpStatus.NO_CONTENT);
-            response.setData(null);
-            response.setTime(new Timestamp(System.currentTimeMillis()));
         }
+        response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
 

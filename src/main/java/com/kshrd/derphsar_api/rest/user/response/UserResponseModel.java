@@ -19,7 +19,7 @@ public class UserResponseModel {
     private String password;
     private boolean status;
     private String profile;
-    @JsonIgnore
+    //@JsonIgnore
     private List<RoleResponse> role;
 
     public  UserResponseModel(){}

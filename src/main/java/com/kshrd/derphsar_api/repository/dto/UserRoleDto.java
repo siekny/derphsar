@@ -2,23 +2,24 @@ package com.kshrd.derphsar_api.repository.dto;
 
 public class UserRoleDto {
     private int id;
-    private String userId;
-    private String roleId;
+    private int userId;
+    private int roleId;
 
     public UserRoleDto(){}
 
-    public UserRoleDto(int id, String userId, String roleId) {
+    public UserRoleDto(int id, int userId, int roleId) {
         this.id = id;
         this.userId = userId;
         this.roleId = roleId;
     }
 
+
     @Override
     public String toString() {
         return "UserRoleDto{" +
                 "id=" + id +
-                ", userId='" + userId + '\'' +
-                ", roleId='" + roleId + '\'' +
+                ", userId=" + userId +
+                ", roleId=" + roleId +
                 '}';
     }
 
@@ -31,19 +32,19 @@ public class UserRoleDto {
         this.id = id;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public String getRoleId() {
+    public int getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(String roleId) {
+    public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
 }
