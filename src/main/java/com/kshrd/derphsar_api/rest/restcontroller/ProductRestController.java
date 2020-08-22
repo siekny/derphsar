@@ -15,6 +15,7 @@ import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.ProductServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kshrd.derphsar_api.service.implement.ShopServiceImp;
 import com.kshrd.derphsar_api.service.implement.UserServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
@@ -35,6 +36,13 @@ public class ProductRestController {
     private UserServiceImp userServiceImp;
     private ProductServiceImp productServiceImp;
     private MessageProperties message;
+    private ShopServiceImp shopServiceImp;
+
+
+    @Autowired
+    public void setShopServiceImp(ShopServiceImp shopServiceImp) {
+        this.shopServiceImp = shopServiceImp;
+    }
 
     @Autowired
     public void setMessage(MessageProperties message) {
@@ -158,7 +166,7 @@ public class ProductRestController {
      * @return - list of new products response
      */
     @GetMapping("/new-products")
-    @ApiOperation(value = "show all new products 12 records", response = ProductResponseModel.class)
+    @ApiOperation(value = "show all new arrival products 12 records", response = ProductResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getNewProducts() {
 
         BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
@@ -200,6 +208,59 @@ public class ProductRestController {
         return ResponseEntity.ok(response);
     }
 
+
+
+
+    /**
+     * Get new products for 12 records to show homepage
+     *
+     * @return - list of new products response
+     */
+    @GetMapping("/new-products-in-shop/{shopId}")
+    @ApiOperation(value = "show all new arrival products 8 records in shop", response = ProductResponseModel.class)
+    public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getNewProductsByShopId(@PathVariable("shopId") String shopId) {
+
+        BaseApiResponse<List<ProductResponseModel>> response = new BaseApiResponse<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<ProductResponseModel> productResponseModels = new ArrayList<>();
+
+        try{
+            ShopDto shopDto = shopServiceImp.findById(shopId);
+            List<ProductDto> productDtos = productServiceImp.getNewProductsByShopId(shopDto.getId());
+            for(ProductDto productDto : productDtos){
+                try {
+                    Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
+                    Object images = mapper.readValue(productDto.getImages().toString(), Object.class);
+                    productDto.setDetails(details);
+                    productDto.setImages(images);
+
+                    ModelMapper modelMapper = new ModelMapper();
+                    ProductResponseModel productResponseModel = modelMapper .map(productDto, ProductResponseModel.class);
+                    productResponseModels.add(productResponseModel);
+                }catch (JsonProcessingException e){
+                    e.printStackTrace();
+                }
+            }
+
+            if(!productDtos.isEmpty()){
+                response.setMessage(message.selected("Products"));
+                response.setData(productResponseModels);
+                response.setStatus(HttpStatus.FOUND);
+            }else {
+                response.setMessage(message.hasNoRecords("Products"));
+                response.setStatus(HttpStatus.NOT_FOUND);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 
 
 
@@ -366,7 +427,7 @@ public class ProductRestController {
      * @return - Return response message
      */
     @GetMapping("/products/{proId}")
-    @ApiOperation(value = "find a product by proid", response = ProductResponseModel.class)
+    @ApiOperation(value = "find a product by proId", response = ProductResponseModel.class)
     public ResponseEntity<BaseApiNoPaginationResponse<List<ProductResponseModel>>> findById(@PathVariable("proId") String proId){
         ModelMapper mapper = new ModelMapper();
         BaseApiNoPaginationResponse<List<ProductResponseModel>> response = new BaseApiNoPaginationResponse<>();

@@ -15,7 +15,8 @@ public class ShopProductResponse {
     private String cover;
     private boolean openStatus;
     private boolean status;
-    private Date workingTime;
+    private Date openTime;
+    private Date closeTime;
 
     private UserResponseModel user;
     private CategoryResponseModel category;
@@ -34,14 +35,16 @@ public class ShopProductResponse {
                 ", cover='" + cover + '\'' +
                 ", openStatus=" + openStatus +
                 ", status=" + status +
-                ", workingTime=" + workingTime +
+                ", openTime=" + openTime +
+                ", closeTime=" + closeTime +
                 ", user=" + user +
                 ", category=" + category +
                 ", promotionProductResponse=" + promotionProductResponse +
                 '}';
     }
 
-    public ShopProductResponse(String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, UserResponseModel user, CategoryResponseModel category, PromotionProductResponse promotionProductResponse) {
+
+    public ShopProductResponse(String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date openTime, Date closeTime, UserResponseModel user, CategoryResponseModel category, PromotionProductResponse promotionProductResponse) {
         this.shopId = shopId;
         this.name = name;
         this.address = address;
@@ -50,12 +53,12 @@ public class ShopProductResponse {
         this.cover = cover;
         this.openStatus = openStatus;
         this.status = status;
-        this.workingTime = workingTime;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
         this.user = user;
         this.category = category;
         this.promotionProductResponse = promotionProductResponse;
     }
-
 
     public String getShopId() {
         return shopId;
@@ -119,14 +122,6 @@ public class ShopProductResponse {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public Date getWorkingTime() {
-        return workingTime;
-    }
-
-    public void setWorkingTime(Date workingTime) {
-        this.workingTime = workingTime;
     }
 
     public UserResponseModel getUser() {

@@ -23,7 +23,8 @@ public interface SubResourceRepository {
     @Results({
             @Result(column = "shop_id", property = "shopId"),
             @Result(column = "is_open", property = "isOpen"),
-            @Result(column = "working_time", property = "workingTime"),
+            @Result(column = "open_time", property = "openTime"),
+            @Result(column = "close_time", property = "closeTime"),
           //  @Result(column = "u_id" ,property = "user.id",many = @Many(select = "selectOneUser")),
     })
     List<ShopDto> getAllShopsByUserId(int id);

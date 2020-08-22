@@ -10,25 +10,25 @@ public class ShopRequestModel {
     private String profile;
     private String cover;
     private boolean openStatus;
-    private Date workingTime;
     private int u_id;
     private int cat_id;
+    private Date openTime;
+    private Date closeTime;
 
     public ShopRequestModel() {}
 
-
-    public ShopRequestModel(String name, String address, String description, String profile, String cover, boolean openStatus, Date workingTime, int u_id, int cat_id) {
+    public ShopRequestModel(String name, String address, String description, String profile, String cover, boolean openStatus, int u_id, int cat_id, Date openTime, Date closeTime) {
         this.name = name;
         this.address = address;
         this.description = description;
         this.profile = profile;
         this.cover = cover;
         this.openStatus = openStatus;
-        this.workingTime = workingTime;
         this.u_id = u_id;
         this.cat_id = cat_id;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
     }
-
 
     @Override
     public String toString() {
@@ -39,12 +39,12 @@ public class ShopRequestModel {
                 ", profile='" + profile + '\'' +
                 ", cover='" + cover + '\'' +
                 ", openStatus=" + openStatus +
-                ", workingTime=" + workingTime +
                 ", u_id=" + u_id +
                 ", cat_id=" + cat_id +
+                ", openTime=" + openTime +
+                ", closeTime=" + closeTime +
                 '}';
     }
-
 
     public String getName() {
         return name;
@@ -94,14 +94,6 @@ public class ShopRequestModel {
         this.openStatus = openStatus;
     }
 
-    public Date getWorkingTime() {
-        return workingTime;
-    }
-
-    public void setWorkingTime(Date workingTime) {
-        this.workingTime = workingTime;
-    }
-
     public int getU_id() {
         return u_id;
     }
@@ -116,5 +108,21 @@ public class ShopRequestModel {
 
     public void setCat_id(int cat_id) {
         this.cat_id = cat_id;
+    }
+
+    public Date getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(Date openTime) {
+        this.openTime = openTime;
+    }
+
+    public Date getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(Date closeTime) {
+        this.closeTime = closeTime;
     }
 }

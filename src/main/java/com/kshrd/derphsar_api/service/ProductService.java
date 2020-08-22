@@ -34,6 +34,10 @@ public interface ProductService {
     //get new products
     List<ProductDto> getNewProducts();
 
+
+    //get new products
+    List<ProductDto> getNewProductsByShopId(int shopId);
+
     //get popular
     List<ProductDto> getPopularProducts();
 

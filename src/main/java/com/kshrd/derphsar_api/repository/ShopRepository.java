@@ -14,8 +14,8 @@ import java.util.List;
 public interface ShopRepository {
 
     //Insert a shop
-    @Insert("INSERT INTO dp_shops(shop_id, name, address, description, profile, cover, is_open, status, working_time, u_id, cat_id) "+
-            "VALUES (#{shopId}, #{name}, #{address}, #{description}, #{profile}, #{cover}, #{openStatus}, #{status}, #{workingTime}, #{u_id}, #{cat_id})")
+    @Insert("INSERT INTO dp_shops(shop_id, name, address, description, profile, cover, is_open, status, open_time, close_time, u_id, cat_id) "+
+            "VALUES (#{shopId}, #{name}, #{address}, #{description}, #{profile}, #{cover}, #{openStatus}, #{status}, #{openTime}, #{closeTime}, #{u_id}, #{cat_id})")
 
     boolean insert(ShopDto shop);
 
@@ -29,7 +29,8 @@ public interface ShopRepository {
                 @Result(column = "shop_id" ,property = "shopId"),
                 @Result(column = "is_open" ,property = "openStatus"),
                 @Result(column = "shopName" ,property = "name"),
-                @Result(column = "working_time" ,property = "workingTime"),
+                @Result(column = "open_time" ,property = "openTime"),
+                @Result(column = "close_time" ,property = "closeTime"),
                 @Result(column = "shopProfile" ,property = "profile"),
                 @Result(column = "shopStatus" ,property = "status"),
                 @Result(column = "is_open" ,property = "openStatus"),
@@ -68,7 +69,7 @@ public interface ShopRepository {
 
 
     //Update a shop
-    @Update("UPDATE dp_shops SET name = #{shop.name}, address = #{shop.address}, description= #{shop.description} , profile= #{shop.profile} , cover= #{shop.cover} , status = #{shop.status}, is_open = #{shop.openStatus}, working_time= #{shop.workingTime} WHERE shop_id = #{shop_id}")
+    @Update("UPDATE dp_shops SET name = #{shop.name}, address = #{shop.address}, description= #{shop.description} , profile= #{shop.profile} , cover= #{shop.cover} , status = #{shop.status}, is_open = #{shop.openStatus}, open_time= #{shop.openTime}, close_time = #{shop.closeTime} WHERE shop_id = #{shop_id}")
     boolean update(String shop_id, ShopDto shop);
 
 

@@ -39,7 +39,8 @@ public interface ProductRepository {
             @Result(column = "shop_id" ,property = "shopId"),
             @Result(column = "name" ,property = "name"),
             @Result(column = "address" ,property = "address"),
-            @Result(column = "working_time", property = "workingTime"),
+            @Result(column = "open_time", property = "openTime"),
+            @Result(column = "close_time", property = "closeTime"),
             @Result(column = "u_id", property = "user", many = @Many(select = "getUser")),
             @Result(column = "cat_id", property = "category", many = @Many(select = "getCategory")),
             //@Result(column = "promo_id", property = "promotion", many = @Many(select = "getPromotion"))
@@ -143,12 +144,21 @@ public interface ProductRepository {
 
 
     @Select("SELECT * FROM dp_products AS pro\n" +
-            "WHERE status = 'true' AND is_sold = TRUE\n" +
+            "WHERE status = 'true' AND is_sold = FALSE\n" +
             "ORDER BY pro.post_date DESC\n" +
             "LIMIT 12 ")
         @ResultMap("mapProduct")
     List<ProductDto> getNewProducts();
 
+
+    @Select("SELECT * \n" +
+            "FROM dp_products AS pro\n" +
+            "INNER JOIN dp_shops AS sh ON sh.id = pro.shop_id\n" +
+            "WHERE pro.status = 'true' AND pro.is_sold = FALSE AND pro.shop_id = #{shopId}\n" +
+            "ORDER BY pro.post_date DESC\n" +
+            "LIMIT 8 ")
+    @ResultMap("mapProduct")
+    List<ProductDto> getNewProductsByShopId(int shopId);
 
 
     @Select("SELECT * FROM dp_products AS pro\n" +

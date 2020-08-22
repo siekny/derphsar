@@ -14,9 +14,10 @@ public class ShopDto {
     private String cover;
     private boolean openStatus;
     private boolean status;
-    private Date workingTime;
     private int u_id;
     private int cat_id;
+    private Date openTime;
+    private Date closeTime;
 
     private UserDto user;
     private CategoryDto category;
@@ -27,7 +28,7 @@ public class ShopDto {
     public ShopDto() {
     }
 
-    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, int u_id, int cat_id, UserDto user, CategoryDto category, PromotionDto promotion) {
+    public ShopDto(int id, String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, int u_id, int cat_id, Date openTime, Date closeTime, UserDto user, CategoryDto category, PromotionDto promotion) {
         this.id = id;
         this.shopId = shopId;
         this.name = name;
@@ -37,9 +38,10 @@ public class ShopDto {
         this.cover = cover;
         this.openStatus = openStatus;
         this.status = status;
-        this.workingTime = workingTime;
         this.u_id = u_id;
         this.cat_id = cat_id;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
         this.user = user;
         this.category = category;
         this.promotion = promotion;
@@ -117,14 +119,6 @@ public class ShopDto {
         this.status = status;
     }
 
-    public Date getWorkingTime() {
-        return workingTime;
-    }
-
-    public void setWorkingTime(Date workingTime) {
-        this.workingTime = workingTime;
-    }
-
     public int getU_id() {
         return u_id;
     }
@@ -157,6 +151,32 @@ public class ShopDto {
         this.category = category;
     }
 
+
+    public PromotionDto getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(PromotionDto promotion) {
+        this.promotion = promotion;
+    }
+
+    public Date getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(Date openTime) {
+        this.openTime = openTime;
+    }
+
+    public Date getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(Date closeTime) {
+        this.closeTime = closeTime;
+    }
+
+
     @Override
     public String toString() {
         return "ShopDto{" +
@@ -169,21 +189,13 @@ public class ShopDto {
                 ", cover='" + cover + '\'' +
                 ", openStatus=" + openStatus +
                 ", status=" + status +
-                ", workingTime=" + workingTime +
                 ", u_id=" + u_id +
                 ", cat_id=" + cat_id +
+                ", openTime=" + openTime +
+                ", closeTime=" + closeTime +
                 ", user=" + user +
                 ", category=" + category +
                 ", promotion=" + promotion +
                 '}';
-    }
-
-
-    public PromotionDto getPromotion() {
-        return promotion;
-    }
-
-    public void setPromotion(PromotionDto promotion) {
-        this.promotion = promotion;
     }
 }

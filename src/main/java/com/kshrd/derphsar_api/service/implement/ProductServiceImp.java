@@ -87,6 +87,11 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    public List<ProductDto> getNewProductsByShopId(int shopId) {
+        return productRepository.getNewProductsByShopId(shopId);
+    }
+
+    @Override
     public List<ProductDto> getPopularProducts() {
         return productRepository.getPopularProducts();
     }

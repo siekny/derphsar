@@ -12,13 +12,14 @@ public class ShopCreateFirstResponse {
     private String cover;
     private boolean openStatus;
     private boolean status;
-    private Date workingTime;
     private int u_id;
     private int cat_id;
+    private Date openTime;
+    private Date closeTime;
 
     public ShopCreateFirstResponse(){}
 
-    public ShopCreateFirstResponse(String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, int u_id, int cat_id) {
+    public ShopCreateFirstResponse(String shopId, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, int u_id, int cat_id, Date openTime, Date closeTime) {
         this.shopId = shopId;
         this.name = name;
         this.address = address;
@@ -27,9 +28,10 @@ public class ShopCreateFirstResponse {
         this.cover = cover;
         this.openStatus = openStatus;
         this.status = status;
-        this.workingTime = workingTime;
         this.u_id = u_id;
         this.cat_id = cat_id;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
     }
 
     @Override
@@ -43,10 +45,28 @@ public class ShopCreateFirstResponse {
                 ", cover='" + cover + '\'' +
                 ", openStatus=" + openStatus +
                 ", status=" + status +
-                ", workingTime=" + workingTime +
                 ", u_id=" + u_id +
                 ", cat_id=" + cat_id +
+                ", openTime=" + openTime +
+                ", closeTime=" + closeTime +
                 '}';
+    }
+
+
+    public Date getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(Date openTime) {
+        this.openTime = openTime;
+    }
+
+    public Date getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(Date closeTime) {
+        this.closeTime = closeTime;
     }
 
     public String getShopId() {
@@ -111,14 +131,6 @@ public class ShopCreateFirstResponse {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public Date getWorkingTime() {
-        return workingTime;
-    }
-
-    public void setWorkingTime(Date workingTime) {
-        this.workingTime = workingTime;
     }
 
     public int getU_id() {

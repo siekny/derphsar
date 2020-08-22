@@ -11,13 +11,15 @@ public class ShopPromotionResponse {
     private String cover;
     private boolean openStatus;
     private boolean status;
-    private Date workingTime;
     private int cat_id;
     private int u_id;
+    private Date openTime;
+    private Date closeTime;
 
     public ShopPromotionResponse(){}
 
-    public ShopPromotionResponse(String shopid, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, Date workingTime, int cat_id, int u_id) {
+
+    public ShopPromotionResponse(String shopid, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, int cat_id, int u_id, Date openTime, Date closeTime) {
         this.shopid = shopid;
         this.name = name;
         this.address = address;
@@ -26,10 +28,12 @@ public class ShopPromotionResponse {
         this.cover = cover;
         this.openStatus = openStatus;
         this.status = status;
-        this.workingTime = workingTime;
         this.cat_id = cat_id;
         this.u_id = u_id;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
     }
+
 
     @Override
     public String toString() {
@@ -42,12 +46,12 @@ public class ShopPromotionResponse {
                 ", cover='" + cover + '\'' +
                 ", openStatus=" + openStatus +
                 ", status=" + status +
-                ", workingTime=" + workingTime +
                 ", cat_id=" + cat_id +
                 ", u_id=" + u_id +
+                ", openTime=" + openTime +
+                ", closeTime=" + closeTime +
                 '}';
     }
-
 
     public String getShopid() {
         return shopid;
@@ -114,14 +118,6 @@ public class ShopPromotionResponse {
         this.status = status;
     }
 
-    public Date getWorkingTime() {
-        return workingTime;
-    }
-
-    public void setWorkingTime(Date workingTime) {
-        this.workingTime = workingTime;
-    }
-
     public int getCat_id() {
         return cat_id;
     }
@@ -136,5 +132,22 @@ public class ShopPromotionResponse {
 
     public void setU_id(int u_id) {
         this.u_id = u_id;
+    }
+
+
+    public Date getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(Date openTime) {
+        this.openTime = openTime;
+    }
+
+    public Date getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(Date closeTime) {
+        this.closeTime = closeTime;
     }
 }
