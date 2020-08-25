@@ -4,6 +4,7 @@ package com.kshrd.derphsar_api;
 import com.google.common.collect.Lists;
 import com.kshrd.derphsar_api.service.implement.FilesStorageServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +30,7 @@ import java.time.format.DateTimeFormatter;
 
 @SpringBootApplication
 //@ComponentScan("com.kshrd.*")
-public class DerphsarApiApplication {
+public class DerphsarApiApplication implements CommandLineRunner {
 
 	@Autowired
 	FilesStorageServiceImp filesStorageServiceImp;
@@ -44,5 +45,10 @@ public class DerphsarApiApplication {
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+
 	}
 }

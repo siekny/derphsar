@@ -110,7 +110,7 @@ public interface ProductRepository {
 
     //Search product by shop
     @Select("SELECT * FROM dp_products WHERE shop_id=#{shopId} AND status = 'true' LIMIT #{pagination.limit}  OFFSET #{pagination.offset}")
-    @Results({
+    @Results(id = "productMap", value = {
             @Result(column = "pro_id" ,property = "proId"),
             @Result(column = "is_sold" ,property = "soldStatus"),
             @Result(column = "view_count" ,property = "viewCount"),
@@ -133,7 +133,19 @@ public interface ProductRepository {
 
 
     //find product by id
-    @Select("SELECT * FROM dp_products WHERE pro_id = #{proId}")
+    @Select("SELECT * FROM dp_products WHERE pro_id = #{proId} AND status = 'true'")
+    @Results({
+            @Result(column = "pro_id" ,property = "proId"),
+            @Result(column = "is_sold" ,property = "soldStatus"),
+            @Result(column = "view_count" ,property = "viewCount"),
+            @Result(column = "post_date", property = "postDate"),
+            @Result(column = "discount", property = "discount"),
+            @Result(column = "details" ,property = "details", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
+            @Result(column = "images" ,property = "images", jdbcType = JdbcType.OTHER, typeHandler = JSONTypeHandlerPg.class),
+            @Result(column = "shop_id", property = "shop", many = @Many(select = "getShop")),
+            @Result(column = "promo_id", property = "promotion", many = @Many(select = "getPromotion"))
+
+    })
     ProductDto findById(String proId);
 
 

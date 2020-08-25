@@ -54,16 +54,6 @@ public class UserServiceImp implements UserService {
         UUID uuid = UUID.randomUUID();
         orderDto.setOrderId("DP"+uuid.toString().substring(0,10));
 
-        //boolean isInsertUser = userRepository.insertUser(userDto);
-
-//        List<UserResponseModel> userDtoList = userRepository.getAllUsers();
-//        for(UserResponseModel temp : userDtoList){
-//            if(userDto.getEmail().equals(temp.getEmail())){
-//                response.setMessage(message.inserted("Faile"));
-//            }
-//        }
-//
-
         userRepository.insertUser(userDto);
         userRepository.insertUserRole(userDto);
         //userRepository.insertOrder(orderDto.getOrderId(), userDto);

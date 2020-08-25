@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class FileUploadConfiguration implements WebMvcConfigurer {
-
     private String client;
     private String server;
 
@@ -23,6 +22,9 @@ public class FileUploadConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(client).addResourceLocations("file:" + server);
+//        registry.addResourceHandler(client).addResourceLocations("file:" + server);
+        registry.addResourceHandler(client)
+                .addResourceLocations("file:image/");
     }
 }
+

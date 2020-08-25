@@ -155,7 +155,47 @@ public class ProductRestController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Get a product
+     *
+     * @param proId - UUID of a product
+     * @return - Return response message
+     */
+    @GetMapping("/products/{proId}")
+    @ApiOperation(value = "find a product by proId", response = ProductResponseModel.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<List<ProductResponseModel>>> findById(@PathVariable("proId") String proId){
 
+        BaseApiNoPaginationResponse<List<ProductResponseModel>> response = new BaseApiNoPaginationResponse<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDto productDto = productServiceImp.findById(proId);
+        List<ProductResponseModel> products = new ArrayList<>();
+
+
+        try {
+            Object details = objectMapper.readValue(productDto.getDetails().toString(), Object.class);
+            Object images = objectMapper.readValue(productDto.getImages().toString(), Object.class);
+            productDto.setDetails(details);
+            productDto.setImages(images);
+
+            ModelMapper modelMapper = new ModelMapper();
+            ProductResponseModel productResponseModel = modelMapper .map(productDto, ProductResponseModel.class);
+            products.add(productResponseModel);
+
+            if(productDto != null){
+                response.setData(products);
+                response.setMessage(message.selected("Products"));
+                response.setStatus(HttpStatus.OK);
+            }else {
+                response.setMessage(message.hasNoRecord("Products"));
+                response.setStatus(HttpStatus.BAD_REQUEST);
+            }
+        }catch (JsonProcessingException e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
 
 
     /**
@@ -480,33 +520,7 @@ public class ProductRestController {
 
 
 
-    /**
-     * Get a product
-     *
-     * @param proId - UUID of a product
-     * @return - Return response message
-     */
-    @GetMapping("/products/{proId}")
-    @ApiOperation(value = "find a product by proId", response = ProductResponseModel.class)
-    public ResponseEntity<BaseApiNoPaginationResponse<List<ProductResponseModel>>> findById(@PathVariable("proId") String proId){
-        ModelMapper mapper = new ModelMapper();
-        BaseApiNoPaginationResponse<List<ProductResponseModel>> response = new BaseApiNoPaginationResponse<>();
-        List<ProductResponseModel> products = new ArrayList<>();
 
-        try {
-            ProductDto productDto = productServiceImp.findById(proId);
-            products.add(mapper.map(productDto, ProductResponseModel.class));
-
-            response.setMessage(message.selectedOne("Product"));
-            response.setData(products);
-            response.setStatus(HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        response.setTime(new Timestamp(System.currentTimeMillis()));
-        return ResponseEntity.ok(response);
-    }
 
 
 
