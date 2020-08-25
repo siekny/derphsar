@@ -23,7 +23,9 @@ public interface UserService extends UserDetailsService {
 
     UserDto updateUserById(String userId, UserDto userDto);
 
-    List<UserDto> getAllCustomersByShopIdOrRoleName (int shopId, String roleName, Pagination pagination);
+    List<UserDto> getAllCustomersByRoleName (String roleName, Pagination pagination);
+
+    List<UserDto> getAllCustomersByShopId(int shopId, Pagination pagination);
 
     int countId();
 

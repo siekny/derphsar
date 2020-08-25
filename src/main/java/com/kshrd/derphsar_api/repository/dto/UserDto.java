@@ -19,10 +19,10 @@ public class UserDto implements UserDetails {
     private boolean status;
     private String profile;
     private RoleDto role;
-
+    private OrderDto order;
     public UserDto(){}
 
-    public UserDto(int id, String userId, String name, String gender, int age, String phone, String email, String password, boolean status, String profile, RoleDto role) {
+    public UserDto(int id, String userId, String name, String gender, int age, String phone, String email, String password, boolean status, String profile, RoleDto role, OrderDto order) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -34,7 +34,9 @@ public class UserDto implements UserDetails {
         this.status = status;
         this.profile = profile;
         this.role = role;
+        this.order = order;
     }
+
 
     @Override
     public String toString() {
@@ -50,9 +52,18 @@ public class UserDto implements UserDetails {
                 ", status=" + status +
                 ", profile='" + profile + '\'' +
                 ", role=" + role +
+                ", order=" + order +
                 '}';
     }
 
+
+    public OrderDto getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderDto order) {
+        this.order = order;
+    }
 
     public int getId() {
         return id;

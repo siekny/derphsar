@@ -87,7 +87,8 @@ public class UserRestController {
                 userDto.setStatus(true);
 
                 UserDto result = userServiceImp.insertUser(userDto);
-                UserResponseModel result2 = mapper.map(result, UserResponseModel.class);
+                UserResponseModel lastResponse = userServiceImp.getOneUserById(result.getUserId());
+                UserResponseModel result2 = mapper.map(lastResponse, UserResponseModel.class);
                 response.setMessage(message.inserted("User"));
                 response.setData(result2);
                 response.setStatus(HttpStatus.OK);
@@ -168,14 +169,14 @@ public class UserRestController {
 
 
     /**
-     * Get all Customer by shop id
+     * Get all Customer by role buyer
      *
      * @return - list of customers response
      */
     @GetMapping("/customers")
-    @ApiOperation(value = "show all customers by shopId or roleName", response = UserByShopResponse.class)
+    @ApiOperation(value = "show all customers by roleName", response = UserByShopResponse.class)
     public ResponseEntity<BaseApiResponse<List<UserByShopResponse>>> getAllCustomersByShopIdOrRoleName(
-            @RequestParam(value="shopId",required = false,defaultValue = "0") String shopId,
+            //@RequestParam(value="shopId",required = false,defaultValue = "0") String shopId,
             @RequestParam(value="roleName",required = false,defaultValue = " ") String roleName,
             @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
             @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
@@ -198,8 +199,8 @@ public class UserRestController {
         List<UserByShopResponse> userResponseModelist = new ArrayList<>();
 
         try{
-            ShopDto shopDto = shopServiceImp.findById(shopId);
-            List<UserDto> userDtos = userServiceImp.getAllCustomersByShopIdOrRoleName(shopDto.getId(),roleName,pagination);
+//            ShopDto shopDto = shopServiceImp.findById(shopId);
+            List<UserDto> userDtos = userServiceImp.getAllCustomersByRoleName(roleName,pagination);
             for(UserDto userDto : userDtos){
                 userResponseModelist.add(mapper.map(userDto, UserByShopResponse.class));
             }
@@ -220,6 +221,61 @@ public class UserRestController {
 
         return ResponseEntity.ok(response);
     }
+
+
+    /**
+     * Get all Customer by shop id
+     *
+     * @return - list of customers response
+     */
+    @GetMapping("/customers-in-shop")
+    @ApiOperation(value = "show all customers by shopId", response = UserByShopResponse.class)
+    public ResponseEntity<BaseApiResponse<List<UserByShopResponse>>> getAllCustomersByShopId(
+            @RequestParam(value="shopId",required = false,defaultValue = "0") String shopId,
+            @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+            @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+            @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+            @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+
+
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+        pagination.setTotalCount(userServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
+
+
+        BaseApiResponse<List<UserByShopResponse>> response = new BaseApiResponse<>();
+        ModelMapper mapper = new ModelMapper();
+        List<UserByShopResponse> userResponseModelist = new ArrayList<>();
+
+        try{
+            ShopDto shopDto = shopServiceImp.findById(shopId);
+            List<UserDto> userDtos = userServiceImp.getAllCustomersByShopId(shopDto.getId(),pagination);
+            for(UserDto userDto : userDtos){
+                userResponseModelist.add(mapper.map(userDto, UserByShopResponse.class));
+            }
+
+            if(!userDtos.isEmpty()){
+                response.setMessage(message.selected("Users"));
+                response.setData(userResponseModelist);
+                response.setStatus(HttpStatus.FOUND);
+            }else {
+                response.setMessage(message.hasNoRecord("User"));
+                response.setStatus(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        response.setPagination(pagination);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+
+        return ResponseEntity.ok(response);
+    }
+
 
 
     /**

@@ -7,6 +7,7 @@ import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.UserRoleDto;
 import com.kshrd.derphsar_api.repository.provider.UserProvider;
+import com.kshrd.derphsar_api.rest.order.response.OrderUserResponse;
 import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
@@ -40,14 +41,26 @@ public interface UserRepository {
 
 
     @InsertProvider(type = UserProvider.class, method = "insertOrder")
-    boolean insertOrder(String orderId, UserDto user);
+    boolean insertOrder(String orderId,@Param("user") UserDto user);
+
+
+
+    @Select("SELECT * FROM dp_order WHERE user_id = #{userId}")
+        @Results({
+                @Result(column = "order_id", property = "orderId"),
+                @Result(column = "user_id", property = "userId")
+        })
+    List<OrderUserResponse> getOrderByUserId(int userId);
+
 
 
     @SelectProvider(type = UserProvider.class, method = "getAllUsers")
     @Results({
-            @Result(property = "userId", column = "user_id")
+            @Result(property = "userId", column = "user_id"),
+            //@Result(column = "id", property = "order", many = @Many(select = "getOrderByUserId")),
     })
     List<UserResponseModel> getAllUsers();
+
 
 
     @Select("SELECT r.id, r.name, r.role_id FROM dp_role r INNER JOIN dp_user_role ur ON r.id = ur.role_id" +

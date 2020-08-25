@@ -36,7 +36,7 @@ public class UserProvider {
     public String insertOrder(String orderId, UserDto user){
         return new SQL(){{
             INSERT_INTO("dp_order");
-            VALUES("order_id, user_id","#{orderId}, null");
+            VALUES("order_id, user_id","#{orderId}, (SELECT id FROM dp_users WHERE email LIKE #{user.email})");
         }}.toString();
     }
 

@@ -7,6 +7,7 @@ import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.dto.UserRoleDto;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
+import com.kshrd.derphsar_api.rest.order.response.OrderUserResponse;
 import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
 import com.kshrd.derphsar_api.rest.user.request.UserRequestModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
@@ -56,27 +57,41 @@ public class UserServiceImp implements UserService {
 
         userRepository.insertUser(userDto);
         userRepository.insertUserRole(userDto);
-        //userRepository.insertOrder(orderDto.getOrderId(), userDto);
+        userRepository.insertOrder(orderDto.getOrderId(), userDto);
         return userDto;
     }
 
     @Override
     public List<UserResponseModel> getAllUsers() {
         List<UserResponseModel> list = userRepository.getAllUsers();
+
+        List<OrderUserResponse> orderUserResponseList;
         List<RoleResponse> roleResponse;
         for(int i=0 ;i<list.size(); i++){
             roleResponse = userRepository.role(list.get(i).getId());
             list.get(i).setRole(roleResponse);
+
+            orderUserResponseList = userRepository.getOrderByUserId(list.get(i).getId());
+            list.get(i).setOrder(orderUserResponseList);
         }
+
+
+
         return list;
     }
 
     @Override
     public UserResponseModel getOneUserById(String userId) {
         UserResponseModel userResponseModel = userRepository.getOneUserById(userId);
+
         List<RoleResponse> roleResponses;
         roleResponses = userRepository.role(userResponseModel.getId());
         userResponseModel.setRole(roleResponses);
+
+        List<OrderUserResponse> orderUserResponse;
+        orderUserResponse = userRepository.getOrderByUserId(userResponseModel.getId());
+        userResponseModel.setOrder(orderUserResponse);
+
         return userResponseModel;
     }
 
@@ -95,12 +110,18 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllCustomersByShopIdOrRoleName(int shopId, String roleName, Pagination pagination) {
+    public List<UserDto> getAllCustomersByRoleName(String roleName, Pagination pagination) {
 //            if(shopId != 0 && !roleName.isEmpty())
 //                return null;
-           if(shopId == 0)
+//           if(shopId == 0)
                 return userRepository.getAllCustomersByRoleName(roleName,pagination);
-           else
+//           else
+//                return userRepository.getAllCustomersByShopId(shopId);
+
+    }
+
+    @Override
+    public List<UserDto> getAllCustomersByShopId(int shopId, Pagination pagination) {
                 return userRepository.getAllCustomersByShopId(shopId);
 
     }

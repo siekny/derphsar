@@ -2,6 +2,7 @@ package com.kshrd.derphsar_api.rest.user.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kshrd.derphsar_api.repository.dto.RoleDto;
+import com.kshrd.derphsar_api.rest.order.response.OrderUserResponse;
 import com.kshrd.derphsar_api.rest.role.response.RoleResponse;
 
 import java.util.List;
@@ -21,10 +22,12 @@ public class UserResponseModel {
     private String profile;
     //@JsonIgnore
     private List<RoleResponse> role;
+    private List<OrderUserResponse> order;
 
     public  UserResponseModel(){}
 
-    public UserResponseModel(int id, String userId, String name, String gender, int age, String phone, String email, String password, boolean status, String profile, List<RoleResponse> role) {
+
+    public UserResponseModel(int id, String userId, String name, String gender, int age, String phone, String email, String password, boolean status, String profile, List<RoleResponse> role, List<OrderUserResponse> order) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -36,7 +39,9 @@ public class UserResponseModel {
         this.status = status;
         this.profile = profile;
         this.role = role;
+        this.order = order;
     }
+
 
     @Override
     public String toString() {
@@ -52,7 +57,16 @@ public class UserResponseModel {
                 ", status=" + status +
                 ", profile='" + profile + '\'' +
                 ", role=" + role +
+                ", order=" + order +
                 '}';
+    }
+
+    public List<OrderUserResponse> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<OrderUserResponse> order) {
+        this.order = order;
     }
 
     public int getId() {

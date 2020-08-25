@@ -128,7 +128,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
-//@CrossOrigin("http://localhost:8080")
+@CrossOrigin("http://34.66.220.125:1500")
 public class FilesRestController {
     @Value(value = "${file.upload.server.path}/")
     private String serverPath;
@@ -176,10 +176,12 @@ public class FilesRestController {
     public ResponseEntity<BaseApiResponse<ArrayList<String>>> getAllFiles() {
         try{
             BaseApiResponse<ArrayList<String>> baseApiResponse = new BaseApiResponse<>();
-            Set<String> fileNames = storageService.listFilesUsingJavaIO("D:\\meeting31\\API\\derphsar-api-v6\\derphsar-api-v1\\src\\main\\resources\\files");
+           // Set<String> fileNames = storageService.listFilesUsingJavaIO("D:\\meeting31\\API\\derphsar-api-v6\\derphsar-api-v1\\src\\main\\resources\\files");
+            Set<String> fileNames = storageService.listFilesUsingJavaIO(serverPath);
+
             ArrayList<String> nameWithAddress= new ArrayList<>();
             for(String string : fileNames){
-                nameWithAddress.add("http://localhost:8080/image/"+string);
+                nameWithAddress.add("http://34.66.220.125:1500//image/"+string);
             }
             baseApiResponse.setData(nameWithAddress);
             baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
@@ -198,11 +200,13 @@ public class FilesRestController {
     public ResponseEntity<BaseApiResponse<String>> getFileByName(@PathVariable String filename) {
         try{
             BaseApiResponse<String> baseApiResponse = new BaseApiResponse<>();
-            Set<String> fileNames = storageService.listFilesUsingJavaIO("D:\\meeting31\\API\\derphsar-api-v6\\derphsar-api-v1\\src\\main\\resources\\files");
+            //Set<String> fileNames = storageService.listFilesUsingJavaIO("D:\\meeting31\\API\\derphsar-api-v6\\derphsar-api-v1\\src\\main\\resources\\files");
+
+            Set<String> fileNames = storageService.listFilesUsingJavaIO(serverPath);
             String nameWithAddress = "";
             for(String string : fileNames){
                 if(string.equals(filename))
-                    nameWithAddress = "http://localhost:8080/image/"+string;
+                    nameWithAddress = "http://34.66.220.125:1500//image/"+string;
             }
             baseApiResponse.setData(nameWithAddress);
             baseApiResponse.setTime(new Timestamp(System.currentTimeMillis()));
