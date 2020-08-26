@@ -44,7 +44,7 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                     .antMatchers("/api/v1/login").permitAll()
-                    .antMatchers(HttpMethod.GET,"/image/**").permitAll()
+                    .antMatchers("/images/**").permitAll()
                     .antMatchers(HttpMethod.POST,"/api/v1/register").permitAll()
                     .antMatchers(HttpMethod.GET,"/api/v1/categories").permitAll()
                     .antMatchers(HttpMethod.GET,"/api/v1/products").permitAll()
@@ -69,8 +69,10 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs",
+        web.ignoring()
+                .antMatchers("/v2/api-docs",
                 "/configuration/ui",
+                "/images/**",
                 "/swagger-resources/**",
                 "/configuration/security",
                 "/swagger-ui.html",

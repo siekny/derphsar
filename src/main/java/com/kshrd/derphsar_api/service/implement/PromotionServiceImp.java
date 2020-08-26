@@ -20,12 +20,18 @@ public class PromotionServiceImp implements PromotionService {
 
     //select all promotions
     @Override
-    public List<PromotionDto> getPromotions(int shopId) {
-        if (shopId == 0)
+    public List<PromotionDto> getPromotions() {
+//        if (shopId == 0)
             return promotionRepository.getPromotions();
-        else
-            return promotionRepository.findPromotionByShopId(shopId);
+//        else
+//            return promotionRepository.findPromotionByShopId(shopId);
     }
+
+    @Override
+    public List<PromotionDto> getPromotionsByShopId(int shopId) {
+        return promotionRepository.findPromotionByShopId(shopId);
+    }
+
 
     //delete a promotion
     @Override

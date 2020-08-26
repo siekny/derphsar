@@ -7,8 +7,11 @@ import java.util.List;
 public interface PromotionService {
 
     //get all promotion
-    List<PromotionDto> getPromotions(int shopId);
+    List<PromotionDto> getPromotions();
 
+
+    //get all promotion by shopId
+    List<PromotionDto> getPromotionsByShopId(int shopId);
 
     //delete a promotion
     void deletePromotion(String id);

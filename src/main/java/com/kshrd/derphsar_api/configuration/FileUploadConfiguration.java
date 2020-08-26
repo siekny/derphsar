@@ -22,9 +22,7 @@ public class FileUploadConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler(client).addResourceLocations("file:" + server);
-        registry.addResourceHandler(client)
-                .addResourceLocations("file:image/");
+        registry.addResourceHandler(client).addResourceLocations("file:" + server);
     }
 }
 

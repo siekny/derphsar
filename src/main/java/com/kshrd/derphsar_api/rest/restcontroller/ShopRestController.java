@@ -76,7 +76,7 @@ public class ShopRestController {
                 response.setMessage(message.insertError("Shop"));
                 response.setStatus(HttpStatus.BAD_REQUEST);
         }
-        response.setTime(new Timestamp(System.currentTimeMillis()));
+
         return ResponseEntity.ok(response);
     }
 

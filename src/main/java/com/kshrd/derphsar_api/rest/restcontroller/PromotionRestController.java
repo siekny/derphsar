@@ -58,23 +58,61 @@ public class PromotionRestController {
 
 
     /**
+     * Get all promotions
+     *
+     * @return - Return response message
+     */
+    @GetMapping("/promotions")
+    @ApiOperation(value = "show all promotions", response = PromotionResponseModel.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<List<PromotionResponseModel>>> getPromotions() {
+
+        ModelMapper mapper = new ModelMapper();
+        BaseApiNoPaginationResponse<List<PromotionResponseModel>> response = new BaseApiNoPaginationResponse<>();
+        List<PromotionResponseModel> promotions = new ArrayList<>();
+
+        try {
+            List<PromotionDto> promotion = promotionServiceImp.getPromotions();
+            for (PromotionDto promotionDto : promotion) {
+                promotions.add(mapper.map(promotionDto, PromotionResponseModel.class));
+            }
+
+
+            if (!promotion.isEmpty()) {
+                response.setMessage(message.selected("Promotions"));
+                response.setData(promotions);
+                response.setStatus(HttpStatus.FOUND);
+            }else {
+                response.setMessage(message.hasNoRecords("Promotions"));
+                response.setStatus(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
+
+
+
+    /**
      * Get promotions
      *
      * @param shopId - Id of a shop
      * @return - Return response message
      */
-    @GetMapping("/promotions")
-    @ApiOperation(value = "show all promotions or by a shop id", response = PromotionResponseModel.class)
-    public ResponseEntity<BaseApiResponse<List<PromotionResponseModel>>> getPromotions(
-            @RequestParam(value="shopId",required = false,defaultValue = "0") String shopId) {
+    @GetMapping("/promotions-in-shop")
+    @ApiOperation(value = "show all promotions by a shop id", response = PromotionResponseModel.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<List<PromotionResponseModel>>> getPromotions(
+            @RequestParam(value="shopId",required = false,defaultValue = "") String shopId) {
 
         ModelMapper mapper = new ModelMapper();
-        BaseApiResponse<List<PromotionResponseModel>> response = new BaseApiResponse<>();
+        BaseApiNoPaginationResponse<List<PromotionResponseModel>> response = new BaseApiNoPaginationResponse<>();
         List<PromotionResponseModel> promotions = new ArrayList<>();
 
         try {
             ShopDto shopDto = shopServiceImp.findById(shopId);
-            List<PromotionDto> promotion = promotionServiceImp.getPromotions(shopDto.getId());
+            List<PromotionDto> promotion = promotionServiceImp.getPromotionsByShopId(shopDto.getId());
             for (PromotionDto promotionDto : promotion) {
                 promotions.add(mapper.map(promotionDto, PromotionResponseModel.class));
             }
