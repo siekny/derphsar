@@ -17,6 +17,7 @@ public interface CategoryRepository {
     //select all categories
     @SelectProvider(type = CategoryProvider.class, method = "select")
     @Results({
+            @Result(column = "id", property ="id"),
             @Result(column = "cat_id" ,property = "catId"),
             @Result(column = "name" ,property = "name")
     })
