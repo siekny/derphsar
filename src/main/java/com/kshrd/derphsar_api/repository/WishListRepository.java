@@ -96,7 +96,7 @@ public interface WishListRepository {
             @Result(property = "product.name", column = "proName"),
             @Result(property = "product.proId", column = "pro_id"),
             @Result(property = "product.price", column = "price"),
-            //@Result(property = "product.image", column = "images"),
+            @Result(property = "product.images", column = "images"),
 
             @Result(property = "product.shop.shopId", column = "shop_id"),
             @Result(property = "product.shop.name", column = "shopName"),

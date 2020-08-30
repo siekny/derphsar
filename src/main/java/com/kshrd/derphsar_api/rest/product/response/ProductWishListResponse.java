@@ -6,7 +6,7 @@ import com.kshrd.derphsar_api.rest.shop.response.ShopWishListResponse;
 public class ProductWishListResponse {
     private String proId;
     private String name;
-    private Object image;
+    private Object images;
     private Double price;
 
     private ShopWishListResponse shop;
@@ -15,10 +15,10 @@ public class ProductWishListResponse {
 
     }
 
-    public ProductWishListResponse(String proId, String name, Object image, Double price, ShopWishListResponse shop) {
+    public ProductWishListResponse(String proId, String name, Object images, Double price, ShopWishListResponse shop) {
         this.proId = proId;
         this.name = name;
-        this.image = image;
+        this.images = images;
         this.price = price;
         this.shop = shop;
     }
@@ -28,7 +28,7 @@ public class ProductWishListResponse {
         return "ProductWishListResponse{" +
                 "proId='" + proId + '\'' +
                 ", name='" + name + '\'' +
-                ", image=" + image +
+                ", images=" + images +
                 ", price=" + price +
                 ", shop=" + shop +
                 '}';
@@ -51,12 +51,12 @@ public class ProductWishListResponse {
         this.name = name;
     }
 
-    public Object getImage() {
-        return image;
+    public Object getImages() {
+        return images;
     }
 
-    public void setImage(Object image) {
-        this.image = image;
+    public void setImages(Object images) {
+        this.images = images;
     }
 
     public Double getPrice() {

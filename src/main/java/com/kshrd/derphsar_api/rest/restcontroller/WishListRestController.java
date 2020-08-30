@@ -1,6 +1,9 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kshrd.derphsar_api.page.Pagination;
+import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.repository.dto.WishListDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
@@ -138,16 +141,16 @@ public class WishListRestController {
     /**
      * Delete a wishlist
      *
-     * @param wishlist_id - Id of a wishlist
+     * @param wishlistId - Id of a wishlist
      * @return - Return response message
      */
-    @DeleteMapping("/wishlists/{wishlist_id}")
+    @DeleteMapping("/wishlists/{wishlistId}")
     @ApiOperation(value = "delete a wishlist", response = Void.class)
-    public ResponseEntity<BaseApiNoPaginationResponse<Void>> deleteWishList(@PathVariable("wishlist_id") String wishlist_id) {
+    public ResponseEntity<BaseApiNoPaginationResponse<Void>> deleteWishList(@PathVariable("wishlistId") String wishlistId) {
         BaseApiNoPaginationResponse<Void> response = new BaseApiNoPaginationResponse<>();
 
         try {
-            wishListServiceImp.deleteWishList(wishlist_id);
+            wishListServiceImp.deleteWishList(wishlistId);
             response.setMessage(message.deleted("Wishlist"));
             response.setStatus(HttpStatus.OK);
         }catch (Exception e){
@@ -191,9 +194,12 @@ public class WishListRestController {
         try {
             UserResponseModel userDto = userServiceImp.getOneUserById(userId);
             List<WishListDto> wishList = wishListServiceImp.getAllWishListByUserId(userDto.getId(),pagination);
+
             for (WishListDto wishListDto : wishList) {
-                WishListResponse wishListResponse = mapper.map(wishListDto, WishListResponse.class);
-                wishListResponses.add(wishListResponse);
+
+                    WishListResponse wishListResponse = mapper.map(wishListDto, WishListResponse.class);
+                    wishListResponses.add(wishListResponse);
+
             }
 
             if (!wishList.isEmpty()) {

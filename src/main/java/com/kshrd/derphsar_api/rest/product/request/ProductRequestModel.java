@@ -3,60 +3,85 @@ package com.kshrd.derphsar_api.rest.product.request;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 
+import java.sql.Date;
+
 public class ProductRequestModel {
 
-    @JsonIgnore
-    private String proId;
     private String name;
     private Double price;
     private String description;
-    @JsonIgnore
     private boolean status;
     private boolean isSold;
     private int viewCount;
+    private Double discount;
+    private Date postDate;
 
     private Object images;
     private Object details;
 
-    private ShopDto shop;
+    private int shop_id;
+    private int promo_id;
 
     public ProductRequestModel(){}
 
-    public ProductRequestModel(String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Object images, Object details, ShopDto shop) {
-        this.proId = proId;
+
+    public ProductRequestModel(String name, Double price, String description, boolean status, boolean isSold, int viewCount, Double discount, Date postDate, Object images, Object details, int shop_id, int promo_id) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.status = status;
         this.isSold = isSold;
         this.viewCount = viewCount;
+        this.discount = discount;
+        this.postDate = postDate;
         this.images = images;
         this.details = details;
-        this.shop = shop;
+        this.shop_id = shop_id;
+        this.promo_id= promo_id;
     }
+
 
     @Override
     public String toString() {
         return "ProductRequestModel{" +
-                "proId='" + proId + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", isSold=" + isSold +
                 ", viewCount=" + viewCount +
+                ", discount=" + discount +
+                ", postDate=" + postDate +
                 ", images=" + images +
                 ", details=" + details +
-                ", shop=" + shop +
+                ", shop_id=" + shop_id +
+                ", promo_id=" + promo_id +
                 '}';
     }
 
-    public String getProId() {
-        return proId;
+
+    public int getPromo_id() {
+        return promo_id;
     }
 
-    public void setProId(String proId) {
-        this.proId = proId;
+    public void setPromo_id(int promo_id) {
+        this.promo_id = promo_id;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public Date getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Date postDate) {
+        this.postDate = postDate;
     }
 
     public String getName() {
@@ -123,11 +148,11 @@ public class ProductRequestModel {
         this.details = details;
     }
 
-    public ShopDto getShop() {
-        return shop;
+    public int getShop_id() {
+        return shop_id;
     }
 
-    public void setShop(ShopDto shop) {
-        this.shop = shop;
+    public void setShop_id(int shop_id) {
+        this.shop_id = shop_id;
     }
 }

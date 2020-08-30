@@ -1,6 +1,8 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kshrd.derphsar_api.repository.dto.FileInfo;
+import com.kshrd.derphsar_api.repository.dto.ImageDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.image.response.ImageResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
@@ -187,6 +189,44 @@ public class FilesRestController {
         }
     }
 
+
+
+
+//    @RequestMapping(value = "/uploads", method = RequestMethod.POST)
+//    @ResponseBody
+//    @ApiOperation(value = "upload images")
+//    public ResponseEntity<BaseApiNoPaginationResponse<List<ImageResponse>>> uploadFile(@RequestParam("files") MultipartFile[] files) {
+//
+//        ModelMapper mapper = new ModelMapper();
+//        BaseApiNoPaginationResponse<List<ImageResponse>> response = new BaseApiNoPaginationResponse<>();
+//        List<ImageResponse> imageResponses = new ArrayList<>();
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        try {
+//            for(MultipartFile file : files)
+//            {
+////                ImageDto imageDto = new ImageDto();
+////                Object images = ObjectMapper.readValue(imageDto.getImageUrl(), Object.class);
+////                imageDto.setImages(images);
+//
+//
+//                Object a = storageService.save(file);
+//                imageResponses.add(mapper.map(a, ImageResponse.class));
+//                response.setMessage(message.inserted("Images"));
+//                response.setStatus(HttpStatus.OK);
+//                response.setData(imageResponses);
+//                System.out.println(imageResponses);
+//                response.setTime(new Timestamp(System.currentTimeMillis()));
+//            }
+//            return ResponseEntity.ok(response);
+//        } catch (Exception e) {
+//            response.setMessage(message.insertError("Images"));
+//            response.setStatus(HttpStatus.BAD_REQUEST);
+//            response.setTime(new Timestamp(System.currentTimeMillis()));
+//            return ResponseEntity.ok(response);
+//        }
+//    }
 
 
     @GetMapping("/files")

@@ -8,6 +8,7 @@ import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.product.request.ProductRequestModel;
+import com.kshrd.derphsar_api.rest.product.response.ProductCreateFirstResponse;
 import com.kshrd.derphsar_api.rest.product.response.ProductsOfAUserResponse;
 import com.kshrd.derphsar_api.rest.product.response.ProductResponseModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
@@ -66,11 +67,11 @@ public class ProductRestController {
      * @return - Return response message
      */
     @PostMapping("/products")
-    @ApiOperation(value = "post product to shop", response = ProductResponseModel.class)
-    public ResponseEntity<BaseApiResponse<ProductResponseModel>> createProduct(
+    @ApiOperation(value = "post product to shop", response = ProductCreateFirstResponse.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<ProductCreateFirstResponse>> createProduct(
             @RequestBody ProductRequestModel productRequestModel) {
 
-        BaseApiResponse<ProductResponseModel> response = new BaseApiResponse<>();
+        BaseApiNoPaginationResponse<ProductCreateFirstResponse> response = new BaseApiNoPaginationResponse<>();
         ModelMapper mapper = new ModelMapper();
 
         ProductDto productDto = mapper.map(productRequestModel, ProductDto.class);
@@ -80,7 +81,7 @@ public class ProductRestController {
         productDto.setStatus(true);
 
         ProductDto result = productServiceImp.insert(productDto);
-        ProductResponseModel responseModel = mapper.map(result, ProductResponseModel.class);
+        ProductCreateFirstResponse responseModel = mapper.map(result, ProductCreateFirstResponse.class);
         response.setMessage(message.inserted("Product"));
         response.setData(responseModel);
         response.setStatus(HttpStatus.OK);
@@ -145,10 +146,11 @@ public class ProductRestController {
                     response.setMessage(message.hasNoRecord("Products"));
                     response.setStatus(HttpStatus.BAD_REQUEST);
                 }
-            }catch (JsonProcessingException e){
-                e.printStackTrace();
+                }catch (JsonProcessingException e){
+                    e.printStackTrace();
+                }
             }
-        }
+
 
         response.setPagination(pagination);
         response.setTime(new Timestamp(System.currentTimeMillis()));

@@ -2,11 +2,11 @@ package com.kshrd.derphsar_api.rest.image.response;
 
 public class ImageResponse {
 
-    private String imageUrl;
+    private Object imageUrl;
 
     public ImageResponse(){}
 
-    public ImageResponse(String imageUrl) {
+    public ImageResponse(Object imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -17,11 +17,11 @@ public class ImageResponse {
                 '}';
     }
 
-    public String getImageUrl() {
+    public Object getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(Object imageUrl) {
         this.imageUrl = imageUrl;
     }
 }

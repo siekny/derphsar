@@ -1,60 +1,52 @@
-package com.kshrd.derphsar_api.repository.dto;
-
+package com.kshrd.derphsar_api.rest.product.response;
 
 import java.sql.Date;
 
-public class ProductDto {
-
-    private int id;
+public class ProductCreateFirstResponse {
     private String proId;
     private String name;
     private Double price;
     private String description;
     private boolean status;
-    private boolean soldStatus;
+    private boolean isSold;
     private int viewCount;
     private Date postDate;
     private Double discount;
     private int shop_id;
     private int promo_id;
 
+
     private Object images;
     private Object details;
 
-    private ShopDto shop;
-    private PromotionDto promotion;
 
-    public ProductDto(){}
+    public ProductCreateFirstResponse(){}
 
-    public ProductDto(int id, String proId, String name, Double price, String description, boolean status, boolean soldStatus, int viewCount, Date postDate, Double discount, int shop_id, Object images, Object details, ShopDto shop, PromotionDto promotion, int promo_id) {
-        this.id = id;
+    public ProductCreateFirstResponse(String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Date postDate, Double discount, int shop_id, int promo_id, Object images, Object details) {
         this.proId = proId;
         this.name = name;
         this.price = price;
         this.description = description;
         this.status = status;
-        this.soldStatus = soldStatus;
+        this.isSold = isSold;
         this.viewCount = viewCount;
         this.postDate = postDate;
         this.discount = discount;
         this.shop_id = shop_id;
+        this.promo_id = promo_id;
         this.images = images;
         this.details = details;
-        this.shop = shop;
-        this.promotion = promotion;
-        this.promo_id = promo_id;
     }
 
     @Override
     public String toString() {
-        return "ProductDto{" +
-                "id=" + id +
-                ", proId='" + proId + '\'' +
+        return "ProductCreateFirstResponse{" +
+                "proId='" + proId + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", soldStatus=" + soldStatus +
+                ", isSold=" + isSold +
                 ", viewCount=" + viewCount +
                 ", postDate=" + postDate +
                 ", discount=" + discount +
@@ -62,35 +54,9 @@ public class ProductDto {
                 ", promo_id=" + promo_id +
                 ", images=" + images +
                 ", details=" + details +
-                ", shop=" + shop +
-                ", promotion=" + promotion +
                 '}';
     }
 
-
-    public int getPromo_id() {
-        return promo_id;
-    }
-
-    public void setPromo_id(int promo_id) {
-        this.promo_id = promo_id;
-    }
-
-    public int getShop_id() {
-        return shop_id;
-    }
-
-    public void setShop_id(int shop_id) {
-        this.shop_id = shop_id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getProId() {
         return proId;
@@ -132,12 +98,12 @@ public class ProductDto {
         this.status = status;
     }
 
-    public boolean isSoldStatus() {
-        return soldStatus;
+    public boolean isSold() {
+        return isSold;
     }
 
-    public void setSoldStatus(boolean soldStatus) {
-        this.soldStatus = soldStatus;
+    public void setSold(boolean sold) {
+        isSold = sold;
     }
 
     public int getViewCount() {
@@ -164,6 +130,22 @@ public class ProductDto {
         this.discount = discount;
     }
 
+    public int getShop_id() {
+        return shop_id;
+    }
+
+    public void setShop_id(int shop_id) {
+        this.shop_id = shop_id;
+    }
+
+    public int getPromo_id() {
+        return promo_id;
+    }
+
+    public void setPromo_id(int promo_id) {
+        this.promo_id = promo_id;
+    }
+
     public Object getImages() {
         return images;
     }
@@ -178,21 +160,5 @@ public class ProductDto {
 
     public void setDetails(Object details) {
         this.details = details;
-    }
-
-    public ShopDto getShop() {
-        return shop;
-    }
-
-    public void setShop(ShopDto shop) {
-        this.shop = shop;
-    }
-
-    public PromotionDto getPromotion() {
-        return promotion;
-    }
-
-    public void setPromotion(PromotionDto promotion) {
-        this.promotion = promotion;
     }
 }
