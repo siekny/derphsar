@@ -68,8 +68,8 @@ public interface PromotionRepository {
 
 
     //create a promotion
-    @Insert("INSERT INTO dp_promotion (promo_id, title, is_apply, start_rank, start_date, end_date, status, shop_id , end_rank, shop_id, cover)" +
-            "VALUES (  #{promoId, jdbcType=VARCHAR}, #{title}, #{isApply}, #{startRank}, #{startDate}, #{endDate}, TRUE,#{shop.id}, #{endRank}, #{shop_id}), #{cover}")
+    @Insert("INSERT INTO dp_promotion (promo_id, title, is_apply, start_rank, start_date, end_date, status , end_rank, shop_id, cover)" +
+            "VALUES (#{promoId, jdbcType=VARCHAR}, #{title}, #{isApply}, #{startRank}, #{startDate}, #{endDate}, TRUE, #{endRank}, #{shop_id}, #{cover})")
     boolean createPromotion(PromotionDto promotionDto);
 
 

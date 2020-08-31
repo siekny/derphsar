@@ -60,6 +60,9 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET,"/api/v1/shops/**").permitAll()
                    // .antMatchers(HttpMethod.GET ,"api/v1/**").hasAnyRole("ADMIN","SHOPKEEPER", "BUYER")
                    .antMatchers(HttpMethod.DELETE,"api/v1/admin/users/**").hasRole("ADMIN")
+                   .antMatchers(HttpMethod.DELETE,"api/v1/shops/**").hasRole("ROLE_SHOPKEEPER")
+                   .antMatchers(HttpMethod.PUT,"api/v1/shops/**").hasRole("ROLE_SHOPKEEPER")
+
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -12,10 +12,13 @@ public class PromotionRequestModel {
     private double startRank;
     private double endRank;
     private int shop_id;
+    private boolean status;
 
     public PromotionRequestModel(){}
 
-    public PromotionRequestModel(String title, boolean isApply, Date startDate, Date endDate, String cover, double startRank, double endRank, int shop_id) {
+    public PromotionRequestModel(boolean status,String title, boolean isApply, Date startDate, Date endDate, String cover, double startRank, double endRank, int shop_id) {
+
+        this.status = status;
         this.title = title;
         this.isApply = isApply;
         this.startDate = startDate;
@@ -25,6 +28,7 @@ public class PromotionRequestModel {
         this.endRank = endRank;
         this.shop_id = shop_id;
     }
+
 
     @Override
     public String toString() {
@@ -37,9 +41,17 @@ public class PromotionRequestModel {
                 ", startRank=" + startRank +
                 ", endRank=" + endRank +
                 ", shop_id=" + shop_id +
+                ", status=" + status +
                 '}';
     }
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
     public String getTitle() {
         return title;
