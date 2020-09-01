@@ -136,9 +136,9 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin("http://localhost:8081")
+//@CrossOrigin("http://localhost:8081")
 //@CrossOrigin("http://34.66.220.125:1500")
-//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class FilesRestController {
     @Value(value = "${file.upload.server.path}")
     private String serverPath;

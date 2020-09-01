@@ -6,6 +6,7 @@ import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
+import com.kshrd.derphsar_api.rest.promotion.request.PromotionUpdateIsApplyModel;
 import com.kshrd.derphsar_api.rest.promotion.response.PromotionCreateFirstResponse;
 import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.rest.shop.response.ShopCreateFirstResponse;
@@ -103,7 +104,7 @@ public class PromotionRestController {
      */
     @GetMapping("/promotions-in-shop")
     @ApiOperation(value = "show all promotions by a shop id", response = PromotionResponseModel.class)
-    public ResponseEntity<BaseApiNoPaginationResponse<List<PromotionResponseModel>>> getPromotions(
+    public ResponseEntity<BaseApiNoPaginationResponse<List<PromotionResponseModel>>> getPromotionsInShop(
             @RequestParam(value="shopId",required = false,defaultValue = "") String shopId) {
 
         ModelMapper mapper = new ModelMapper();
@@ -179,6 +180,40 @@ public class PromotionRestController {
         try {
             PromotionDto promotionDto = modelMapper.map(promotionRequestModel, PromotionDto.class);
             PromotionResponseModel responseModel = modelMapper.map(promotionServiceImp.updatePromotion(promoId, promotionDto), PromotionResponseModel.class);
+
+            response.setMessage(message.updated("Promotion"));
+            response.setStatus(HttpStatus.OK);
+            response.setData(responseModel);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
+
+
+
+
+    /**
+     * Put a promotion
+     *
+     * @param promoId - Id of a promotion
+     * @param promotionUpdateIsApplyModel - Promotion request model
+     * @return - Return response message
+     */
+    @PatchMapping("/promotions/{promoId}")
+    @ApiOperation(value = "update isApply", response = PromotionResponseModel.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<PromotionResponseModel>> updateIsApply(@PathVariable("promoId") String promoId,
+                                                                                   @RequestBody PromotionUpdateIsApplyModel promotionUpdateIsApplyModel) {
+
+        ModelMapper modelMapper = new ModelMapper();
+        BaseApiNoPaginationResponse<PromotionResponseModel> response = new BaseApiNoPaginationResponse<>();
+
+        try {
+            PromotionDto promotionDto = modelMapper.map(promotionUpdateIsApplyModel, PromotionDto.class);
+
+            PromotionResponseModel responseModel = modelMapper.map(promotionServiceImp.updateIsApply(promoId, promotionDto), PromotionResponseModel.class);
 
             response.setMessage(message.updated("Promotion"));
             response.setStatus(HttpStatus.OK);

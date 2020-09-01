@@ -66,6 +66,10 @@ public interface PromotionRepository {
     boolean updatePromotion(String id, PromotionDto promotion);
 
 
+    //update is apply
+    @Update("UPDATE dp_promotion SET is_apply = #{promotion.isApply} WHERE promo_id = #{id}")
+    boolean updateIsApply(String id, PromotionDto promotion);
+
 
     //create a promotion
     @Insert("INSERT INTO dp_promotion (promo_id, title, is_apply, start_rank, start_date, end_date, status , end_rank, shop_id, cover)" +

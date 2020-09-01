@@ -49,6 +49,15 @@ public class PromotionServiceImp implements PromotionService {
         return null;
     }
 
+    @Override
+    public PromotionDto updateIsApply(String id, PromotionDto promotionDto) {
+        boolean isUpdated = promotionRepository.updateIsApply(id,promotionDto);
+        if(isUpdated){
+            return promotionDto;
+        }
+        return null;
+    }
+
     //create a promotion
     @Override
     public PromotionDto createPromotion(PromotionDto promotionDto) {

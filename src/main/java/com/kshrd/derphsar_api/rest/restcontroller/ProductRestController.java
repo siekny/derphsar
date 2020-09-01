@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,16 +79,31 @@ public class ProductRestController {
         ProductDto productDto = mapper.map(productRequestModel, ProductDto.class);
 
         UUID uuid = UUID.randomUUID();
-        productDto.setProId("DP"+uuid.toString().substring(0,10));
-        productDto.setStatus(true);
 
-        ProductDto result = productServiceImp.insert(productDto);
-        ProductCreateFirstResponse responseModel = mapper.map(result, ProductCreateFirstResponse.class);
-        response.setMessage(message.inserted("Product"));
-        response.setData(responseModel);
-        response.setStatus(HttpStatus.OK);
+        if(productRequestModel.getPrice() != 0  && productRequestModel.getShop_id() !=0 && !productRequestModel.getName().isEmpty()){
+
+            productDto.setProId("DP"+uuid.toString().substring(0,10));
+            productDto.setStatus(true);
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Date date = new Date(timestamp.getTime());
+            productDto.setPostDate(date);
+
+            productDto.setSoldStatus(false);
+            productDto.setViewCount(0);
+
+            ProductDto result = productServiceImp.insert(productDto);
+            ProductCreateFirstResponse responseModel = mapper.map(result, ProductCreateFirstResponse.class);
+            response.setMessage(message.inserted("Product"));
+            response.setData(responseModel);
+            response.setStatus(HttpStatus.CREATED);
+
+        }else {
+            response.setMessage(message.insertError("Product"));
+            response.setStatus(HttpStatus.BAD_REQUEST);
+        }
+
         response.setTime(new Timestamp(System.currentTimeMillis()));
-
         return ResponseEntity.ok(response);
     }
 

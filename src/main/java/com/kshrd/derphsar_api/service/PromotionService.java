@@ -19,6 +19,8 @@ public interface PromotionService {
     //update a promotion
     PromotionDto updatePromotion(String id, PromotionDto promotionDto);
 
+    PromotionDto updateIsApply(String id, PromotionDto promotionDto);
+
     //create a promotion
     PromotionDto createPromotion(PromotionDto promotionDto);
 
