@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
 import com.kshrd.derphsar_api.page.Pagination;
+import com.kshrd.derphsar_api.repository.ProductRepository;
 import com.kshrd.derphsar_api.repository.dto.CategoryDto;
 import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
@@ -40,7 +41,13 @@ public class ProductRestController {
     private ProductServiceImp productServiceImp;
     private MessageProperties message;
     private ShopServiceImp shopServiceImp;
+    private ProductRepository productRepository;
 
+
+    @Autowired
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Autowired
     public void setShopServiceImp(ShopServiceImp shopServiceImp) {
@@ -190,7 +197,11 @@ public class ProductRestController {
         List<ProductResponseModel> products = new ArrayList<>();
 
 
+
+
         try {
+            productServiceImp.updateViewCount(proId);
+            productDto.setViewCount(productRepository.getViewCount(proId));
             Object details = objectMapper.readValue(productDto.getDetails().toString(), Object.class);
             Object images = objectMapper.readValue(productDto.getImages().toString(), Object.class);
             productDto.setDetails(details);

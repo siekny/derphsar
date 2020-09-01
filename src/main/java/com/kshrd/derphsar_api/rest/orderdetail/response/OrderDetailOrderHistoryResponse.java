@@ -5,6 +5,7 @@ import com.kshrd.derphsar_api.rest.product.response.ProducOrderHistorytResponse;
 import java.sql.Date;
 
 public class OrderDetailOrderHistoryResponse {
+    private String itemId;
     private Date orderDate;
     private double quatity;
     private boolean checkoutStatus;
@@ -13,7 +14,9 @@ public class OrderDetailOrderHistoryResponse {
     public OrderDetailOrderHistoryResponse() {
     }
 
-    public OrderDetailOrderHistoryResponse(Date orderDate, double quatity, boolean checkoutStatus, ProducOrderHistorytResponse product) {
+
+    public OrderDetailOrderHistoryResponse(String itemId, Date orderDate, double quatity, boolean checkoutStatus, ProducOrderHistorytResponse product) {
+        this.itemId = itemId;
         this.orderDate = orderDate;
         this.quatity = quatity;
         this.checkoutStatus = checkoutStatus;
@@ -52,10 +55,19 @@ public class OrderDetailOrderHistoryResponse {
         this.product = product;
     }
 
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
     @Override
     public String toString() {
         return "OrderDetailOrderHistoryResponse{" +
-                "orderDate=" + orderDate +
+                "itemId='" + itemId + '\'' +
+                ", orderDate=" + orderDate +
                 ", quatity=" + quatity +
                 ", checkoutStatus=" + checkoutStatus +
                 ", product=" + product +

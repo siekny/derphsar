@@ -203,17 +203,17 @@ public class PromotionRestController {
      * @return - Return response message
      */
     @PatchMapping("/promotions/{promoId}")
-    @ApiOperation(value = "update isApply", response = PromotionResponseModel.class)
-    public ResponseEntity<BaseApiNoPaginationResponse<PromotionResponseModel>> updateIsApply(@PathVariable("promoId") String promoId,
+    @ApiOperation(value = "update isApply", response = PromotionUpdateIsApplyModel.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<PromotionUpdateIsApplyModel>> updateIsApply(@PathVariable("promoId") String promoId,
                                                                                    @RequestBody PromotionUpdateIsApplyModel promotionUpdateIsApplyModel) {
 
         ModelMapper modelMapper = new ModelMapper();
-        BaseApiNoPaginationResponse<PromotionResponseModel> response = new BaseApiNoPaginationResponse<>();
+        BaseApiNoPaginationResponse<PromotionUpdateIsApplyModel> response = new BaseApiNoPaginationResponse<>();
 
         try {
             PromotionDto promotionDto = modelMapper.map(promotionUpdateIsApplyModel, PromotionDto.class);
 
-            PromotionResponseModel responseModel = modelMapper.map(promotionServiceImp.updateIsApply(promoId, promotionDto), PromotionResponseModel.class);
+            PromotionUpdateIsApplyModel responseModel = modelMapper.map(promotionServiceImp.updateIsApply(promoId, promotionDto), PromotionUpdateIsApplyModel.class);
 
             response.setMessage(message.updated("Promotion"));
             response.setStatus(HttpStatus.OK);

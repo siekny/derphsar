@@ -121,4 +121,11 @@ public class ProductServiceImp implements ProductService {
     public CategoryDto getCategoryByCatId(String catId) {
         return productRepository.getCategoryByCatId(catId);
     }
+
+
+    public void updateViewCount(String proId){
+        int viewCount = productRepository.getViewCount(proId);
+        productRepository.updateViewCount(proId,viewCount+1);
+    }
+
 }

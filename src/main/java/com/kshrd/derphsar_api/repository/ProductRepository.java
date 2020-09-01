@@ -153,6 +153,12 @@ public interface ProductRepository {
     int countId();
 
 
+    @SelectProvider(type = ProductProvider.class,method = "getViewCount")
+    int getViewCount(String proId);
+
+
+    @UpdateProvider(type = ProductProvider.class,method = "updateViewCount")
+    void updateViewCount(String proId, int viewCount);
 
 
     @Select("SELECT * FROM dp_products AS pro\n" +
@@ -184,6 +190,7 @@ public interface ProductRepository {
 
     @SelectProvider(type = ProductProvider.class, method = "getAllProductsByUserId")
     @Results({
+            @Result(property = "proId", column = "pro_id"),
             @Result(property = "name", column = "proName"),
             @Result(property = "price", column = "price"),
             @Result(property = "images", column = "images"),

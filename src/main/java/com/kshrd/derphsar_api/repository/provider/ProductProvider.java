@@ -38,7 +38,7 @@ public class ProductProvider{
 
     public String getAllProductsByUserId(int uId, @Param("pagination") Pagination pagination){
         return new SQL(){{
-            SELECT("pro.name AS proName, sh.name AS shopName, sh.status , pro.price, pro.view_count, pro.images AS images");
+            SELECT("pro.pro_id , pro.name AS proName, sh.name AS shopName, sh.status , pro.price, pro.view_count, pro.images AS images");
             FROM ("dp_products AS pro");
             INNER_JOIN ("dp_shops AS sh ON pro.shop_id = sh.id");
             INNER_JOIN ("dp_users AS u ON u.id = sh.u_id");
@@ -47,4 +47,22 @@ public class ProductProvider{
             OFFSET(pagination.getOffset());
         }}.toString();
     }
+
+
+    public String getViewCount(String proId){
+        return new SQL(){{
+            SELECT("view_count");
+            FROM("dp_products");
+            WHERE("pro_id = #{proId}");
+        }}.toString();
+    }
+
+    public String updateViewCount(){
+        return new SQL(){{
+            UPDATE("dp_products");
+            SET("view_count = #{viewCount}");
+            WHERE("pro_id = #{proId}");
+        }}.toString();
+    }
+
 }

@@ -104,7 +104,7 @@ public class OrderDetailRestController {
      * @return - Return response message
      */
     @GetMapping("/orderdetail")
-    @ApiOperation("show all orderdetails filter by userId and orderId")
+    @ApiOperation("show all orderdetails filter by userId")
     public ResponseEntity<BaseApiResponse<List<OrderDetailFilterResponse>>> FilterbyUserAndOrder(OrderDetailFilter orderDetailFilter,
                                                                                                  @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
                                                                                                  @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,

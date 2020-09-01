@@ -1,5 +1,9 @@
 package com.kshrd.derphsar_api.rest.shop.response;
 
+import com.kshrd.derphsar_api.rest.category.response.CategoryResponseModel;
+import com.kshrd.derphsar_api.rest.user.response.UserByShopResponse;
+import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
+
 import java.util.Date;
 
 public class ShopPromotionResponse {
@@ -16,10 +20,13 @@ public class ShopPromotionResponse {
     private Date openTime;
     private Date closeTime;
 
+    private UserByShopResponse user;
+    private CategoryResponseModel category;
+
     public ShopPromotionResponse(){}
 
 
-    public ShopPromotionResponse(String shopid, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, int cat_id, int u_id, Date openTime, Date closeTime) {
+    public ShopPromotionResponse(String shopid, String name, String address, String description, String profile, String cover, boolean openStatus, boolean status, int cat_id, int u_id, Date openTime, Date closeTime, UserByShopResponse user, CategoryResponseModel category) {
         this.shopid = shopid;
         this.name = name;
         this.address = address;
@@ -32,6 +39,8 @@ public class ShopPromotionResponse {
         this.u_id = u_id;
         this.openTime = openTime;
         this.closeTime = closeTime;
+        this.user = user;
+        this.category = category;
     }
 
 
@@ -50,7 +59,25 @@ public class ShopPromotionResponse {
                 ", u_id=" + u_id +
                 ", openTime=" + openTime +
                 ", closeTime=" + closeTime +
+                ", user=" + user +
+                ", category=" + category +
                 '}';
+    }
+
+    public UserByShopResponse getUser() {
+        return user;
+    }
+
+    public void setUser(UserByShopResponse user) {
+        this.user = user;
+    }
+
+    public CategoryResponseModel getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryResponseModel category) {
+        this.category = category;
     }
 
     public String getShopid() {

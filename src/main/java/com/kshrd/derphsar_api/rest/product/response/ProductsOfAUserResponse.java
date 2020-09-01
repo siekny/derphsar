@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.rest.product.response;
 import com.kshrd.derphsar_api.rest.shop.response.ShopOfAUserResponse;
 
 public class ProductsOfAUserResponse {
+    private String proId;
     private String name;
     private int price;
     private int viewCount;
@@ -12,12 +13,21 @@ public class ProductsOfAUserResponse {
     public ProductsOfAUserResponse() {
     }
 
-    public ProductsOfAUserResponse(String name, int price, int viewCount, Object images, ShopOfAUserResponse shop) {
+    public ProductsOfAUserResponse(String proId, String name, int price, int viewCount, Object images, ShopOfAUserResponse shop) {
+        this.proId = proId;
         this.name = name;
         this.price = price;
         this.viewCount = viewCount;
         this.images = images;
         this.shop = shop;
+    }
+
+    public String getProId() {
+        return proId;
+    }
+
+    public void setProId(String proId) {
+        this.proId = proId;
     }
 
     public String getName() {
@@ -60,13 +70,15 @@ public class ProductsOfAUserResponse {
         this.shop = shop;
     }
 
+
     @Override
     public String toString() {
         return "ProductsOfAUserResponse{" +
-                "name='" + name + '\'' +
+                "proId='" + proId + '\'' +
+                ", name='" + name + '\'' +
                 ", price=" + price +
                 ", viewCount=" + viewCount +
-                ", image=" + images +
+                ", images=" + images +
                 ", shop=" + shop +
                 '}';
     }

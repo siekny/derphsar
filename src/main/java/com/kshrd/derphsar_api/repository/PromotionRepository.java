@@ -1,9 +1,7 @@
 package com.kshrd.derphsar_api.repository;
 
 
-import com.kshrd.derphsar_api.repository.dto.ProductDto;
-import com.kshrd.derphsar_api.repository.dto.PromotionDto;
-import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.repository.dto.*;
 import com.kshrd.derphsar_api.repository.provider.PromotionProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -36,12 +34,30 @@ public interface PromotionRepository {
             @Result(column = "is_open", property = "openStatus"),
             @Result(column = "open_time", property = "openTime"),
             @Result(column = "close_time", property = "closeTime"),
-            @Result(column = "open_time", property = "openTime"),
+            @Result(column = "u_id", property = "user", many = @Many(select = "getUser")),
+            @Result(column = "cat_id", property = "category", many = @Many(select = "getCategory")),
             @Result(column = "u_id", property = "u_id"),
             @Result(column = "cat_id", property = "cat_id")
 
     })
     ShopDto getShop(int shop_id);
+
+
+    @Select("SELECT * FROM dp_users WHERE id = #{user_id}  AND status = 'true'")
+    @Results({
+            @Result(column = "user_id", property = "userId")
+    })
+    UserDto getUser(int user_id);
+
+
+
+
+    @Select("SELECT * FROM dp_category WHERE id = #{cate_id}")
+    @Results({
+            @Result(column = "cat_id", property = "catId")
+    })
+    CategoryDto getCategory(int cate_id);
+
 
 
 

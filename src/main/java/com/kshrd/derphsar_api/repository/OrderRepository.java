@@ -86,6 +86,7 @@ public interface OrderRepository {
             @Result(property = "shop.name", column = "shopName"),
 
             @Result(property = "orderDetail.quatity", column = "orderQuantity"),
+            @Result(property = "orderDetail.itemId", column = "item_id"),
             @Result(property = "orderDetail.orderDate", column = "orderDate"),
             @Result(property = "shop.status", column = "status"),
             @Result(property = "orderDetail.checkoutStatus", column = "is_checkout"),

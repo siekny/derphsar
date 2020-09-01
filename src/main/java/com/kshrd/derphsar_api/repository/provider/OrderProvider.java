@@ -35,7 +35,7 @@ public class OrderProvider {
 
     public String getAllOrdersHistoryByUserId(int uId, @Param("pagination") Pagination pagination){
         return new SQL(){{
-            SELECT("pro.name AS proName, sh.name AS shopName, od.quatity AS orderQuantity, pro.price AS proPrice, od.order_date AS orderDate, pro.images AS proImage, sh.status, od.is_checkout");
+            SELECT("pro.name AS proName, sh.name AS shopName,od.item_id, od.quatity AS orderQuantity, pro.price AS proPrice, od.order_date AS orderDate, pro.images AS proImage, sh.status, od.is_checkout");
             FROM ("dp_order AS o");
             INNER_JOIN ("dp_users AS u ON o.user_id = u.id");
             INNER_JOIN ("dp_shops AS sh ON o.shop_id = sh.id");

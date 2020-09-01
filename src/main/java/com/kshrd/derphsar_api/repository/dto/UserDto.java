@@ -20,6 +20,7 @@ public class UserDto implements UserDetails {
     private String profile;
     private RoleDto role;
     private OrderDto order;
+
     public UserDto(){}
 
     public UserDto(int id, String userId, String name, String gender, int age, String phone, String email, String password, boolean status, String profile, RoleDto role, OrderDto order) {
