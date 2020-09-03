@@ -61,7 +61,7 @@ public class PromotionServiceImp implements PromotionService {
     //create a promotion
     @Override
     public PromotionDto createPromotion(PromotionDto promotionDto) {
-        System.out.println("promotion"+promotionDto);
+        //System.out.println("promotion"+promotionDto);
         boolean isInserted = promotionRepository.createPromotion(promotionDto);
         if(isInserted)
             return promotionDto;

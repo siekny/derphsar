@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static net.bytebuddy.matcher.ElementMatchers.is;
+
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -246,17 +248,19 @@ public class PromotionRestController {
 
 
         if(!promotionRequestModel.getTitle().isEmpty() && promotionRequestModel.getStartRank() !=0 && promotionRequestModel.getEndRank() !=0 && promotionRequestModel.getStartDate() != null && promotionRequestModel.getEndDate() !=null && promotionRequestModel.getShop_id() !=0){
+            if(promotionRequestModel.getStartRank() > promotionRequestModel.getEndRank() || promotionRequestModel.getStartDate().after(promotionRequestModel.getEndDate())){
+                response.setMessage(message.insertError("Promotion"));
+                response.setStatus(HttpStatus.BAD_REQUEST);
+            }else {
+                promotionDto.setPromoId("DP"+uuid.toString().substring(0,10));
+                promotionDto.setStatus(true);
+                PromotionDto promotionDto1 = promotionServiceImp.createPromotion(promotionDto);
 
-
-
-            promotionDto.setPromoId("DP"+uuid.toString().substring(0,10));
-            promotionDto.setStatus(true);
-            PromotionDto promotionDto1 = promotionServiceImp.createPromotion(promotionDto);
-
-            PromotionCreateFirstResponse promotionCreateFirstResponse = mapper.map(promotionDto1, PromotionCreateFirstResponse.class);
-            response.setMessage(message.inserted("Promotion"));
-            response.setData(promotionCreateFirstResponse);
-            response.setStatus(HttpStatus.CREATED);
+                PromotionCreateFirstResponse promotionCreateFirstResponse = mapper.map(promotionDto1, PromotionCreateFirstResponse.class);
+                response.setMessage(message.inserted("Promotion"));
+                response.setData(promotionCreateFirstResponse);
+                response.setStatus(HttpStatus.CREATED);
+            }
 
         }else {
             response.setMessage(message.insertError("Promotion"));

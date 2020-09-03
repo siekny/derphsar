@@ -30,115 +30,11 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@RestController
-//@RequestMapping("/api/v1")
-//@CrossOrigin("http://localhost:8080")
-//public class FilesRestController {
-//
-//    private FilesStorageServiceImp filesStorageServiceImp;
-//    private MessageProperties message;
-//
-//    @Autowired
-//    public void setMessage(MessageProperties message) {
-//        this.message = message;
-//    }
-//
-//    @Autowired
-//    public void setFilesStorageServiceImp(FilesStorageServiceImp filesStorageServiceImp) {
-//        this.filesStorageServiceImp = filesStorageServiceImp;
-//    }
-//
-//
-//
-//
-//
-//    /**
-//     * Post files
-//     *
-//     * @param files - Read all files selected
-//     * @return - Returns response message
-//     */
-//    @PostMapping("/files")
-//    public ResponseEntity<ResponseMessage> uploadFiles(@RequestParam("files") MultipartFile[] files) {
-//        String msg;
-//        try {
-//            List<String> fileNames = new ArrayList<>();
-//            Arrays.asList(files).stream().forEach(file -> {
-//
-//                filesStorageServiceImp.save(file);
-//                fileNames.add(file.getOriginalFilename());
-//            });
-//
-//            msg = message.inserted("Files") + fileNames;
-//            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(msg));
-//        } catch (Exception e) {
-//            msg = message.insertError("Files");
-//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(msg));
-//        }
-//    }
-//
-//
-//
-//
-//
-//    /**
-//     * Get all files
-//     *
-//     * @return - Returns response message
-//     */
-//    @GetMapping("/files")
-//    public ResponseEntity<List<FileInfo>> getListFiles() {
-//        List<FileInfo> fileInfos = filesStorageServiceImp.loadAll().map(path -> {
-//            String filename = path.getFileName().toString();
-//            String url = MvcUriComponentsBuilder.fromMethodName(FilesRestController.class, "getFile", path.getFileName().toString()).build().toString();
-//
-//            return new FileInfo(filename, url);
-//        }).collect(Collectors.toList());
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
-//    }
-//
-//
-//
-//
-//
-//    /**
-//     * Get a file
-//     *
-//     * @param filename - Name of file to get
-//     * @return - File
-//     */
-//    @GetMapping("/files/{filename:.+}")
-//    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-//        Resource file = filesStorageServiceImp.load(filename);
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-//    }
-//
-//
-//
-//
-//
-//    /**
-//     * Delete files
-//     *
-//     * @return - Returns response message
-//     */
-//    @DeleteMapping(value= "/files")
-//    public ResponseEntity<String> deleteFile() {
-//        filesStorageServiceImp.deleteAll();
-//        final String response = message.deleted("Files");
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
-//}
-
-
 
 @RestController
 @RequestMapping("/api/v1")
-//@CrossOrigin("http://localhost:8081")
 //@CrossOrigin("http://34.66.220.125:1500")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class FilesRestController {
     @Value(value = "${file.upload.server.path}")
     private String serverPath;
@@ -163,11 +59,10 @@ public class FilesRestController {
     @ApiOperation(value = "upload images")
     public ResponseEntity<Map<String,Object>> uploadFile(@RequestParam("files") MultipartFile[] files) {
 
-//        String files = @RequestParam("files")
         ModelMapper mapper = new ModelMapper();
         BaseApiNoPaginationResponse<List<ImageResponse>> response = new BaseApiNoPaginationResponse<>();
-        List<ImageResponse> imageResponses = new ArrayList<>();
 
+        List<String> ImageList = new ArrayList<>();
         Map<String, Object> res = new HashMap<>();
 
         int i=0;
@@ -176,13 +71,16 @@ public class FilesRestController {
             {
                 i++;
                 String fileName = storageService.save(file);
-                imageResponses.add(mapper.map(file, ImageResponse.class));
+//                imageResponses.add(mapper.map(file, ImageResponse.class));
                 if(i==1){
                     res.put("message",message.inserted("Images"));
                     res.put("status",HttpStatus.OK);
+                    res.put("BeseUrl",imageUrl);
                 }
-                res.put("image"+i,(imageUrl+fileName));
+                ImageList.add(fileName);
+                //res.put("image"+i,(imageUrl+fileName));
             }
+            res.put("Images",ImageList);
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } catch (Exception e) {
             e.printStackTrace();

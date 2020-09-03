@@ -39,8 +39,8 @@ public class OrderDetailServiceImp implements OrderDetailService {
     }
 
     @Override
-    public List<OrderDetailDto> findAllWithFilter(OrderDetailFilter orderDetailFilter, Pagination pagination) {
-        List<OrderDetailDto> data = orderDetailRepository.findAllWithFilter(orderDetailFilter,pagination);
+    public List<OrderDetailDto> findAllWithFilter(int userId, Pagination pagination) {
+        List<OrderDetailDto> data = orderDetailRepository.findAllWithFilter(userId,pagination);
         try {
             if(!data.isEmpty())
                 return data;
@@ -72,5 +72,10 @@ public class OrderDetailServiceImp implements OrderDetailService {
             return orderDetailDto;
         else
             return null;
+    }
+
+    @Override
+    public OrderDetailDto getOrderDetailByItemId(String itemId) {
+        return orderDetailRepository.getOrderDetailByItemId(itemId);
     }
 }

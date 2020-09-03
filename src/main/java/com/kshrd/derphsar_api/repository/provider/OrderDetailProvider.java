@@ -9,7 +9,24 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class OrderDetailProvider {
 
-    public String findAllWithFilter(@Param("filter")OrderDetailFilter orderDetailFilter,@Param("pagination") Pagination pagination){
+//    public String findAllWithFilter(@Param("filter")OrderDetailFilter orderDetailFilter,@Param("pagination") Pagination pagination){
+//        return new SQL(){{
+//            SELECT("od.* , o.order_id AS orderId, pro.id, pro.pro_id AS proId, pro.name AS proName, pro.price, pro.is_sold, u.user_id AS userId, u.name AS userName, u.phone, sh.shop_id AS shopId, sh.name AS shopName, promo.promo_id AS promoId, promo.title, promo.start_rank, promo.end_rank");
+//            FROM("dp_order_detail as od");
+//            INNER_JOIN("dp_order as o ON o.id = od.order_id ");
+//            INNER_JOIN("dp_products as pro ON od.pro_id = pro.id");
+//            INNER_JOIN("dp_users as u ON u.id = o.user_id");
+//            INNER_JOIN("dp_shops as sh ON sh.id = o.shop_id");
+//            INNER_JOIN("dp_promotion as promo ON promo.shop_id = sh.id");
+//            if (orderDetailFilter.getOrderId() != null && orderDetailFilter.getUserId() != null)
+//                WHERE("o.user_id =  #{filter.userId} AND  o.id = #{filter.orderId}");
+//             LIMIT(pagination.getLimit());
+//             OFFSET(pagination.getOffset());
+//        }}.toString();
+//    }
+
+
+    public String findAllWithFilter(int userId, @Param("pagination") Pagination pagination){
         return new SQL(){{
             SELECT("od.* , o.order_id AS orderId, pro.id, pro.pro_id AS proId, pro.name AS proName, pro.price, pro.is_sold, u.user_id AS userId, u.name AS userName, u.phone, sh.shop_id AS shopId, sh.name AS shopName, promo.promo_id AS promoId, promo.title, promo.start_rank, promo.end_rank");
             FROM("dp_order_detail as od");
@@ -18,11 +35,18 @@ public class OrderDetailProvider {
             INNER_JOIN("dp_users as u ON u.id = o.user_id");
             INNER_JOIN("dp_shops as sh ON sh.id = o.shop_id");
             INNER_JOIN("dp_promotion as promo ON promo.shop_id = sh.id");
-            if (orderDetailFilter.getOrderId() != null && orderDetailFilter.getUserId() != null)
-                WHERE("o.user_id =  #{filter.userId} AND  o.id = #{filter.orderId}");
-             LIMIT(pagination.getLimit());
-             OFFSET(pagination.getOffset());
+            WHERE("o.user_id =  #{userId}");
+            LIMIT(pagination.getLimit());
+            OFFSET(pagination.getOffset());
         }}.toString();
     }
 
+
+    public String getOrderDetailByItemId(String itemId){
+        return new SQL(){{
+            SELECT("*");
+            FROM("dp_order_detail");
+            WHERE("item_id = #{itemId}");
+        }}.toString();
+    }
 }

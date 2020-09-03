@@ -7,6 +7,7 @@ import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
 import com.kshrd.derphsar_api.repository.dto.OrderDto;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
+import com.kshrd.derphsar_api.repository.dto.UserDto;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
@@ -19,6 +20,7 @@ import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.rest.shop.response.ShopCreateFirstResponse;
 import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.OrderDetailServiceImp;
+import com.kshrd.derphsar_api.service.implement.ShopServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,13 @@ import java.util.UUID;
 public class OrderDetailRestController {
     private OrderDetailServiceImp orderDetailServiceImp;
     private MessageProperties message;
+    private ShopServiceImp shopServiceImp;
+
+
+    @Autowired
+    public void setShopServiceImp(ShopServiceImp shopServiceImp) {
+        this.shopServiceImp = shopServiceImp;
+    }
 
     @Autowired
     public void setMessage(MessageProperties message) {
@@ -96,16 +105,16 @@ public class OrderDetailRestController {
     /**
      * Get order details
      *
-     * @param orderDetailFilter - Order detail filter
+     * @param userId - uuid of user
      * @param page  - Page of pagination
      * @param limit - Limit data of a pagination
      * @param totalPages - Total pages of data limited in a page
      * @param pagesToShow - Pages to show
      * @return - Return response message
      */
-    @GetMapping("/orderdetail")
+    @GetMapping("/orderdetail/{userId}")
     @ApiOperation("show all orderdetails filter by userId")
-    public ResponseEntity<BaseApiResponse<List<OrderDetailFilterResponse>>> FilterbyUserAndOrder(OrderDetailFilter orderDetailFilter,
+    public ResponseEntity<BaseApiResponse<List<OrderDetailFilterResponse>>> FilterbyUserAndOrder(@PathVariable("userId") String userId,
                                                                                                  @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
                                                                                                  @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
                                                                                                  @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
@@ -122,7 +131,8 @@ public class OrderDetailRestController {
         BaseApiResponse<List<OrderDetailFilterResponse>> response = new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
-        List<OrderDetailDto> orderDetailDtos = orderDetailServiceImp.findAllWithFilter(orderDetailFilter,pagination);
+        UserDto userDto = shopServiceImp.getUserByUserId(userId);
+        List<OrderDetailDto> orderDetailDtos = orderDetailServiceImp.findAllWithFilter(userDto.getId(),pagination);
         List<OrderDetailFilterResponse> orderDetailResponseList = new ArrayList<>();
 
         for(OrderDetailDto orderDetailDto : orderDetailDtos){

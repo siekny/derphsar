@@ -63,14 +63,20 @@ public class ShopRestController {
             ShopDto shopDto = mapper.map(shopRequestModel,ShopDto.class);
 
             if(!shopRequestModel.getName().isEmpty() && !shopRequestModel.getAddress().isEmpty() && shopRequestModel.getU_id() != 0 && shopRequestModel.getCat_id() != 0 ){
-                shopDto.setShopId("DP"+uuid.toString().substring(0,10));
-                shopDto.setStatus(true);
-                ShopDto shop = shopServiceImp.createShop(shopDto);
 
-                ShopCreateFirstResponse shopCreateFirstResponse = mapper.map(shop, ShopCreateFirstResponse.class);
-                 response.setMessage(message.inserted("Shop"));
-                 response.setData(shopCreateFirstResponse);
-                 response.setStatus(HttpStatus.CREATED);
+                if(shopRequestModel.getOpenTime().after(shopRequestModel.getCloseTime())){
+                    response.setMessage(message.insertError("Shop"));
+                    response.setStatus(HttpStatus.BAD_REQUEST);
+                }else {
+                    shopDto.setShopId("DP"+uuid.toString().substring(0,10));
+                    shopDto.setStatus(true);
+                    ShopDto shop = shopServiceImp.createShop(shopDto);
+
+                    ShopCreateFirstResponse shopCreateFirstResponse = mapper.map(shop, ShopCreateFirstResponse.class);
+                    response.setMessage(message.inserted("Shop"));
+                    response.setData(shopCreateFirstResponse);
+                    response.setStatus(HttpStatus.CREATED);
+                }
 
             }else {
                 response.setMessage(message.insertError("Shop"));

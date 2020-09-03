@@ -5,6 +5,7 @@ import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.*;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import com.kshrd.derphsar_api.repository.provider.OrderDetailProvider;
+import com.kshrd.derphsar_api.repository.provider.SubResourceProvider;
 import com.kshrd.derphsar_api.repository.provider.UserProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -107,7 +108,7 @@ public interface OrderDetailRepository {
             @Result(property = "order.shop.promotion.endRank", column = "end_rank"),
 
     })
-    List<OrderDetailDto> findAllWithFilter(@Param("filter")OrderDetailFilter orderDetailFilter,@Param("pagination") Pagination pagination);
+    List<OrderDetailDto> findAllWithFilter(int userId,@Param("pagination") Pagination pagination);
 
 
 
@@ -125,5 +126,9 @@ public interface OrderDetailRepository {
     @Insert("INSERT INTO dp_order_detail (item_id , quatity, status, order_date, is_checkout, order_id, pro_id, image, detail)"+
     "VALUES (#{itemId}, #{quatity}, TRUE, #{orderDate}, FALSE, #{order_id}, #{pro_id}, #{image, jdbcType=OTHER, typeHandler=com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg}, #{detail, jdbcType=OTHER, typeHandler=com.kshrd.derphsar_api.mybatis.JSONTypeHandlerPg})")
     boolean insertOrderDetail(OrderDetailDto orderDetailDto);
+
+
+    @SelectProvider(type = OrderDetailProvider.class, method = "getOrderDetailByItemId")
+    OrderDetailDto getOrderDetailByItemId(String itemId);
 
 }
