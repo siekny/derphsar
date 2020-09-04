@@ -294,7 +294,7 @@ public class PromotionRestController {
             response.setData(promotionRequestModels);
             response.setStatus(HttpStatus.FOUND);
         }else {
-            response.setMessage(message.hasNoRecord("Shop"));
+            response.setMessage(message.hasNoRecord("Promotion"));
             response.setStatus(HttpStatus.NOT_FOUND);
         }
 

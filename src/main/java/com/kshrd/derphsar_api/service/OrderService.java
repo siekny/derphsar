@@ -14,4 +14,6 @@ public interface OrderService {
 
     //get order history by user id
     List<OrderDto> getAllOrdersHistoryByUserId(int userId, Pagination pagination);
+
+    OrderDto getOrderByOrderId(String orderId);
 }

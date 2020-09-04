@@ -51,6 +51,18 @@ public class OrderDetailServiceImp implements OrderDetailService {
     }
 
     @Override
+    public List<OrderDetailDto> findOrderDetailByOrderId(int orderId, Pagination pagination) {
+        List<OrderDetailDto> data = orderDetailRepository.findOrderDetailByOrderId(orderId,pagination);
+        try {
+            if(!data.isEmpty())
+                return data;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    @Override
     public boolean deleteOrderdetail(String order_detail_id) {
         boolean isDeleted = orderDetailRepository.deleteOrderDetail(order_detail_id);
         if(isDeleted){

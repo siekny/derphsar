@@ -7,6 +7,7 @@ import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
 import com.kshrd.derphsar_api.repository.provider.OrderDetailProvider;
 import com.kshrd.derphsar_api.repository.provider.SubResourceProvider;
 import com.kshrd.derphsar_api.repository.provider.UserProvider;
+import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -81,7 +82,7 @@ public interface OrderDetailRepository {
 
     /////
     @SelectProvider(type = OrderDetailProvider.class, method = "findAllWithFilter")
-    @Results({
+    @Results(id ="mapOrderDetail", value = {
             @Result(property = "itemId" , column = "item_id"),
             @Result(property = "orderDate" , column = "order_date"),
 
@@ -108,9 +109,20 @@ public interface OrderDetailRepository {
             @Result(property = "order.shop.promotion.endRank", column = "end_rank"),
 
     })
-    List<OrderDetailDto> findAllWithFilter(int userId,@Param("pagination") Pagination pagination);
+    List<OrderDetailDto> findAllWithFilter(@Param("userId")int userId,@Param("pagination") Pagination pagination);
 
 
+
+
+    @SelectProvider(type = OrderDetailProvider.class, method = "findOrderDetailByOrderId")
+         @ResultMap("mapOrderDetail")
+    List<OrderDetailDto> findOrderDetailByOrderId(@Param("orderId")int orderId,@Param("pagination") Pagination pagination);
+
+
+
+
+
+//    List<OrderDetailDto> findOrderDetailByOrderId(int orderId, @Param(""))
 
     //delete order detail
     @Delete("UPDATE dp_order_detail SET status = FALSE WHERE item_id = #{order_detail_id}")

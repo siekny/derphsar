@@ -3,6 +3,7 @@ package com.kshrd.derphsar_api.repository;
 import com.kshrd.derphsar_api.page.Pagination;
 import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
 import com.kshrd.derphsar_api.repository.dto.OrderDto;
+import com.kshrd.derphsar_api.repository.provider.OrderDetailProvider;
 import com.kshrd.derphsar_api.repository.provider.OrderProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -96,4 +97,15 @@ public interface OrderRepository {
 
     @SelectProvider(type = OrderProvider.class, method = "countId")
     int countId();
+
+
+    @SelectProvider(type = OrderProvider.class, method = "getOrderByOrderId")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "order_id", property = "orderId"),
+    }
+    )
+    OrderDto getOrderByOrderId(@Param("orderId") String orderId);
+
+
 }

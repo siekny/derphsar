@@ -47,4 +47,18 @@ public class OrderProvider {
             OFFSET(pagination.getOffset());
         }}.toString();
     }
+
+
+    //get one order by order id
+    public String getOrderByOrderId(@Param("orderId") String orderId){
+        return new SQL(){{
+            SELECT("*");
+            FROM("dp_order");
+            WHERE("order_id = #{orderId}");
+        }}.toString();
+    }
+
+
+
+
 }

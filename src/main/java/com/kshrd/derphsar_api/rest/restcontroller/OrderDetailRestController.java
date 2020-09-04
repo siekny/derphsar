@@ -18,9 +18,12 @@ import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailFilterRespons
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailResponse;
 import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.rest.shop.response.ShopCreateFirstResponse;
+import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.OrderDetailServiceImp;
+import com.kshrd.derphsar_api.service.implement.OrderServiceImp;
 import com.kshrd.derphsar_api.service.implement.ShopServiceImp;
+import com.kshrd.derphsar_api.service.implement.UserServiceImp;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +45,20 @@ public class OrderDetailRestController {
     private OrderDetailServiceImp orderDetailServiceImp;
     private MessageProperties message;
     private ShopServiceImp shopServiceImp;
+    private UserServiceImp userServiceImp;
+    private OrderServiceImp orderServiceImp;
 
+
+
+    @Autowired
+    public void setOrderServiceImp(OrderServiceImp orderServiceImp) {
+        this.orderServiceImp = orderServiceImp;
+    }
+
+    @Autowired
+    public void setUserServiceImp(UserServiceImp userServiceImp) {
+        this.userServiceImp = userServiceImp;
+    }
 
     @Autowired
     public void setShopServiceImp(ShopServiceImp shopServiceImp) {
@@ -112,13 +128,15 @@ public class OrderDetailRestController {
      * @param pagesToShow - Pages to show
      * @return - Return response message
      */
-    @GetMapping("/orderdetail/{userId}")
-    @ApiOperation("show all orderdetails filter by userId")
+    @GetMapping("/orderdetail-by-userid/{userId}")
+    @ApiOperation("show all OrderDetails  by userId")
     public ResponseEntity<BaseApiResponse<List<OrderDetailFilterResponse>>> FilterbyUserAndOrder(@PathVariable("userId") String userId,
                                                                                                  @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
                                                                                                  @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
                                                                                                  @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
                                                                                                  @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+
+//        System.out.println("userId : "+ userId);
         Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
         pagination.setPage(page);
         pagination.setLimit(limit);
@@ -131,7 +149,10 @@ public class OrderDetailRestController {
         BaseApiResponse<List<OrderDetailFilterResponse>> response = new BaseApiResponse<>();
 
         ObjectMapper mapper = new ObjectMapper();
-        UserDto userDto = shopServiceImp.getUserByUserId(userId);
+
+        UserResponseModel userDto = userServiceImp.getOneUserById(userId);
+//        System.out.println(userDto);
+//        System.out.println(userDto.getId());
         List<OrderDetailDto> orderDetailDtos = orderDetailServiceImp.findAllWithFilter(userDto.getId(),pagination);
         List<OrderDetailFilterResponse> orderDetailResponseList = new ArrayList<>();
 
@@ -160,6 +181,73 @@ public class OrderDetailRestController {
     }
 
 
+
+
+    /**
+     * Get order details
+     *
+     * @param orderId - uuid of order
+     * @param page  - Page of pagination
+     * @param limit - Limit data of a pagination
+     * @param totalPages - Total pages of data limited in a page
+     * @param pagesToShow - Pages to show
+     * @return - Return response message
+     */
+    @GetMapping("/orderdetail-by-orderId/{orderId}")
+    @ApiOperation("show all OrderDetails  by orderId")
+    public ResponseEntity<BaseApiResponse<List<OrderDetailFilterResponse>>> findOrderDetailByOrderId(@PathVariable("orderId") String orderId,
+                                                                                                 @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                                                                                                 @RequestParam(value = "limit" , required = false , defaultValue = "3") int limit,
+                                                                                                 @RequestParam(value = "totalPages" , required = false , defaultValue = "3") int totalPages,
+                                                                                                 @RequestParam(value = "pagesToShow" , required = false , defaultValue = "3") int pagesToShow) {
+
+        Pagination pagination = new Pagination(page, limit,totalPages,pagesToShow);
+        pagination.setPage(page);
+        pagination.setLimit(limit);
+        pagination.nextPage();
+        pagination.previousPage();
+
+
+        pagination.setTotalCount(orderDetailServiceImp.countId());
+        pagination.setTotalPages(pagination.getTotalPages());
+
+        BaseApiResponse<List<OrderDetailFilterResponse>> response = new BaseApiResponse<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        OrderDto orderDto = orderServiceImp.getOrderByOrderId(orderId);
+
+        List<OrderDetailDto> orderDetailDtos = orderDetailServiceImp.findOrderDetailByOrderId(orderDto.getId(),pagination);
+        List<OrderDetailFilterResponse> orderDetailResponseList = new ArrayList<>();
+
+        for(OrderDetailDto orderDetailDto : orderDetailDtos){
+            try{
+                Object detail = mapper.readValue(orderDetailDto.getDetail().toString(), Object.class);
+                Object image = mapper.readValue(orderDetailDto.getImage().toString(), Object.class);
+
+                orderDetailDto.setDetail(detail);
+                orderDetailDto.setImage(image);
+
+                ModelMapper modelMapper = new ModelMapper();
+                OrderDetailFilterResponse orderDetailResponse = modelMapper.map(orderDetailDto, OrderDetailFilterResponse.class);
+                orderDetailResponseList.add(orderDetailResponse);
+            }catch (JsonProcessingException e){
+                e.printStackTrace();
+            }
+        }
+        response.setPagination(pagination);
+        response.setData(orderDetailResponseList);
+        response.setStatus(HttpStatus.FOUND);
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        response.setMessage(message.selected("OrderDetails"));
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
+
+
     /**
      * Delete an order detail
      *
@@ -167,6 +255,7 @@ public class OrderDetailRestController {
      * @return - Return response message
      */
     @DeleteMapping("/orderdetails/{orderDetailId}")
+    @ApiOperation("Delete OrderDetail by OrderDetailId")
     public ResponseEntity<BaseApiNoPaginationResponse<String>> delete(@PathVariable String orderDetailId)
     {
         BaseApiNoPaginationResponse<String> response = new BaseApiNoPaginationResponse<>();

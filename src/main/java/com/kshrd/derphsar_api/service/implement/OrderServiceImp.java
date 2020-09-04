@@ -43,4 +43,9 @@ public class OrderServiceImp implements OrderService {
     public List<OrderDto> getAllOrdersHistoryByUserId(int userId, Pagination pagination) {
         return orderRepository.getAllOrdersHistoryByUserId(userId, pagination);
     }
+
+    @Override
+    public OrderDto getOrderByOrderId(String orderId) {
+        return orderRepository.getOrderByOrderId(orderId);
+    }
 }

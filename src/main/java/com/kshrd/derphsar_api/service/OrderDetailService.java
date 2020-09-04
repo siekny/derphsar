@@ -15,6 +15,8 @@ public interface OrderDetailService {
 
     List<OrderDetailDto> findAllWithFilter(int userId,Pagination pagination);
 
+    List<OrderDetailDto> findOrderDetailByOrderId(int orderId,Pagination pagination);
+
     boolean deleteOrderdetail(String order_detail_id);
 
     //count all id

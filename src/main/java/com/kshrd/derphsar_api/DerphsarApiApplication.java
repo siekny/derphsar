@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -30,16 +31,13 @@ import java.time.format.DateTimeFormatter;
 
 @SpringBootApplication
 //@ComponentScan("com.kshrd.*")
-public class DerphsarApiApplication implements CommandLineRunner {
+public class DerphsarApiApplication{
 
 	@Autowired
 	FilesStorageServiceImp filesStorageServiceImp;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DerphsarApiApplication.class, args);
-
-
-
 	}
 
 	@Bean
@@ -47,8 +45,26 @@ public class DerphsarApiApplication implements CommandLineRunner {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
+//	@Override
+//	public void run(String... args) throws Exception {
+//
+//	}
 
-	}
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurerAdapter() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				registry.addMapping("/**").allowedOrigins("*");
+//			}
+//		};
+//	}
+
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer(){
+//		return addCorsMappings(registry)->{
+//			registry.addMapping("/**").allowedOrigins("http://localhost:3000","http://104.197.139.95:1600")
+//					.allowedMethods( "POST","DELETE", "OPTIONS", "PUT","GET","PATCH");
+//		}
+//	}
 }

@@ -7,8 +7,10 @@ import com.kshrd.derphsar_api.repository.dto.*;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
 import com.kshrd.derphsar_api.rest.order.response.OrderHistoryOfAUserResponse;
+import com.kshrd.derphsar_api.rest.order.response.OrderOneResponse;
 import com.kshrd.derphsar_api.rest.order.response.OrderResponse;
 import com.kshrd.derphsar_api.rest.product.response.ProductsOfAUserResponse;
+import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
 import com.kshrd.derphsar_api.rest.utils.BaseApiNoPaginationResponse;
 import com.kshrd.derphsar_api.service.implement.OrderServiceImp;
@@ -199,6 +201,40 @@ public class OrderRestController {
             response.setPagination(pagination);
         }catch (Exception e){
             e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
+
+
+
+
+    /**
+     * Get a promotion
+     *
+     * @param orderId - Id of a orderId
+     * @return - Return response message
+     */
+    @GetMapping("/one-orders/{orderId}")
+    @ApiOperation(value = "get a order by a order id", response = OrderOneResponse.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<List<OrderOneResponse>>> getOrderByOrderId(@PathVariable("orderId") String orderId){
+
+        ModelMapper mapper = new ModelMapper();
+        BaseApiNoPaginationResponse<List<OrderOneResponse>> response =
+                new BaseApiNoPaginationResponse<>();
+        List<OrderOneResponse> orderResponses = new ArrayList<>();
+
+        OrderDto orderDto = orderServiceImp.getOrderByOrderId(orderId);
+        if(orderDto != null){
+            orderResponses.add(mapper.map(orderDto, OrderOneResponse.class));
+
+            response.setMessage(message.selectedOne("Order"));
+            response.setData(orderResponses);
+            response.setStatus(HttpStatus.FOUND);
+        }else {
+            response.setMessage(message.hasNoRecord("Order"));
+            response.setStatus(HttpStatus.NOT_FOUND);
         }
 
         response.setTime(new Timestamp(System.currentTimeMillis()));
