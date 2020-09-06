@@ -2,12 +2,14 @@ package com.kshrd.derphsar_api.rest.order.response;
 
 public class OrderUserResponse {
 
+    private int id;
     private String orderId;
     private int userId;
 
     public OrderUserResponse(){}
 
-    public OrderUserResponse(String orderId, int userId) {
+    public OrderUserResponse(int id, String orderId, int userId) {
+        this.id = id;
         this.orderId = orderId;
         this.userId = userId;
     }
@@ -15,9 +17,19 @@ public class OrderUserResponse {
     @Override
     public String toString() {
         return "OrderUserResponse{" +
-                "orderId='" + orderId + '\'' +
+                "id=" + id +
+                ", orderId='" + orderId + '\'' +
                 ", userId=" + userId +
                 '}';
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getOrderId() {

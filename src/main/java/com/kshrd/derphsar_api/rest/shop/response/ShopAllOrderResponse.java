@@ -1,25 +1,37 @@
 package com.kshrd.derphsar_api.rest.shop.response;
 
+import com.kshrd.derphsar_api.rest.promotion.response.PromotionOrderDetailResponse;
+
 public class ShopAllOrderResponse {
     private String shopId;
     private String name;
 
+    private PromotionOrderDetailResponse promotion;
+
     public ShopAllOrderResponse(){}
 
-    public ShopAllOrderResponse(String shopId, String name) {
+    public ShopAllOrderResponse(String shopId, String name, PromotionOrderDetailResponse promotion) {
         this.shopId = shopId;
         this.name = name;
+        this.promotion = promotion;
     }
-
 
     @Override
     public String toString() {
         return "ShopAllOrderResponse{" +
                 "shopId='" + shopId + '\'' +
                 ", name='" + name + '\'' +
+                ", promotion=" + promotion +
                 '}';
     }
 
+    public PromotionOrderDetailResponse getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(PromotionOrderDetailResponse promotion) {
+        this.promotion = promotion;
+    }
 
     public String getShopId() {
         return shopId;

@@ -13,15 +13,16 @@ import java.util.List;
 @Repository
 public interface OrderRepository {
 
-    @Select("SELECT DISTINCT(o.order_id),u.user_id, u.name AS userName, u.phone, sh.shop_id, sh.name AS shopName,ord.status,ord.is_checkout, ord.order_date,sum(quatity) qty\n" +
+    @Select("SELECT DISTINCT(o.order_id) , o.id AS oId,u.user_id, u.name AS userName, u.phone, sh.shop_id, sh.name AS shopName,ord.status,ord.is_checkout, ord.order_date,sum(quatity) qty\n" +
             "            FROM dp_order AS o\n" +
             "INNER JOIN dp_users AS u ON u.id = o.user_id\n" +
             "INNER JOIN dp_shops AS sh ON sh.id = o.shop_id\n" +
             "INNER JOIN dp_order_detail AS ord ON ord.order_id = o.id\n" +
             "WHERE o.shop_id = #{shopId} AND ord.is_checkout = 'TRUE' AND ord.status = 'TRUE'\n" +
-            "GROUP BY o.order_id,u.user_id, u.name, u.phone, sh.shop_id, sh.name,ord.status,ord.is_checkout, ord.order_date\n" +
+            "GROUP BY o.order_id,o.id,u.user_id, u.name, u.phone, sh.shop_id, sh.name,ord.status,ord.is_checkout, ord.order_date\n" +
             "ORDER BY u.name DESC")
         @Results( id ="OrderMap", value = {
+                @Result(property = "id", column = "oId"),
                 @Result(property = "orderId", column = "order_id"),
 
                 @Result(property = "user.name", column = "userName"),
@@ -63,13 +64,13 @@ public interface OrderRepository {
 //            "\t\t\t\t\t\tORDER BY ord.order_date DESC\n" +
 //            "\t\t\t\t\t\tLIMIT 5")
 
-    @Select("SELECT DISTINCT(o.order_id),u.user_id, u.name AS userName, u.phone, sh.shop_id, sh.name AS shopName,ord.status,ord.is_checkout, ord.order_date,sum(quatity) qty\n" +
+    @Select("SELECT DISTINCT(o.order_id),o.id AS oId, u.user_id, u.name AS userName, u.phone, sh.shop_id, sh.name AS shopName,ord.status,ord.is_checkout, ord.order_date,sum(quatity) qty\n" +
             "            FROM dp_order AS o\n" +
             "INNER JOIN dp_users AS u ON u.id = o.user_id\n" +
             "INNER JOIN dp_shops AS sh ON sh.id = o.shop_id\n" +
             "INNER JOIN dp_order_detail AS ord ON ord.order_id = o.id\n" +
             "WHERE ord.is_checkout = 'TRUE' AND ord.status = 'TRUE'\n" +
-            "GROUP BY o.order_id,u.user_id, u.name, u.phone, sh.shop_id, sh.name,ord.status,ord.is_checkout, ord.order_date\n" +
+            "GROUP BY o.order_id,o.id, u.user_id, u.name, u.phone, sh.shop_id, sh.name,ord.status,ord.is_checkout, ord.order_date\n" +
             "ORDER BY ord.order_date DESC\n" +
             "LIMIT 5")
             @ResultMap("OrderMap")

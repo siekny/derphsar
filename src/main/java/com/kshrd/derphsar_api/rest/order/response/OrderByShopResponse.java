@@ -6,6 +6,7 @@ import com.kshrd.derphsar_api.rest.user.response.UserByShopResponse;
 
 public class OrderByShopResponse {
 
+    private int id;
     private String orderId;
     private UserByShopResponse user;
     private ShopResponseModel shop;
@@ -13,23 +14,63 @@ public class OrderByShopResponse {
 
     public OrderByShopResponse(){}
 
-    public OrderByShopResponse(String orderId, UserByShopResponse user, ShopResponseModel shop, OrderDetailResponse orderDetail) {
+    public OrderByShopResponse(int id, String orderId, UserByShopResponse user, ShopResponseModel shop, OrderDetailResponse orderDetail) {
+        this.id = id;
         this.orderId = orderId;
         this.user = user;
         this.shop = shop;
         this.orderDetail = orderDetail;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public UserByShopResponse getUser() {
+        return user;
+    }
+
+    public void setUser(UserByShopResponse user) {
+        this.user = user;
+    }
+
+    public ShopResponseModel getShop() {
+        return shop;
+    }
+
+    public void setShop(ShopResponseModel shop) {
+        this.shop = shop;
+    }
+
+    public OrderDetailResponse getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(OrderDetailResponse orderDetail) {
+        this.orderDetail = orderDetail;
+    }
+
+
     @Override
     public String toString() {
         return "OrderByShopResponse{" +
-                "orderId='" + orderId + '\'' +
+                "id=" + id +
+                ", orderId='" + orderId + '\'' +
                 ", user=" + user +
                 ", shop=" + shop +
                 ", orderDetail=" + orderDetail +
                 '}';
     }
-
-
-
 }

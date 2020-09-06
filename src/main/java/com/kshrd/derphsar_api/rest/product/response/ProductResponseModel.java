@@ -10,6 +10,7 @@ import java.sql.Date;
 
 public class ProductResponseModel {
 
+    private int id;
     private String proId;
     private String name;
     private Double price;
@@ -30,7 +31,9 @@ public class ProductResponseModel {
 
     public ProductResponseModel(){}
 
-    public ProductResponseModel(String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Date postDate, Double discount, Object images, Object details, ShopResponseModel shop, PromotionProductResponse promotion) {
+
+    public ProductResponseModel(int id, String proId, String name, Double price, String description, boolean status, boolean isSold, int viewCount, Date postDate, Double discount, Object images, Object details, ShopResponseModel shop, PromotionProductResponse promotion) {
+        this.id = id;
         this.proId = proId;
         this.name = name;
         this.price = price;
@@ -49,7 +52,8 @@ public class ProductResponseModel {
     @Override
     public String toString() {
         return "ProductResponseModel{" +
-                "proId='" + proId + '\'' +
+                "id=" + id +
+                ", proId='" + proId + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
@@ -167,5 +171,13 @@ public class ProductResponseModel {
 
     public void setPromotion(PromotionProductResponse promotion) {
         this.promotion = promotion;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

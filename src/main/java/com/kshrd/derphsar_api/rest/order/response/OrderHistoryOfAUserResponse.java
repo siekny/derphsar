@@ -6,13 +6,15 @@ import com.kshrd.derphsar_api.rest.product.response.ProductResponseModel;
 import com.kshrd.derphsar_api.rest.shop.response.ShopOrderHistoryResponse;
 
 public class OrderHistoryOfAUserResponse {
+    private int id;
     private OrderDetailOrderHistoryResponse orderDetail;
     private ShopOrderHistoryResponse shop;
 
     public OrderHistoryOfAUserResponse() {
     }
 
-    public OrderHistoryOfAUserResponse(OrderDetailOrderHistoryResponse orderDetail, ShopOrderHistoryResponse shop) {
+    public OrderHistoryOfAUserResponse(int id, OrderDetailOrderHistoryResponse orderDetail, ShopOrderHistoryResponse shop) {
+        this.id = id;
         this.orderDetail = orderDetail;
         this.shop = shop;
     }
@@ -33,10 +35,19 @@ public class OrderHistoryOfAUserResponse {
         this.shop = shop;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "OrderHistoryOfAUserResponse{" +
-                "orderDetail=" + orderDetail +
+                "id=" + id +
+                ", orderDetail=" + orderDetail +
                 ", shop=" + shop +
                 '}';
     }

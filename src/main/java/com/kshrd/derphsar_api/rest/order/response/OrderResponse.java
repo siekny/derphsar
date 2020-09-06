@@ -10,6 +10,8 @@ import java.util.List;
 
 
 public class OrderResponse {
+
+    private int id;
     private String orderId;
 //    private int user_id;
 //    private int shop_id;
@@ -20,7 +22,9 @@ public class OrderResponse {
 
     public OrderResponse(){}
 
-    public OrderResponse(String orderId, UserOrderDetailResponse user, ShopAllOrderResponse shop, OrderDetailAllOrderResponse orderDetail) {
+
+    public OrderResponse(int id, String orderId, UserOrderDetailResponse user, ShopAllOrderResponse shop, OrderDetailAllOrderResponse orderDetail) {
+        this.id = id;
         this.orderId = orderId;
         this.user = user;
         this.shop = shop;
@@ -30,11 +34,21 @@ public class OrderResponse {
     @Override
     public String toString() {
         return "OrderResponse{" +
-                "orderId='" + orderId + '\'' +
+                "id=" + id +
+                ", orderId='" + orderId + '\'' +
                 ", user=" + user +
                 ", shop=" + shop +
                 ", orderDetail=" + orderDetail +
                 '}';
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getOrderId() {

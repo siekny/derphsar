@@ -2,6 +2,7 @@ package com.kshrd.derphsar_api.rest.order.response;
 
 public class OrderOneResponse {
 
+    private int id;
     private String orderId;
 
     private int user_id;
@@ -9,7 +10,8 @@ public class OrderOneResponse {
 
     public OrderOneResponse(){}
 
-    public OrderOneResponse(String orderId, int user_id, int shop_id) {
+    public OrderOneResponse(int id, String orderId, int user_id, int shop_id) {
+        this.id = id;
         this.orderId = orderId;
         this.user_id = user_id;
         this.shop_id = shop_id;
@@ -18,12 +20,21 @@ public class OrderOneResponse {
     @Override
     public String toString() {
         return "OrderOneResponse{" +
-                "orderId='" + orderId + '\'' +
+                "id=" + id +
+                ", orderId='" + orderId + '\'' +
                 ", user_id=" + user_id +
                 ", shop_id=" + shop_id +
                 '}';
     }
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getOrderId() {
         return orderId;

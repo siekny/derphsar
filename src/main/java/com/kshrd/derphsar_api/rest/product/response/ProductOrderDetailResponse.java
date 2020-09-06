@@ -6,24 +6,35 @@ public class ProductOrderDetailResponse {
     private String name;
     private double price;
     private boolean soldStatus;
+    private Double discount;
 
     public ProductOrderDetailResponse(){}
 
-    public ProductOrderDetailResponse(String proId, String name, double price, boolean soldStatus) {
+    public ProductOrderDetailResponse(String proId, String name, double price, boolean soldStatus, Double discount) {
         this.proId = proId;
         this.name = name;
         this.price = price;
         this.soldStatus = soldStatus;
+        this.discount = discount;
     }
 
     @Override
     public String toString() {
         return "ProductOrderDetailResponse{" +
-                "proId=" + proId +
+                "proId='" + proId + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", soldStatus=" + soldStatus +
+                ", discount=" + discount +
                 '}';
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 
     public String getProId() {
