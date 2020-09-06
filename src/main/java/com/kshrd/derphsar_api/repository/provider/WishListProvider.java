@@ -41,7 +41,7 @@ public class WishListProvider {
             INNER_JOIN("dp_users as u ON w.u_id = u.id");
             INNER_JOIN("dp_products as pro ON w.pro_id = pro.id");
             INNER_JOIN("dp_shops as sh ON pro.shop_id = sh.id");
-            INNER_JOIN("dp_promotion as promo ON promo.shop_id = sh.id");
+            INNER_JOIN("dp_promotion AS promo ON promo.id = pro.promo_id");
             WHERE("w.u_id = #{uId} AND w.status = TRUE");
             LIMIT(pagination.getLimit());
             OFFSET(pagination.getOffset());

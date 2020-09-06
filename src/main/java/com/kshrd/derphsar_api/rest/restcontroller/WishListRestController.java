@@ -193,6 +193,7 @@ public class WishListRestController {
 
         try {
             UserResponseModel userDto = userServiceImp.getOneUserById(userId);
+            System.out.println(userDto);
             List<WishListDto> wishList = wishListServiceImp.getAllWishListByUserId(userDto.getId(),pagination);
 
             for (WishListDto wishListDto : wishList) {
