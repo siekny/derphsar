@@ -29,14 +29,14 @@ public class OrderDetailProvider {
 
     public String findAllWithFilter(@Param("userId") int userId, @Param("pagination") Pagination pagination){
         return new SQL(){{
-            SELECT("od.* , o.order_id AS orderId, pro.id, pro.pro_id AS proId, pro.name AS proName,,pro.discount, pro.price, pro.is_sold, u.user_id AS userId, u.name AS userName, u.phone, sh.shop_id AS shopId, sh.name AS shopName , promo.promo_id AS promoId, promo.title, promo.start_rank, promo.end_rank");
+            SELECT("od.*, od.status , o.order_id AS orderId, pro.id, pro.pro_id AS proId, pro.name AS proName,,pro.discount, pro.price, pro.is_sold, u.user_id AS userId, u.name AS userName, u.phone, sh.shop_id AS shopId, sh.name AS shopName , promo.promo_id AS promoId, promo.title, promo.start_rank, promo.end_rank");
             FROM("dp_order_detail AS od");
             INNER_JOIN("dp_order AS o ON o.id = od.order_id");
             INNER_JOIN("dp_products AS pro ON od.pro_id = pro.id");
             INNER_JOIN("dp_users AS u ON u.id = o.user_id");
             INNER_JOIN("dp_shops AS sh ON sh.id = o.shop_id");
             INNER_JOIN("dp_promotion AS promo ON promo.id = pro.promo_id");
-            WHERE("o.user_id = #{userId}");
+            WHERE("o.user_id = #{userId} od.status = 'true'");
             LIMIT(pagination.getLimit());
             OFFSET(pagination.getOffset());
         }}.toString();
@@ -45,14 +45,14 @@ public class OrderDetailProvider {
 
     public String findOrderDetailByOrderId(@Param("orderId") int orderId, @Param("pagination") Pagination pagination){
         return new SQL(){{
-            SELECT("od.* , o.order_id AS orderId, pro.id, pro.pro_id AS proId,pro.discount, pro.name AS proName, pro.price, pro.is_sold, u.user_id AS userId, u.name AS userName, u.phone, sh.shop_id AS shopId, sh.name AS shopName , promo.promo_id AS promoId, promo.title, promo.start_rank, promo.end_rank");
+            SELECT("od.*, od.status , o.order_id AS orderId, pro.id, pro.pro_id AS proId,pro.discount, pro.name AS proName, pro.price, pro.is_sold, u.user_id AS userId, u.name AS userName, u.phone, sh.shop_id AS shopId, sh.name AS shopName , promo.promo_id AS promoId, promo.title, promo.start_rank, promo.end_rank");
             FROM("dp_order_detail AS od");
             INNER_JOIN("dp_order AS o ON o.id = od.order_id");
             INNER_JOIN("dp_products AS pro ON od.pro_id = pro.id");
             INNER_JOIN("dp_users AS u ON u.id = o.user_id");
             INNER_JOIN("dp_shops AS sh ON sh.id = o.shop_id");
             INNER_JOIN("dp_promotion AS promo ON promo.id = pro.promo_id");
-            WHERE("o.id = #{orderId}");
+            WHERE("o.id = #{orderId} AND od.status = 'true'");
             LIMIT(pagination.getLimit());
             OFFSET(pagination.getOffset());
         }}.toString();

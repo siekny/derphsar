@@ -87,6 +87,7 @@ public interface OrderDetailRepository {
             @Result(property = "orderDate" , column = "order_date"),
 
 
+            @Result(property = "product.discount", column = "discount"),
             @Result(property = "product.proId", column = "proId"),
             @Result(property = "product.name", column = "proName"),
             @Result(property = "product.price", column = "price"),
@@ -142,5 +143,11 @@ public interface OrderDetailRepository {
 
     @SelectProvider(type = OrderDetailProvider.class, method = "getOrderDetailByItemId")
     OrderDetailDto getOrderDetailByItemId(String itemId);
+
+
+    //update isCheckout
+    @Update("UPDATE dp_order_detail SET is_checkout = #{orderDetailDto.checkoutStatus} WHERE item_id = #{id}")
+    boolean updateIsCheckout(String id, OrderDetailDto orderDetailDto);
+
 
 }

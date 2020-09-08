@@ -46,14 +46,10 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
         http
                 .cors().and()
                 .csrf().disable()
-
-//                .requestMatchers()
-//                    .antMatchers(HttpMethod.GET,"/api/v1/**")
-//                    .and()
-
                 .authorizeRequests()
                     .antMatchers("/api/v1/login").permitAll()
-                    .antMatchers("/images/**").permitAll()
+                    .antMatchers(HttpMethod.GET,"/api/v1/images/**").permitAll()
+                    .antMatchers(HttpMethod.POST,"/api/v1/uploads").permitAll()
                     .antMatchers(HttpMethod.POST,"/api/v1/register").permitAll()
                     .antMatchers(HttpMethod.GET,"/api/v1/categories").permitAll()
                     .antMatchers(HttpMethod.GET,"/api/v1/products").permitAll()
