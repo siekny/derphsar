@@ -1,11 +1,9 @@
 package com.kshrd.derphsar_api.service;
 
 import com.kshrd.derphsar_api.page.Pagination;
-import com.kshrd.derphsar_api.repository.dto.OrderDetailDto;
-import com.kshrd.derphsar_api.repository.dto.OrderDto;
-import com.kshrd.derphsar_api.repository.dto.PromotionDto;
-import com.kshrd.derphsar_api.repository.dto.UserDto;
+import com.kshrd.derphsar_api.repository.dto.*;
 import com.kshrd.derphsar_api.repository.filter.OrderDetailFilter;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,4 +24,6 @@ public interface OrderDetailService {
     OrderDetailDto addProductToCart(OrderDetailDto orderDetailDto);
 
     OrderDetailDto getOrderDetailByItemId(String itemId);
+
+    List<OrderDetailDto> updateIsCheckout(@Param("orderId") int orderId,@Param("orderDetailDto") OrderDetailDto orderDetailDto);
 }

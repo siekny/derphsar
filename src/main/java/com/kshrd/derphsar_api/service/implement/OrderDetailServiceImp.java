@@ -90,4 +90,18 @@ public class OrderDetailServiceImp implements OrderDetailService {
     public OrderDetailDto getOrderDetailByItemId(String itemId) {
         return orderDetailRepository.getOrderDetailByItemId(itemId);
     }
+
+    @Override
+    public List<OrderDetailDto> updateIsCheckout(int orderId, OrderDetailDto orderDetailDto) {
+
+        Pagination pagination = new Pagination();
+        List<OrderDetailDto> orderDetailDtoList = findOrderDetailByOrderId(orderId,pagination);
+        boolean orderDetailDtos = false;
+
+        for(OrderDetailDto orderDetailDto1 : orderDetailDtoList){
+            orderDetailDtos = orderDetailRepository.updateIsCheckout(orderDetailDto1.getOrder_id(),orderDetailDto);
+            System.out.println(orderDetailDtos);
+        }
+        return orderDetailDtoList;
+    }
 }

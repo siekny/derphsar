@@ -144,10 +144,8 @@ public interface OrderDetailRepository {
     @SelectProvider(type = OrderDetailProvider.class, method = "getOrderDetailByItemId")
     OrderDetailDto getOrderDetailByItemId(String itemId);
 
-
-    //update isCheckout
-    @Update("UPDATE dp_order_detail SET is_checkout = #{orderDetailDto.checkoutStatus} WHERE item_id = #{id}")
-    boolean updateIsCheckout(String id, OrderDetailDto orderDetailDto);
-
+    //update isCheckout to true
+    @Update("UPDATE dp_order_detail SET is_checkout = TRUE WHERE order_id = #{orderId}")
+    boolean updateIsCheckout(int  orderId, OrderDetailDto orderDetailDto);
 
 }

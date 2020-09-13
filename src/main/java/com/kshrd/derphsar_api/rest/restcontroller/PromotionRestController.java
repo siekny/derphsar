@@ -31,7 +31,8 @@ import java.util.UUID;
 import static net.bytebuddy.matcher.ElementMatchers.is;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1")
 public class PromotionRestController {

@@ -15,6 +15,7 @@ import com.kshrd.derphsar_api.rest.orderdetail.request.OrderDetailUpdateIsChecko
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailFilterResponse;
 import com.kshrd.derphsar_api.rest.orderdetail.response.OrderDetailResponse;
 import com.kshrd.derphsar_api.rest.promotion.request.PromotionUpdateIsApplyModel;
+import com.kshrd.derphsar_api.rest.promotion.response.PromotionResponseModel;
 import com.kshrd.derphsar_api.rest.shop.request.ShopRequestModel;
 import com.kshrd.derphsar_api.rest.shop.response.ShopCreateFirstResponse;
 import com.kshrd.derphsar_api.rest.user.response.UserResponseModel;
@@ -37,7 +38,8 @@ import java.util.List;
 import java.util.UUID;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1")
 public class OrderDetailRestController {
@@ -321,4 +323,44 @@ public class OrderDetailRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
+
+
+    /**
+     * Put a promotion
+     *
+     * @param orderId - Id of a promotion
+     * @param orderDetailUpdateIsCheckoutModel - Promotion request model
+     * @return - Return response message
+     */
+    @PatchMapping("/orderDetails/{orderId}")
+    @ApiOperation(value = "checkout", response = OrderDetailUpdateIsCheckoutModel.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<List<OrderDetailUpdateIsCheckoutModel>>> updateIsCheckout(@PathVariable("orderId") String orderId,
+                                                                                                  @RequestBody OrderDetailUpdateIsCheckoutModel orderDetailUpdateIsCheckoutModel) {
+
+        ModelMapper modelMapper = new ModelMapper();
+        BaseApiNoPaginationResponse<List<OrderDetailUpdateIsCheckoutModel>> response = new BaseApiNoPaginationResponse<>();
+
+        List<OrderDetailUpdateIsCheckoutModel> orderDetailUpdateIsCheckoutModelArrayList = new ArrayList<>();
+        try {
+            OrderDetailDto orderDetailDto = modelMapper.map(orderDetailUpdateIsCheckoutModel, OrderDetailDto.class);
+            OrderDto findOrderByOrderId = orderServiceImp.getOrderByOrderId(orderId);
+            System.out.println(findOrderByOrderId);
+            List<OrderDetailDto> result = orderDetailServiceImp.updateIsCheckout(findOrderByOrderId.getId(), orderDetailDto);
+            for(OrderDetailDto orderDetailDto1 : result){
+                orderDetailUpdateIsCheckoutModelArrayList.add(modelMapper.map(orderDetailDto1, OrderDetailUpdateIsCheckoutModel.class));
+            }
+
+            response.setMessage(message.updated("OrderDetail"));
+            response.setStatus(HttpStatus.OK);
+            response.setData(orderDetailUpdateIsCheckoutModelArrayList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
+
+
+
 }
