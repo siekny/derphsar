@@ -44,9 +44,24 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().and()
-                .csrf().disable()
+                .cors()
+                .and()
+                .csrf()
+                .disable()
+                .headers()
+                .frameOptions()
+                .deny()
+                .and()
                 .authorizeRequests()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/",
+                        "/*.html",
+                        "favicon.ico",
+                        "//*.html",
+                        "//*.css",
+                        "//*.js"
+                ).permitAll()
                     .antMatchers("/api/v1/login").permitAll()
                     .antMatchers(HttpMethod.GET,"/api/v1/images/**").permitAll()
                     .antMatchers(HttpMethod.POST,"/api/v1/uploads").permitAll()
@@ -114,15 +129,15 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
 
 
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("*"));
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+//        configuration.setAllowCredentials(true);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 
 }

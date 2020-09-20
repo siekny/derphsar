@@ -36,7 +36,7 @@ public class OrderDetailProvider {
             INNER_JOIN("dp_users AS u ON u.id = o.user_id");
             INNER_JOIN("dp_shops AS sh ON sh.id = o.shop_id");
             INNER_JOIN("dp_promotion AS promo ON promo.id = pro.promo_id");
-            WHERE("o.user_id = #{userId} od.status = 'true'");
+            WHERE("o.user_id = #{userId} od.status = 'true' AND od.is_checkout = 'false'");
             LIMIT(pagination.getLimit());
             OFFSET(pagination.getOffset());
         }}.toString();
@@ -52,7 +52,7 @@ public class OrderDetailProvider {
             INNER_JOIN("dp_users AS u ON u.id = o.user_id");
             INNER_JOIN("dp_shops AS sh ON sh.id = o.shop_id");
             INNER_JOIN("dp_promotion AS promo ON promo.id = pro.promo_id");
-            WHERE("o.id = #{orderId} AND od.status = 'true'");
+            WHERE("o.id = #{orderId} AND od.status = 'true' AND od.is_checkout = 'false'");
             LIMIT(pagination.getLimit());
             OFFSET(pagination.getOffset());
         }}.toString();

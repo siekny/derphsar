@@ -1,5 +1,6 @@
 package com.kshrd.derphsar_api.service;
 
+import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.repository.dto.PromotionDto;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public interface PromotionService {
     PromotionDto updatePromotion(String id, PromotionDto promotionDto);
 
     PromotionDto updateIsApply(String id, PromotionDto promotionDto);
+
+    ProductDto applyPromotion(String id, ProductDto productDto);
 
     //create a promotion
     PromotionDto createPromotion(PromotionDto promotionDto);

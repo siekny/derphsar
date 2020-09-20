@@ -1,6 +1,7 @@
 package com.kshrd.derphsar_api.service.implement;
 
 import com.kshrd.derphsar_api.repository.PromotionRepository;
+import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.repository.dto.PromotionDto;
 import com.kshrd.derphsar_api.service.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,15 @@ public class PromotionServiceImp implements PromotionService {
         boolean isUpdated = promotionRepository.updateIsApply(id,promotionDto);
         if(isUpdated){
             return promotionDto;
+        }
+        return null;
+    }
+
+    @Override
+    public ProductDto applyPromotion(String id, ProductDto productDto) {
+        boolean isUpdated = promotionRepository.applyPromotion(id,productDto);
+        if(isUpdated){
+            return productDto;
         }
         return null;
     }

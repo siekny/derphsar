@@ -1,10 +1,12 @@
 package com.kshrd.derphsar_api.rest.restcontroller;
 
 
+import com.kshrd.derphsar_api.repository.dto.ProductDto;
 import com.kshrd.derphsar_api.repository.dto.PromotionDto;
 import com.kshrd.derphsar_api.repository.dto.ShopDto;
 import com.kshrd.derphsar_api.rest.BaseApiResponse;
 import com.kshrd.derphsar_api.rest.message.MessageProperties;
+import com.kshrd.derphsar_api.rest.product.request.ProductUpdateDiscountModel;
 import com.kshrd.derphsar_api.rest.promotion.request.PromotionRequestModel;
 import com.kshrd.derphsar_api.rest.promotion.request.PromotionUpdateIsApplyModel;
 import com.kshrd.derphsar_api.rest.promotion.response.PromotionCreateFirstResponse;
@@ -228,6 +230,42 @@ public class PromotionRestController {
         response.setTime(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
     }
+
+
+    /**
+     * Put a promotion
+     *
+     * @param proId - Id of a promotion
+     * @param productUpdateDiscountModel - Promotion request model
+     * @return - Return response message
+     */
+    @PatchMapping("/apply-promotion/{proId}")
+    @ApiOperation(value = "apply promotion", response = ProductUpdateDiscountModel.class)
+    public ResponseEntity<BaseApiNoPaginationResponse<ProductUpdateDiscountModel>> applyPromotion(@PathVariable("proId") String proId,
+                                                                                                  @RequestBody ProductUpdateDiscountModel productUpdateDiscountModel) {
+
+        ModelMapper modelMapper = new ModelMapper();
+        BaseApiNoPaginationResponse<ProductUpdateDiscountModel> response = new BaseApiNoPaginationResponse<>();
+
+        try {
+            ProductDto productDto = modelMapper.map(productUpdateDiscountModel, ProductDto.class);
+
+            ProductUpdateDiscountModel responseModel = modelMapper.map(promotionServiceImp.applyPromotion(proId, productDto), ProductUpdateDiscountModel.class);
+
+            response.setMessage(message.updated("Product"));
+            response.setStatus(HttpStatus.OK);
+            response.setData(responseModel);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        response.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(response);
+    }
+
+
+
+
 
 
     /**
