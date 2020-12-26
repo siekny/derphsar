@@ -128,6 +128,7 @@ public class ProductRestController {
     @GetMapping("/products")
     @ApiOperation(value = "show all products", response = ProductResponseModel.class)
     public ResponseEntity<BaseApiResponse<List<ProductResponseModel>>> getProducts(
+
             //@RequestParam(value="shopId",required = false,defaultValue = " ") String shopId,
             @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
             @RequestParam(value = "limit" , required = false , defaultValue = "10") int limit,
@@ -156,8 +157,9 @@ public class ProductRestController {
             try {
                 Object details = mapper.readValue(productDto.getDetails().toString(), Object.class);
                 Object images = mapper.readValue(productDto.getImages().toString(), Object.class);
-                productDto.setDetails(details);
-                productDto.setImages(images);
+
+                //productDto.setDetails(details);
+                //productDto.setImages(images);
 
                 ModelMapper modelMapper = new ModelMapper();
                 ProductResponseModel productResponseModel = modelMapper .map(productDto, ProductResponseModel.class);

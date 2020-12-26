@@ -18,6 +18,7 @@ public class ProductDto {
     private int shop_id;
     private int promo_id;
 
+    //json fields
     private Object images;
     private Object details;
 

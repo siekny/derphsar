@@ -1,6 +1,4 @@
 package com.kshrd.derphsar_api.configuration;
-
-
 import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +10,7 @@ import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.ApiKeyVehicle;
-import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -36,13 +31,13 @@ public class SwaggerConfiguration {
     }
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("DerPhsar Project API")
-                .description("Korea Software HRD Center \uD83D\uDC95")
+                .title("DerPhsar - REST APIs")
+                .description("DerPhsar is an Online E-commerce Platform for business. \uD83D\uDED2 \uD83D\uDECD️")
+                .license("Apache License Version 2.0")
+                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .termsOfServiceUrl("https://spring.io/")
-                .license("License of API")
-                .licenseUrl("Email")
-                .version("HRD 8th Generation")
-                .contact(new Contact("Copyright by DerPhsar team", "https://spring.io/", "derphsar@gmail.com"))
+                .version("2.0.0")
+                .contact(new Contact("DerPhsar team", "https://spring.io/", "derphsar@gmail.com"))
                 .build();
     }
 
